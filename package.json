@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@massivdash/gatsby-source-woocommerce": "^0.2.4",
     "gatsby": "^2.2.5",
     "gatsby-image": "^2.0.34",
     "gatsby-plugin-manifest": "^2.0.24",
@@ -12,6 +13,8 @@
     "gatsby-plugin-react-helmet": "^3.0.10",
     "gatsby-plugin-sharp": "^2.0.30",
     "gatsby-source-filesystem": "^2.0.27",
+    "gatsby-source-woocommerce": "^0.2.0",
+    "gatsby-source-wordpress": "^3.0.49",
     "gatsby-transformer-sharp": "^2.1.17",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
