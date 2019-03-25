@@ -762,13 +762,6 @@
     signedsource "^1.0.0"
     yargs "^9.0.0"
 
-"@massivdash/gatsby-source-woocommerce@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@massivdash/gatsby-source-woocommerce/-/gatsby-source-woocommerce-0.2.4.tgz#14aea7a2d8c6eadeb50983915c5778fa73c45d38"
-  integrity sha512-XaRw1ObPOhhbhZ5qqIw13rmlTlljzcHToX+oMiSZf6vuPyK2P1xGP1ewHyMNNKIqiZUCxuICGjaaniWbt7ed0A==
-  dependencies:
-    woocommerce-api "^1.4.2"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

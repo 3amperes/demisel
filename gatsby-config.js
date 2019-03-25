@@ -36,25 +36,16 @@ module.exports = {
         // is it hosted on wordpress.com, or self-hosted?
         hostingWPCOM: false,
         // does your site use the Advanced Custom Fields Plugin?
-        useACF: false,
+        useACF: true,
       },
     },
     {
-      resolve: "@massivdash/gatsby-source-woocommerce",
+      resolve: "gatsby-source-woocommerce",
       options: {
         // Base URL of Wordpress site
         api: "demiselbijoux.com",
-
-        // This counts controls the API get with ?per_page=
-        // default: 10
-        itemCount: 20,
-
-        // set to true to see fetch output in console, during build
-        // default: false
-        verbose: true,
-
         // true if using https. false if nah.
-        https: false,
+        https: true,
         api_keys: {
           consumer_key: "ck_6d27a12f193461bb5c7ba05d5d4402203c1cf99f",
           consumer_secret: "cs_5396e9ee07395c40acc760855533ae93087889b6",
@@ -63,21 +54,6 @@ module.exports = {
         fields: ["products"],
       },
     },
-    // {
-    //   resolve: "gatsby-source-woocommerce",
-    //   options: {
-    //     // Base URL of Wordpress site
-    //     api: "demiselbijoux.com",
-    //     // true if using https. false if nah.
-    //     https: true,
-    //     api_keys: {
-    //       consumer_key: "ck_6d27a12f193461bb5c7ba05d5d4402203c1cf99f",
-    //       consumer_secret: "cs_5396e9ee07395c40acc760855533ae93087889b6",
-    //     },
-    //     // Array of strings with fields you'd like to create nodes for...
-    //     fields: ["products"],
-    //   },
-    // },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // 'gatsby-plugin-offline',
