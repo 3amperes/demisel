@@ -11,7 +11,8 @@
     "gatsby-plugin-offline": "^2.0.25",
     "gatsby-plugin-react-helmet": "^3.0.10",
     "gatsby-plugin-sharp": "^2.0.30",
-    "gatsby-source-filesystem": "^2.0.27",
+    "gatsby-source-filesystem": "^2.0.28",
+    "gatsby-transformer-json": "^2.1.11",
     "gatsby-transformer-sharp": "^2.1.17",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
@@ -19,6 +20,8 @@
     "react-helmet": "^5.2.0"
   },
   "devDependencies": {
+    "lodash": "^4.17.11",
+    "path": "^0.12.7",
     "prettier": "^1.16.4"
   },
   "keywords": [
