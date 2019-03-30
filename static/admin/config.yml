@@ -12,5 +12,11 @@ collections:
     create: true
     identifier_field: "name"
     fields:
+      - { label: "Id", name: "id", widget: "number" }
       - { label: "Nom", name: "name", widget: "string" }
-      - { label: "Price", name: "price", widget: "number" }
+      - { label: "Prix", name: "price", widget: "number" }
+      - {
+          label: "Date de publication",
+          name: "publish_date",
+          widget: "datetime",
+        }
