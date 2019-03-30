@@ -5166,6 +5166,11 @@ gatsby-plugin-sharp@^2.0.30:
     sharp "^0.21.3"
     svgo "^0.7.2"
 
+gatsby-plugin-snipcart@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-snipcart/-/gatsby-plugin-snipcart-1.0.6.tgz#21460b958980e7f7b335874522ae07187dd1840f"
+  integrity sha512-CrefXosRZA/j0oF940VUkKGWAEUpurBE6iA6HrD3Z+6cBHT/dXY9EkViIvxsbfU1wyJPnyB5pDTZtCaqGbKRog==
+
 gatsby-react-router-scroll@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/gatsby-react-router-scroll/-/gatsby-react-router-scroll-2.0.6.tgz#b04a8fe6ee77db5ca8f804b7ef476fd205dc4a40"

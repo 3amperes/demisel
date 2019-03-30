@@ -3,6 +3,19 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 // import Image from "../components/image";
 
+const AddBtn = ({ product }) => (
+  <button
+    class="snipcart-add-item"
+    data-item-id={product.id}
+    data-item-name={product.name}
+    data-item-price={product.price}
+    data-item-url={product.id}
+    data-item-description={product.name}
+  >
+    Ajouter au panier
+  </button>
+);
+
 const IndexPage = ({ data }) => {
   const products = data.allMarkdownRemark.edges;
 
@@ -15,7 +28,12 @@ const IndexPage = ({ data }) => {
       <p>les voici :</p>
       <ul>
         {products.map(({ node: { frontmatter } }, index) => {
-          return <li key={index}>{frontmatter.name}</li>;
+          return (
+            <li key={index}>
+              <p>{frontmatter.name}</p>
+              <AddBtn product={frontmatter} />
+            </li>
+          );
         })}
       </ul>
     </Layout>

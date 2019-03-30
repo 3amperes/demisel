@@ -25,6 +25,14 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: "gatsby-plugin-snipcart",
+      options: {
+        apiKey:
+          "MDE1NWM1NjItMDc2Yy00NTYxLWJlM2EtMDFjNWMwNGNkYzg1NjM2ODU2NTM2NjM1NTU0MzQ0",
+        autopop: true,
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `gatsby-starter-default`,
