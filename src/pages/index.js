@@ -9,7 +9,7 @@ const AddBtn = ({ product }) => (
     data-item-id={product.id}
     data-item-name={product.name}
     data-item-price={product.price}
-    data-item-url={product.id}
+    data-item-url="https://demiselbijoux.netlify.com"
     data-item-description={product.name}
   >
     Ajouter au panier
