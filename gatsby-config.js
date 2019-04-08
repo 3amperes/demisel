@@ -8,6 +8,18 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-netlify-cms`,
     {
+      resolve: "gatsby-source-sanity",
+      options: {
+        projectId: "zgsfe4tu",
+        dataset: "production",
+        // To enable preview of drafts, copy .env-example into .env,
+        // and add a token with read permissions
+        // token: process.env.SANITY_TOKEN,
+        // watchMode: true,
+        // overlayDrafts: true
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
