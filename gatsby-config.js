@@ -6,19 +6,23 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-netlify-cms`,
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: "gatsby-source-sanity",
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        projectId: "zgsfe4tu",
+        dataset: "production",
+        // To enable preview of drafts, copy .env-example into .env,
+        // and add a token with read permissions
+        // token: process.env.SANITY_TOKEN,
+        // watchMode: true,
+        // overlayDrafts: true
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/src/products`,
-        name: "products",
+        name: `images`,
+        path: `${__dirname}/src/images`,
       },
     },
     `gatsby-transformer-remark`,
@@ -35,7 +39,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
+        name: `demisel`,
         short_name: `starter`,
         start_url: `/`,
         background_color: `#663399`,

@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
-// import Image from "../components/image";
+import Image from "gatsby-image";
 
 const AddBtn = ({ product }) => (
   <button
-    class="snipcart-add-item"
-    data-item-id={product.id}
-    data-item-name={product.name}
-    data-item-price={product.price}
+    className="snipcart-add-item"
+    data-item-id={product._id}
+    data-item-name={product.defaultProductVariant.title}
+    data-item-price={product.defaultProductVariant.price}
     data-item-url="https://demiselbijoux.netlify.com"
     data-item-description={product.name}
   >
@@ -17,21 +17,37 @@ const AddBtn = ({ product }) => (
 );
 
 const IndexPage = ({ data }) => {
-  const products = data.allMarkdownRemark.edges;
-
+  console.log(data);
+  const products = data.allSanityProduct.edges;
   return (
     <Layout>
-      <h1>Products</h1>
-      <p>
-        il y a <strong>{products.length} produits</strong> dans le store !
-      </p>
-      <p>les voici :</p>
-      <ul>
-        {products.map(({ node: { frontmatter } }, index) => {
+      <h1>Quelques produits</h1>
+      <ul
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: "5rem 0",
+          display: "flex",
+          justifyContent: "space-around",
+        }}
+      >
+        {products.map(({ node: product }, index) => {
           return (
-            <li key={index}>
-              <p>{frontmatter.name}</p>
-              <AddBtn product={frontmatter} />
+            <li
+              key={product.slug.current}
+              style={{
+                maxWidth: 200,
+                marginRight: "20px",
+                textAlign: "center",
+              }}
+            >
+              <article>
+                <h2>{product.title}</h2>
+                <Image
+                  fluid={product.defaultProductVariant.images[0].asset.fluid}
+                />
+                <AddBtn product={product} />
+              </article>
             </li>
           );
         })}
@@ -44,13 +60,24 @@ export default IndexPage;
 
 export const query = graphql`
   query ProductQuery {
-    allMarkdownRemark {
+    allSanityProduct {
       edges {
         node {
-          frontmatter {
-            id
-            name
+          _id
+          slug {
+            current
+          }
+          title
+          defaultProductVariant {
+            title
             price
+            images {
+              asset {
+                fluid(maxWidth: 700) {
+                  ...GatsbySanityImageFluid
+                }
+              }
+            }
           }
         }
       }
