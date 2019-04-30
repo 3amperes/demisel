@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
+import SEO from "../components/seo";
 import Image from "gatsby-image";
 
 const AddBtn = ({ product }) => (
@@ -21,6 +22,7 @@ const IndexPage = ({ data }) => {
   const products = data.allSanityProduct.edges;
   return (
     <Layout>
+      <SEO title="Accueil" />
       <h1>Quelques produits</h1>
       <ul
         style={{
