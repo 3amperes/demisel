@@ -35,6 +35,7 @@ export const login = () => {
   }
 
   auth.authorize();
+  window.Snipcart.api.plans.clear();
 };
 
 const setSession = (cb = () => {}) => (err, authResult) => {
@@ -51,7 +52,6 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.expiresAt = expiresAt;
     user = authResult.idTokenPayload;
     localStorage.setItem("isLoggedIn", true);
-    navigate("/account");
     cb();
   }
 };
@@ -76,4 +76,5 @@ export const silentAuth = callback => {
 export const logout = () => {
   localStorage.setItem("isLoggedIn", false);
   auth.logout();
+  window.Snipcart.api.plans.clear();
 };

@@ -33,7 +33,7 @@ module.exports = {
       options: {
         apiKey:
           "MDE1NWM1NjItMDc2Yy00NTYxLWJlM2EtMDFjNWMwNGNkYzg1NjM2ODU2NTM2NjM1NTU0MzQ0",
-        autopop: true,
+        autopop: false,
       },
     },
     {

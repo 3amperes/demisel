@@ -3,26 +3,42 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import Image from "gatsby-image";
+import { isAuthenticated } from "../utils/auth";
 
-const AddBtn = ({ product }) => (
-  <button
-    className="snipcart-add-item"
-    data-item-id={product._id}
-    data-item-name={product.defaultProductVariant.title}
-    data-item-price={product.defaultProductVariant.price}
-    data-item-url="https://demiselbijoux.netlify.com"
-    data-item-description={product.name}
-  >
-    Ajouter au panier
-  </button>
-);
+const getPrice = productPrice =>
+  isAuthenticated() ? Math.round(productPrice * 0.5) : productPrice;
+
+const AddBtn = ({ product }) => {
+  const price = getPrice(product.defaultProductVariant.price);
+  return (
+    <button
+      className="snipcart-add-item"
+      data-item-id={product._id}
+      data-item-name={product.defaultProductVariant.title}
+      data-item-price={price}
+      data-item-url="https://demiselbijoux.netlify.com"
+      data-item-description={product.name}
+    >
+      Ajouter au panier
+    </button>
+  );
+};
 
 const IndexPage = ({ data }) => {
-  console.log(data);
   const products = data.allSanityProduct.edges;
   return (
     <Layout>
       <SEO title="Accueil" />
+      <div className="snipcart-summary">
+        <button className="snipcart-user-email snipcart-user-profile">
+          Customer dashboard
+        </button>
+      </div>
+      <div className="snipcart-summary">
+        Number of items: <span className="snipcart-total-items" />
+        <br />
+        Total price: <span className="snipcart-total-price" />
+      </div>
       <h1>Quelques produits</h1>
       <ul
         style={{
@@ -34,6 +50,7 @@ const IndexPage = ({ data }) => {
         }}
       >
         {products.map(({ node: product }, index) => {
+          const price = getPrice(product.defaultProductVariant.price);
           return (
             <li
               key={product.slug.current}
@@ -48,6 +65,7 @@ const IndexPage = ({ data }) => {
                 <Image
                   fluid={product.defaultProductVariant.images[0].asset.fluid}
                 />
+                <p>{price} €</p>
                 <AddBtn product={product} />
               </article>
             </li>

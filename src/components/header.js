@@ -10,6 +10,14 @@ const Header = ({ siteTitle }) => {
   } else {
     content.message = "You are not logged in";
   }
+
+  const handleClickCart = e => {
+    e.preventDefault();
+    console.log(window.Snipcart);
+    window.Snipcart.subscribe("cart.opened", function() {
+      console.log("Snipcart popup is visible");
+    });
+  };
   return (
     <div
       style={{
@@ -28,6 +36,10 @@ const Header = ({ siteTitle }) => {
         {siteTitle}
       </Link>
       <span>{content.message}</span>
+      <button className="snipcart-checkout" onClick={handleClickCart}>
+        Cart
+      </button>
+
       <nav>
         <Link to="/">Home</Link>
         <Link to="/account">Account</Link>
