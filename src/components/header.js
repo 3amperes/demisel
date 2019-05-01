@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link, navigate } from "gatsby";
-import { getUser, isLoggedIn, logout } from "../services/auth";
+import { Link } from "gatsby";
+import { getProfile, isAuthenticated } from "../utils/auth";
 
 const Header = ({ siteTitle }) => {
   const content = { message: "", login: true };
-  if (isLoggedIn()) {
-    content.message = `Hello, ${getUser().name}`;
+  if (isAuthenticated()) {
+    content.message = `Hello, ${getProfile().name}`;
   } else {
     content.message = "You are not logged in";
   }
@@ -30,18 +30,7 @@ const Header = ({ siteTitle }) => {
       <span>{content.message}</span>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/pro/profile">Profile</Link>
-        {isLoggedIn() ? (
-          <a
-            href="/"
-            onClick={event => {
-              event.preventDefault();
-              logout(() => navigate(`/pro/login`));
-            }}
-          >
-            Logout
-          </a>
-        ) : null}
+        <Link to="/account">Account</Link>
       </nav>
     </div>
   );
