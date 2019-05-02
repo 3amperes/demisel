@@ -9,13 +9,14 @@ const getPrice = productPrice =>
   isAuthenticated() ? Math.round(productPrice * 0.5) : productPrice;
 
 const AddBtn = ({ product }) => {
-  const price = getPrice(product.defaultProductVariant.price);
+  const price = product.defaultProductVariant.price;
   return (
     <button
       className="snipcart-add-item"
       data-item-id={product._id}
       data-item-name={product.defaultProductVariant.title}
       data-item-price={price}
+      data-item-price-pro={Math.round(price * 0.5)}
       data-item-url="https://demiselbijoux.netlify.com"
       data-item-description={product.name}
     >

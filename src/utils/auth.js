@@ -34,8 +34,11 @@ export const login = () => {
     return;
   }
 
-  auth.authorize();
-  window.Snipcart.api.plans.clear();
+  window.Snipcart.api.items.clear().then(function(removedItems) {
+    auth.authorize();
+    console.log("login");
+    console.log(removedItems);
+  });
 };
 
 const setSession = (cb = () => {}) => (err, authResult) => {
@@ -75,6 +78,8 @@ export const silentAuth = callback => {
 
 export const logout = () => {
   localStorage.setItem("isLoggedIn", false);
-  auth.logout();
-  window.Snipcart.api.plans.clear();
+  window.Snipcart.api.items.clear().then(() => {
+    console.log("logout");
+    auth.logout();
+  });
 };
