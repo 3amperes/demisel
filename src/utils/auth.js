@@ -1,5 +1,6 @@
 import auth0 from "auth0-js";
 import { navigate } from "gatsby";
+// import { DEALERCODE } from "./constants";
 
 const isBrowser = typeof window !== "undefined";
 
@@ -34,11 +35,17 @@ export const login = () => {
     return;
   }
 
-  window.Snipcart.api.items.clear().then(function(removedItems) {
-    auth.authorize();
-    console.log("login");
-    console.log(removedItems);
-  });
+  // window.Snipcart.api.discounts
+  //   .applyDiscountCode(DEALERCODE)
+  //   .then(function(appliedCode) {
+  //     console.log(appliedCode);
+  //   })
+  //   .fail(function(error) {
+  //     console.log(
+  //       "Something went wrong when adding the discount code, are you sure it's a valid code?",
+  //       error
+  //     );
+  //   });
 };
 
 const setSession = (cb = () => {}) => (err, authResult) => {
@@ -78,8 +85,8 @@ export const silentAuth = callback => {
 
 export const logout = () => {
   localStorage.setItem("isLoggedIn", false);
-  window.Snipcart.api.items.clear().then(() => {
-    console.log("logout");
-    auth.logout();
-  });
+  // window.Snipcart.api.items.clear().then(() => {
+  //   console.log("logout");
+  //   auth.logout();
+  // });
 };
