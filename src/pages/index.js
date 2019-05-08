@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import Image from "gatsby-image";
 import { isAuthenticated } from "../utils/auth";
+import { applyDiscountCode, cleanDiscountCode } from "../utils/cart";
 import { DEALERCODE } from "../utils/constants";
 
 const getPrice = productPrice =>
@@ -29,28 +30,20 @@ const AddBtn = ({ product }) => {
 const IndexPage = ({ data }) => {
   const products = data.allSanityProduct.edges;
 
-  const onDealerBtnClick = () => {
-    window.Snipcart.api.modal.show();
-    window.Snipcart.api.discounts
-      .applyDiscountCode(DEALERCODE)
-      .then(function(appliedCode) {
-        console.log(appliedCode);
-      })
-      .fail(function(error) {
-        console.log(
-          "Something went wrong when adding the discount code, are you sure it's a valid code?",
-          error
-        );
-      });
-    const cart = window.Snipcart.api.cart.get();
-    console.log(cart);
-  };
+  useEffect(() => {
+    // mount
+    console.log("mount !");
+    setTimeout(() => {
+      if (isAuthenticated()) {
+        applyDiscountCode(DEALERCODE);
+      } else {
+        cleanDiscountCode(DEALERCODE);
+      }
+    }, 2000);
+  }, []);
   return (
     <Layout>
       <SEO title="Accueil" />
-      <div className="snipcart-summary">
-        <button onClick={onDealerBtnClick}>apply dealer code</button>
-      </div>
       <h1>Quelques produits</h1>
       <ul
         style={{
