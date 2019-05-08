@@ -33,13 +33,14 @@ const IndexPage = ({ data }) => {
   useEffect(() => {
     // mount
     console.log("mount !");
-    setTimeout(() => {
+    window.Snipcart.api.cart.start().then(function(cart) {
+      console.log(cart);
       if (isAuthenticated()) {
         applyDiscountCode(DEALERCODE);
       } else {
         cleanDiscountCode(DEALERCODE);
       }
-    }, 2000);
+    });
   }, []);
   return (
     <Layout>

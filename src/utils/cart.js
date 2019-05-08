@@ -13,7 +13,7 @@ export const applyDiscountCode = code => {
 };
 export const cleanDiscountCode = code => {
   const allDiscounts = window.Snipcart.api.discounts.all();
-  if (allDiscounts.lenght > 0) {
+  if (allDiscounts.length > 0) {
     console.log(allDiscounts);
     const codeToClean = allDiscounts.find(discount => discount.code === code);
     if (codeToClean !== undefined || codeToClean !== null || !!codeToClean.id) {
