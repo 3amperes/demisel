@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "gatsby";
-import { login, logout, getProfile, isAuthenticated } from "../utils/auth";
+import { login, logout, getProfile, isAuthenticated } from "../../utils/auth";
 
 const Header = ({ siteTitle }) => {
   const content = { message: "", login: true };
@@ -29,34 +29,9 @@ const Header = ({ siteTitle }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flex: "1",
-        padding: ".5rem",
-        justifyContent: "space-between",
-        borderBottom: "1px solid #d1c1e0",
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          textDecoration: `none`,
-        }}
-      >
-        {siteTitle}
-      </Link>
-      <span>{content.message}</span>
-
-      <nav>
-        <Link to="/">Home</Link>
-        <button className="snipcart-checkout" onClick={handleClickCart}>
-          Cart
-        </button>
-        <button onClick={handleLogin}>
-          {isAuthenticated() ? "logout" : "login"}
-        </button>
-      </nav>
+    <div>
+      header
+      <hr />
     </div>
   );
 };
