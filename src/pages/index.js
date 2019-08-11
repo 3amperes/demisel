@@ -46,20 +46,23 @@ export const query = graphql`
             current
           }
           title
+          thumbnail {
+            alt
+            image {
+              asset {
+                fluid(maxWidth: 700) {
+                  ...GatsbySanityImageFluid
+                }
+              }
+            }
+          }
+          price {
+            unitPrice
+            altPrice
+            proPrice
+          }
         }
       }
     }
   }
 `;
-
-// defaultProductVariant {
-//   title
-//   price
-//   images {
-//     asset {
-//       fluid(maxWidth: 700) {
-//         ...GatsbySanityImageFluid
-//       }
-//     }
-//   }
-// }

@@ -1,13 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import ProductItem from "./ProductItem";
+
 const ProductList = ({ items }) => {
   return (
-    <div>
+    <ul style={{ listStyle: "none", display: "flex" }}>
       {items.map(({ node: product }, index) => {
-        return <li key={product.slug.current}>{product.title}</li>;
+        return (
+          <li key={product.slug.current} style={{ maxWidth: "15rem" }}>
+            <ProductItem item={product}></ProductItem>
+          </li>
+        );
       })}
-    </div>
+    </ul>
   );
 };
 
