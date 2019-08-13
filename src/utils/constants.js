@@ -1,1 +1,1 @@
-export const DEALERCODE = "u6ZNS2VcSJ8I";
+export const DEALERCODE = 'u6ZNS2VcSJ8I';

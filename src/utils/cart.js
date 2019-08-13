@@ -20,10 +20,10 @@ export const cleanDiscountCode = code => {
       window.Snipcart.api.discounts
         .remove(codeToClean.id)
         .then(function(discount) {
-          console.log("The discount has been removed", discount);
+          console.log('The discount has been removed', discount);
         })
         .fail(function(error) {
-          console.log("Something went wrong when removing the discount", error);
+          console.log('Something went wrong when removing the discount', error);
         });
     }
   }

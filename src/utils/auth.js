@@ -1,15 +1,15 @@
-import auth0 from "auth0-js";
-import { navigate } from "gatsby";
+import auth0 from 'auth0-js';
+import { navigate } from 'gatsby';
 
-const isBrowser = typeof window !== "undefined";
+const isBrowser = typeof window !== 'undefined';
 
 const auth = isBrowser
   ? new auth0.WebAuth({
       domain: process.env.AUTH0_DOMAIN,
       clientID: process.env.AUTH0_CLIENTID,
       redirectUri: process.env.AUTH0_CALLBACK,
-      responseType: "token id_token",
-      scope: "openid profile email",
+      responseType: 'token id_token',
+      scope: 'openid profile email',
     })
   : {};
 
@@ -26,7 +26,7 @@ export const isAuthenticated = () => {
     return;
   }
 
-  return localStorage.getItem("isLoggedIn") === "true";
+  return localStorage.getItem('isLoggedIn') === 'true';
 };
 
 export const login = () => {
@@ -38,7 +38,7 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    navigate("/");
+    navigate('/');
     cb();
     return;
   }
@@ -49,8 +49,8 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.idToken = authResult.idToken;
     tokens.expiresAt = expiresAt;
     user = authResult.idTokenPayload;
-    localStorage.setItem("isLoggedIn", true);
-    navigate("/");
+    localStorage.setItem('isLoggedIn', true);
+    navigate('/');
     cb();
   }
 };
@@ -73,7 +73,7 @@ export const silentAuth = callback => {
 };
 
 export const logout = () => {
-  localStorage.setItem("isLoggedIn", false);
+  localStorage.setItem('isLoggedIn', false);
   auth.logout({
     returnTo: process.env.AUTH0_RETURNURL,
   });

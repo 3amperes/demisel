@@ -1,8 +1,8 @@
-import React from "react";
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import Image from "gatsby-image";
-import { AddButton } from "../components/product";
+import React from 'react';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import Image from 'gatsby-image';
+import { AddButton } from '../components/product';
 
 const ProductDetail = ({ data }) => {
   const { title, model, thumbnail } = data.sanityProduct;

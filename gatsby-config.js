@@ -5,12 +5,15 @@ module.exports = {
     author: `@wabdsgn`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    { resolve: `gatsby-plugin-react-helmet` },
+    { resolve: `gatsby-transformer-remark` },
+    { resolve: `gatsby-transformer-sharp` },
+    { resolve: `gatsby-plugin-sharp` },
     {
-      resolve: "gatsby-source-sanity",
+      resolve: 'gatsby-source-sanity',
       options: {
-        projectId: "zgsfe4tu",
-        dataset: "staging",
+        projectId: 'zgsfe4tu',
+        dataset: 'staging',
         // To enable preview of drafts, copy .env-example into .env,
         // and add a token with read permissions
         // token: process.env.SANITY_TOKEN,
@@ -25,14 +28,11 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-transformer-remark`,
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
-      resolve: "gatsby-plugin-snipcart",
+      resolve: 'gatsby-plugin-snipcart',
       options: {
         apiKey:
-          "MDE1NWM1NjItMDc2Yy00NTYxLWJlM2EtMDFjNWMwNGNkYzg1NjM2ODU2NTM2NjM1NTU0MzQ0",
+          'MDE1NWM1NjItMDc2Yy00NTYxLWJlM2EtMDFjNWMwNGNkYzg1NjM2ODU2NTM2NjM1NTU0MzQ0',
         autopop: false,
       },
     },
