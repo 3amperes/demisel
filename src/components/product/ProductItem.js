@@ -1,32 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Image from "gatsby-image";
-
-const AddBtn = ({ product }) => {
-  return (
-    <button
-      className="snipcart-add-item"
-      data-item-id={product._id}
-      data-item-name={product.title}
-      data-item-price={product.price.unitPrice}
-      data-item-price-pro={product.price.proPrice}
-      data-item-price-alt={product.price.altPrice}
-      data-item-url="https://demiselbijoux.netlify.com"
-      data-item-description={product.title}
-    >
-      Ajouter au panier
-    </button>
-  );
-};
+import { Link } from "gatsby";
+import { hasPrice, getPrice, getProductTitle } from "../../utils";
 
 const ProductItem = ({ item }) => {
   return (
-    <article>
-      <h2>{item.title}</h2>
-      <Image fluid={item.thumbnail.image.asset.fluid} />
-      <p>{item.price.unitPrice} €</p>
-      <AddBtn product={item} />
-    </article>
+    <Link to={item.id}>
+      <article>
+        <Image fluid={item.thumbnail.image.asset.fluid} />
+        {hasPrice(item, "salePrice") && <p>{getPrice(item, "salePrice")} €</p>}
+        <h2>{getProductTitle(item)}</h2>
+      </article>
+    </Link>
   );
 };
 

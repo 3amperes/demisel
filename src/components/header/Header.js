@@ -30,7 +30,7 @@ const Header = ({ siteTitle }) => {
 
   return (
     <div>
-      header
+      <Link to="/">accueil</Link> • <Link to="/shop">shop</Link>
       <hr />
     </div>
   );

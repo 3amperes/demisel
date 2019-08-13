@@ -21,6 +21,39 @@
 //   }
 // };
 
+const path = require(`path`);
+exports.createPages = async ({ graphql, actions }) => {
+  // **Note:** The graphql function call returns a Promise
+  // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise for more info
+  const { createPage } = actions;
+  const result = await graphql(`
+    {
+      allSanityProduct {
+        edges {
+          node {
+            id
+            slug {
+              current
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  result.data.allSanityProduct.edges.forEach(({ node }) => {
+    createPage({
+      path: node.id,
+      component: path.resolve(`./src/templates/product-detail.js`),
+      context: {
+        // Data passed to context is available
+        // in page queries as GraphQL variables.
+        id: node.id,
+      },
+    });
+  });
+};
+
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html") {
     /*

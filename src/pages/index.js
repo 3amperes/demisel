@@ -1,19 +1,12 @@
 import React, { useEffect } from "react";
-import { graphql } from "gatsby";
+import { Link } from "gatsby";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import Image from "gatsby-image";
 import { isAuthenticated } from "../utils/auth";
 import { applyDiscountCode, cleanDiscountCode } from "../utils/cart";
 import { DEALERCODE } from "../utils/constants";
-import { ProductList } from "../components/product";
 
-const getPrice = productPrice =>
-  isAuthenticated() ? Math.round(productPrice * 0.5) : productPrice;
-
-const IndexPage = ({ data }) => {
-  const products = data.allSanityProduct.edges;
-
+const IndexPage = () => {
   useEffect(() => {
     // mount
     console.log("mount !");
@@ -29,40 +22,9 @@ const IndexPage = ({ data }) => {
   return (
     <Layout>
       <SEO title="Accueil" />
-      <ProductList items={products} />
+      slider <br /> contenu <br /> etc
     </Layout>
   );
 };
 
 export default IndexPage;
-
-export const query = graphql`
-  query ProductQuery {
-    allSanityProduct {
-      edges {
-        node {
-          _id
-          slug {
-            current
-          }
-          title
-          thumbnail {
-            alt
-            image {
-              asset {
-                fluid(maxWidth: 700) {
-                  ...GatsbySanityImageFluid
-                }
-              }
-            }
-          }
-          price {
-            unitPrice
-            altPrice
-            proPrice
-          }
-        }
-      }
-    }
-  }
-`;
