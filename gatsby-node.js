@@ -22,9 +22,8 @@
 // };
 
 const path = require(`path`);
+
 exports.createPages = async ({ graphql, actions }) => {
-  // **Note:** The graphql function call returns a Promise
-  // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise for more info
   const { createPage } = actions;
   const result = await graphql(`
     {
@@ -43,7 +42,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   result.data.allSanityProduct.edges.forEach(({ node }) => {
     createPage({
-      path: node.id,
+      path: `/shop/${node.id}`,
       component: path.resolve(`./src/templates/product-detail.js`),
       context: {
         // Data passed to context is available
@@ -55,7 +54,7 @@ exports.createPages = async ({ graphql, actions }) => {
 };
 
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html") {
+  if (stage === 'build-html') {
     /*
      * During the build step, `auth0-js` will break because it relies on
      * browser-specific APIs. Fortunately, we don’t need it during the build.

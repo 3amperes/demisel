@@ -1,24 +1,41 @@
-import React, { useEffect } from "react";
-import { graphql } from "gatsby";
-import Layout from "../components/layout";
-import SEO from "../components/seo";
-import { ProductList } from "../components/product";
+import React from 'react';
+import { graphql } from 'gatsby';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import { ProductList, Filters } from '../components/product';
+import { withLocation } from '../utils';
 
-const IndexPage = ({ data }) => {
-  const products = data.allSanityProduct.edges;
+const Shop = ({ data, search }) => {
+  const keys = Object.keys(search);
+  const allProducts = data.allSanityProduct.edges;
+  const products =
+    keys.length > 0
+      ? allProducts.filter(({ node: product }) => {
+          const key = keys[0];
+          return product[key] && product[key].id === search[key];
+        })
+      : allProducts;
 
+  const filters = {
+    model: data.allSanityModel.edges,
+    category: data.allSanityCategory.edges,
+  };
+
+  console.info('shop props:', { data }, { search });
   return (
     <Layout>
       <SEO title="Shop" />
+      <Filters filters={filters} />
+      <hr />
       <ProductList items={products} />
     </Layout>
   );
 };
 
-export default IndexPage;
+export default withLocation(Shop);
 
 export const query = graphql`
-  query ProductQuery {
+  query ShopQuery {
     allSanityProduct {
       edges {
         node {
@@ -44,6 +61,7 @@ export const query = graphql`
             weight
           }
           model {
+            id
             title
             price {
               salePrice
@@ -52,6 +70,22 @@ export const query = graphql`
               weight
             }
           }
+        }
+      }
+    }
+    allSanityModel {
+      edges {
+        node {
+          id
+          title
+        }
+      }
+    }
+    allSanityCategory {
+      edges {
+        node {
+          id
+          title
         }
       }
     }
