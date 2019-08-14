@@ -22,6 +22,7 @@
 // };
 
 const path = require(`path`);
+const fs = require('fs');
 const kebabCase = require(`lodash.kebabcase`);
 
 exports.createPages = async ({ graphql, actions }) => {
@@ -54,16 +55,25 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Creating blog list with pagination
   Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/shop` : `/shop/page/${i + 1}`,
+    const currentPage = i + 1;
+    const pathSuffix = currentPage > 1 ? currentPage : '';
+    /* Collect products needed for this page. */
+    const startIndexInclusive = productPerPage * (currentPage - 1);
+    const endIndexExclusive = startIndexInclusive + productPerPage;
+    const pageProducts = products.slice(startIndexInclusive, endIndexExclusive);
+    const pageData = {
+      path: `/shop/${pathSuffix}`,
       component: shopListLayout,
       context: {
+        pageProducts,
         limit: productPerPage,
         skip: i * productPerPage,
-        currentPage: i + 1,
+        currentPage,
         numPages,
       },
-    });
+    };
+    createPage(pageData);
+    createJSON(pageData);
   });
 
   // Creating shop products
@@ -76,7 +86,7 @@ exports.createPages = async ({ graphql, actions }) => {
     const prev = arr[index - 1];
     const next = arr[index + 1];
 
-    createPage({
+    const productData = {
       path: `/product/${product.node.id}`,
       component: shopProductLayout,
       context: {
@@ -84,7 +94,9 @@ exports.createPages = async ({ graphql, actions }) => {
         prev: prev,
         next: next,
       },
-    });
+    };
+
+    createPage(productData);
   });
 };
 
@@ -109,3 +121,18 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
     });
   }
 };
+
+function createJSON(pageData) {
+  const pathSuffix = pageData.path.substring(1);
+  const dir = 'public/paginationJson/';
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  const filePath = dir + 'index' + pathSuffix + '.json';
+  const dataToSave = JSON.stringify(pageData.context.pageProducts);
+  fs.writeFile(filePath, dataToSave, function(err) {
+    if (err) {
+      return console.log(err, 'bam');
+    }
+  });
+}
