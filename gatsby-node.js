@@ -123,7 +123,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
 };
 
 function createJSON(pageData) {
-  const pathSuffix = pageData.path.substring(1);
+  const pathSuffix = pageData.path.replace(
+    /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+    ''
+  );
   const dir = 'public/paginationJson/';
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -132,7 +135,7 @@ function createJSON(pageData) {
   const dataToSave = JSON.stringify(pageData.context.pageProducts);
   fs.writeFile(filePath, dataToSave, function(err) {
     if (err) {
-      return console.log(err, 'bam');
+      return console.log(err, pageData.path);
     }
   });
 }
