@@ -6,12 +6,24 @@ import { AddButton } from '../components/product';
 
 const ProductDetail = ({ data }) => {
   const { title, model, thumbnail } = data.sanityProduct;
-  const productTitle = `${model.title} • ${title}`;
+  const productTitle = model ? `${model.title} • ${title}` : title;
+
+  const renderHeader = () => {
+    return model ? (
+      <header>
+        <h1>{model.title}</h1>
+        <h2>{title}</h2>
+      </header>
+    ) : (
+      <header>
+        <h1>{title}</h1>
+      </header>
+    );
+  };
   return (
     <Layout>
       <SEO title={productTitle} />
-      <h1>{model.title}</h1>
-      <h2>{title}</h2>
+      <article>{renderHeader()}</article>
       {thumbnail && (
         <div style={{ width: 400 }}>
           <Image fluid={thumbnail.asset.fluid} />
