@@ -22,29 +22,67 @@
 // };
 
 const path = require(`path`);
+const kebabCase = require(`lodash.kebabcase`);
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
+
+  const shopListLayout = path.resolve(`./src/layouts/shop-list.js`);
+  const shopProductLayout = path.resolve(`./src/layouts/shop-detail.js`);
+  const shopCategoryLayout = path.resolve(`./src/layouts/shop-category.js`);
+
   const result = await graphql(`
     {
-      allSanityProduct {
+      allSanityProduct(sort: { fields: _updatedAt, order: DESC }) {
         edges {
           node {
             id
+            category {
+              id
+            }
           }
         }
       }
     }
   `);
 
-  result.data.allSanityProduct.edges.forEach(({ node }) => {
+  const products = result.data.allSanityProduct.edges;
+  const productPerPage = 3;
+  const numPages = Math.ceil(products.length / productPerPage);
+  const categories = [];
+  const models = [];
+
+  // Creating blog list with pagination
+  Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
-      path: `/shop/${node.id}`,
-      component: path.resolve(`./src/templates/product-detail.js`),
+      path: i === 0 ? `/shop` : `/shop/page/${i + 1}`,
+      component: shopListLayout,
       context: {
-        // Data passed to context is available
-        // in page queries as GraphQL variables.
-        id: node.id,
+        limit: productPerPage,
+        skip: i * productPerPage,
+        currentPage: i + 1,
+        numPages,
+      },
+    });
+  });
+
+  // Creating shop products
+  products.forEach((product, index, arr) => {
+    categories.push(product.node.category);
+    if (product.node.model) {
+      models.push(product.node.model);
+    }
+
+    const prev = arr[index - 1];
+    const next = arr[index + 1];
+
+    createPage({
+      path: `/product/${product.node.id}`,
+      component: shopProductLayout,
+      context: {
+        id: product.node.id,
+        prev: prev,
+        next: next,
       },
     });
   });

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
-import { login, logout, getProfile, isAuthenticated } from '../../utils/auth';
+// import { login, logout, getProfile, isAuthenticated } from '../../utils/auth';
 
 const Header = ({ siteTitle }) => {
   // const content = { message: "", login: true };
