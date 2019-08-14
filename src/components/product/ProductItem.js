@@ -8,7 +8,7 @@ const ProductItem = ({ item }) => {
   return (
     <Link to={`/shop/${item.id}`}>
       <article>
-        <Image fluid={item.thumbnail.image.asset.fluid} />
+        {item.thumbnail && <Image fluid={item.thumbnail.asset.fluid} />}
         {hasPrice(item, 'salePrice') && <p>{getPrice(item, 'salePrice')} €</p>}
         <h2>{getProductTitle(item)}</h2>
       </article>

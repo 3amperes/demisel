@@ -12,9 +12,11 @@ const ProductDetail = ({ data }) => {
       <SEO title={productTitle} />
       <h1>{model.title}</h1>
       <h2>{title}</h2>
-      <div style={{ width: 400 }}>
-        <Image fluid={thumbnail.image.asset.fluid} />
-      </div>
+      {thumbnail && (
+        <div style={{ width: 400 }}>
+          <Image fluid={thumbnail.asset.fluid} />
+        </div>
+      )}
       détail du produit <br />
       <AddButton product={data.sanityProduct} />
     </Layout>
@@ -39,11 +41,9 @@ export const query = graphql`
       }
       thumbnail {
         alt
-        image {
-          asset {
-            fluid(maxWidth: 700) {
-              ...GatsbySanityImageFluid
-            }
+        asset {
+          fluid(maxWidth: 700) {
+            ...GatsbySanityImageFluid
           }
         }
       }

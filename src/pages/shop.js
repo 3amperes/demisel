@@ -40,19 +40,14 @@ export const query = graphql`
       edges {
         node {
           id
-          slug {
-            current
-          }
           title
           thumbnail {
-            alt
-            image {
-              asset {
-                fluid(maxWidth: 700) {
-                  ...GatsbySanityImageFluid
-                }
+            asset {
+              fluid(maxWidth: 700) {
+                ...GatsbySanityImageFluid
               }
             }
+            alt
           }
           price {
             salePrice
