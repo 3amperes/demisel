@@ -61,5 +61,5 @@ exports.onRenderBody = ({ setPostBodyComponents }) => {
     );
   }
 
-  // return setPostBodyComponents(components);
+  return setPostBodyComponents(components);
 };
