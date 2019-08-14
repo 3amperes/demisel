@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 const Pagination = ({ numPages, currentPage, contextPage }) => {
   if (numPages <= 1) {
@@ -16,7 +17,11 @@ const Pagination = ({ numPages, currentPage, contextPage }) => {
 
         return (
           <li key={link}>
-            {isCurrent() ? <span>{index}</span> : <a href={link}>{index}</a>}
+            {isCurrent() ? (
+              <span>page {index}</span>
+            ) : (
+              <Link to={link}>page {index}</Link>
+            )}
           </li>
         );
       })}

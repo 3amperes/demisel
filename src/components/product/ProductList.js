@@ -8,7 +8,10 @@ const ProductList = ({ items }) => {
     <ul style={{ listStyle: 'none', display: 'flex' }}>
       {items.map(({ node: product }) => {
         return (
-          <li key={product.id} style={{ maxWidth: '15rem' }}>
+          <li
+            key={product.id}
+            style={{ maxWidth: '15rem', marginRight: '2rem' }}
+          >
             <ProductItem item={product} />
           </li>
         );
