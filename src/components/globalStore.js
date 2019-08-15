@@ -11,6 +11,7 @@ export const GlobalContext = createContext();
 const initialState = {
   cursor: 0 /* Which page infinite scroll should fetch next. */,
   useInfiniteScroll: true /* Toggle between pagination and inf. scroll & fallback in case of error. */,
+  pages: {},
 };
 
 function reducer(state, action) {
@@ -20,45 +21,17 @@ function reducer(state, action) {
       return { ...state, useInfiniteScroll: true };
     case 'desactivate_infinite_scroll':
       return { ...state, useInfiniteScroll: false };
-    case 'loadmore':
-      return { ...state, cursor: state.cursor + 1, isInitializing: false };
+    case 'add_page':
+      const { cursor, ...page } = action.payload;
+      return {
+        ...state,
+        cursor,
+        pages: { ...state.pages, ...page },
+      };
     default:
       throw new Error();
   }
 }
-
-// class GlobalContextProvider extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     console.log('*** Constructing Global State ***');
-
-//     this.toggle = this.toggle.bind(this);
-//     this.loadMore = this.loadMore.bind(this);
-//     this.hasMore = this.hasMore.bind(this);
-//     this.updateState = this.updateState.bind(this);
-//     this.isInitializing = this.isInitializing.bind(this);
-
-//     /* State also contains metadata for items, e.g. state["page81"] (only contains keys for _received_ metadata) */
-//     this.state = {
-//       cursor: 0,
-//       useInfiniteScroll: true,
-//       isInitializing: this.isInitializing,
-//       updateState: this.updateState,
-//       hasMore: this.hasMore,
-//       loadMore: this.loadMore,
-//       toggle: this.toggle,
-//       loading: true,
-//     };
-//   }
-
-//   isInitializing = () => {
-//     return this.state.cursor === 0;
-//   };
-
-//   updateState = mergeableStateObject => {
-//     this.setState(mergeableStateObject);
-//   };
 
 export const GlobalProvider = ({ children }) => {
   const { Provider } = GlobalContext;
@@ -76,7 +49,7 @@ export const GlobalProvider = ({ children }) => {
 
   const loadMore = () => {
     console.log('Fetching metadata for page ' + state.cursor);
-    const pageNum = state.cursor + 2;
+    const pageNum = state.cursor;
     // set state.cursor + 1;
     // TODO: make sure this is guaranteed to set state before another loadMore may be able to fire!
     fetch(`./paginationJson/indexshop${pageNum}.json`)
@@ -84,9 +57,10 @@ export const GlobalProvider = ({ children }) => {
       .then(
         res => {
           dispatch({
-            type: 'loadmore',
+            type: 'add_page',
             payload: {
-              ['page' + pageNum]: res,
+              cursor: state.cursor + 1,
+              ['page' + pageNum]: res.map(r => r.node.id),
             },
           });
         },
@@ -104,9 +78,20 @@ export const GlobalProvider = ({ children }) => {
     return state.cursor <= pageContext.countPages;
   };
 
+  const toggle = () => {
+    const type = state.useInfiniteScroll
+      ? 'desactivate_infinite_scroll'
+      : 'activate_infinite_scroll';
+    dispatch({
+      type,
+    });
+  };
+
   return (
     init && (
-      <Provider value={{ state, dispatch, isInitializing, loadMore, hasMore }}>
+      <Provider
+        value={{ state, dispatch, isInitializing, loadMore, hasMore, toggle }}
+      >
         {children}
       </Provider>
     )
