@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { graphql } from 'gatsby';
 import MainLayout from '../main';
 import { ProductList } from '../../components/product';
 import { Pagination } from '../../components/pagination';
 import SEO from '../../components/seo';
+import { GlobalContext } from '../../components/globalStore';
 
 const Shop = ({ data, pageContext }) => {
+  const { state, dispatch } = useContext(GlobalContext);
   const products = data.allSanityProduct.edges;
   const { currentPage, numPages } = pageContext;
-  console.info({ data, pageContext });
+  console.info({ state, data, pageContext });
   return (
     <MainLayout>
       <SEO title="Shop" />
