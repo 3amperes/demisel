@@ -28,7 +28,6 @@ const Shop = ({ data, pageContext }) => {
   };
 
   useEffect(() => {
-    console.log({ pages });
     setProductIds(Object.values(pages).flat());
   }, [pages]);
 
@@ -39,9 +38,9 @@ const Shop = ({ data, pageContext }) => {
 
   const init = () => {
     const pageKey = 'page' + pageContext.currentPage;
-    console.log(`View is initializing items according to ${pageKey}.`);
+    console.log(`list is initializing items according to ${pageKey}.`);
     dispatch({
-      type: 'init_page',
+      type: 'add_page',
       payload: {
         cursor: pageContext.currentPage + 1,
         [pageKey]: contextProducts,
@@ -49,15 +48,7 @@ const Shop = ({ data, pageContext }) => {
     });
   };
 
-  const onToggle = () => {
-    if (useInfiniteScroll) {
-      init();
-    }
-    toggle();
-  };
-
   useEffect(() => {
-    console.log({ pageContext });
     if (isInitializing() || !useInfiniteScroll) {
       init();
     }
@@ -66,7 +57,7 @@ const Shop = ({ data, pageContext }) => {
   return (
     <MainLayout>
       <SEO title="Shop" />
-      <button onClick={onToggle}>toggle infite scroll</button>
+      <button onClick={toggle}>toggle infite scroll</button>
       {filteredProducts.length > 0 ? (
         <div>
           {/* Infinite Scroll */}

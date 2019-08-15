@@ -25,12 +25,6 @@ function reducer(state, action) {
         ...state,
         useInfiniteScroll: false,
       };
-    case 'init_page':
-      return {
-        ...state,
-        cursor,
-        pages: { ...state.pages, ...page },
-      };
     case 'add_page':
       return {
         ...state,
@@ -59,7 +53,6 @@ export const GlobalProvider = ({ children }) => {
   const loadMore = () => {
     console.log('Fetching metadata for page ' + state.cursor);
     const pageNum = state.cursor;
-    // set state.cursor + 1;
     // TODO: make sure this is guaranteed to set state before another loadMore may be able to fire!
     fetch(`/paginationJson/indexshop${pageNum}.json`, {
       headers: {
@@ -90,7 +83,6 @@ export const GlobalProvider = ({ children }) => {
   const hasMore = pageContext => {
     if (!state.useInfiniteScroll) return false;
     if (isInitializing()) return true;
-    console.log('hasMore', state.cursor, pageContext.countPages);
     return state.cursor <= pageContext.countPages;
   };
 
