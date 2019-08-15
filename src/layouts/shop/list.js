@@ -7,7 +7,7 @@ import SEO from '../../components/seo';
 import { GlobalContext } from '../../components/globalStore';
 
 const Shop = ({ data, pageContext }) => {
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state, loadMore } = useContext(GlobalContext);
   const products = data.allSanityProduct.edges;
   const { currentPage, numPages } = pageContext;
   console.info({ state, data, pageContext });
@@ -15,7 +15,11 @@ const Shop = ({ data, pageContext }) => {
     <MainLayout>
       <SEO title="Shop" />
       <ProductList items={products} />
-      <Pagination currentPage={currentPage} numPages={numPages} />
+      {state.useInfiniteScroll ? (
+        <button onClick={loadMore}>loadmore</button>
+      ) : (
+        <Pagination currentPage={currentPage} numPages={numPages} />
+      )}
     </MainLayout>
   );
 };

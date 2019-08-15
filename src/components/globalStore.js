@@ -10,14 +10,7 @@ import { silentAuth } from '../utils/auth';
 export const GlobalContext = createContext();
 const initialState = {
   cursor: 0 /* Which page infinite scroll should fetch next. */,
-  useInfiniteScroll: true /* Toggle between pagination and inf. scroll for this demo & fallback in case of error. */,
-  isInitializing: () => {
-    return true;
-  },
-  updateState: () => {},
-  hasMore: () => {},
-  loadMore: () => {},
-  toggle: () => {},
+  useInfiniteScroll: true /* Toggle between pagination and inf. scroll & fallback in case of error. */,
 };
 
 function reducer(state, action) {
@@ -28,7 +21,7 @@ function reducer(state, action) {
     case 'desactivate_infinite_scroll':
       return { ...state, useInfiniteScroll: false };
     case 'loadmore':
-      return { ...state, cursor: state.cursor + 1 };
+      return { ...state, cursor: state.cursor + 1, isInitializing: false };
     default:
       throw new Error();
   }
@@ -83,10 +76,10 @@ export const GlobalProvider = ({ children }) => {
 
   const loadMore = () => {
     console.log('Fetching metadata for page ' + state.cursor);
-    const pageNum = state.cursor;
+    const pageNum = state.cursor + 2;
     // set state.cursor + 1;
     // TODO: make sure this is guaranteed to set state before another loadMore may be able to fire!
-    fetch(`${__PATH_PREFIX__}/paginationJson/index${pageNum}.json`)
+    fetch(`./paginationJson/indexshop${pageNum}.json`)
       .then(res => res.json())
       .then(
         res => {
@@ -100,9 +93,6 @@ export const GlobalProvider = ({ children }) => {
         error => {
           dispatch({
             type: 'desactivate_infinite_scroll',
-          });
-          this.setState({
-            useInfiniteScroll: false, // Fallback to Pagination on error.
           });
         }
       );
