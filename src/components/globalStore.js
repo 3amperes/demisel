@@ -15,14 +15,23 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  console.log(`*** dispatch ${action.type} ***`);
+  console.log(`*** dispatched ${action.type} ***`, action.payload);
+  const { cursor, ...page } = action.payload ? action.payload : {};
   switch (action.type) {
     case 'activate_infinite_scroll':
       return { ...state, useInfiniteScroll: true };
     case 'desactivate_infinite_scroll':
-      return { ...state, useInfiniteScroll: false };
+      return {
+        ...state,
+        useInfiniteScroll: false,
+      };
+    case 'init_page':
+      return {
+        ...state,
+        cursor,
+        pages: { ...page },
+      };
     case 'add_page':
-      const { cursor, ...page } = action.payload;
       return {
         ...state,
         cursor,
@@ -65,6 +74,7 @@ export const GlobalProvider = ({ children }) => {
           });
         },
         error => {
+          console.log(error);
           dispatch({
             type: 'desactivate_infinite_scroll',
           });
@@ -75,16 +85,26 @@ export const GlobalProvider = ({ children }) => {
   const hasMore = pageContext => {
     if (!state.useInfiniteScroll) return false;
     if (isInitializing()) return true;
+    console.log('hasMore', state.cursor, pageContext.countPages);
     return state.cursor <= pageContext.countPages;
   };
 
-  const toggle = () => {
-    const type = state.useInfiniteScroll
-      ? 'desactivate_infinite_scroll'
-      : 'activate_infinite_scroll';
-    dispatch({
-      type,
-    });
+  const toggle = pageContext => {
+    if (!state.useInfiniteScroll) {
+      // activate inifinite scroll
+      /* Toggle back to infinite scroll, adjust scroll position. */
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      window.scrollTo(0, scrollTop - 1);
+      dispatch({
+        type: 'activate_infinite_scroll',
+      });
+    } else {
+      // desactivate inifinite scroll
+      dispatch({
+        type: 'desactivate_infinite_scroll',
+      });
+    }
   };
 
   return (

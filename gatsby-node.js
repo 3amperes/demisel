@@ -30,11 +30,10 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const shopListLayout = path.resolve(`./src/layouts/shop/list.js`);
   const shopProductLayout = path.resolve(`./src/layouts/shop/item.js`);
-  const shopCategoryLayout = path.resolve(`./src/layouts/shop/category.js`);
 
   const result = await graphql(`
     {
-      allSanityProduct(sort: { fields: _updatedAt, order: DESC }) {
+      allSanityProduct(sort: { fields: _createdAt, order: DESC }) {
         edges {
           node {
             id
@@ -44,42 +43,42 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `);
 
+  /* Iterate needed pages and create them. */
   const products = result.data.allSanityProduct.edges;
-  const productPerPage = 3;
-  const numPages = Math.ceil(products.length / productPerPage);
-  const categories = [];
-  const models = [];
+  const countProductsPerPage = 3;
+  const countPages = Math.ceil(products.length / countProductsPerPage);
 
-  // Creating blog list with pagination
-  Array.from({ length: numPages }).forEach((_, i) => {
-    const currentPage = i + 1;
-    const pathSuffix = currentPage > 1 ? currentPage : '';
-    /* Collect products needed for this page. */
-    const startIndexInclusive = productPerPage * (currentPage - 1);
-    const endIndexExclusive = startIndexInclusive + productPerPage;
+  for (var currentPage = 1; currentPage <= countPages; currentPage++) {
+    const pathSuffix =
+      currentPage > 1
+        ? currentPage
+        : ''; /* To create paths "/", "/2", "/3", ... */
+
+    /* Collect images needed for this page. */
+    const startIndexInclusive = countProductsPerPage * (currentPage - 1);
+    const endIndexExclusive = startIndexInclusive + countProductsPerPage;
     const pageProducts = products.slice(startIndexInclusive, endIndexExclusive);
+
+    /* Combine all data needed to construct this page. */
     const pageData = {
       path: `/shop/${pathSuffix}`,
       component: shopListLayout,
       context: {
-        pageProducts,
-        limit: productPerPage,
-        skip: i * productPerPage,
-        currentPage,
-        numPages,
+        /* If you need to pass additional data, you can pass it inside this context object. */
+        pageProducts: pageProducts,
+        currentPage: currentPage,
+        countPages: countPages,
       },
     };
-    createPage(pageData);
+
+    /* Create normal pages (for pagination) and corresponding JSON (for infinite scroll). */
     createJSON(pageData);
-  });
+    createPage(pageData);
+  }
+  console.log(`\nCreated ${countPages} pages of paginated content.`);
 
   // Creating shop products
   products.forEach((product, index, arr) => {
-    categories.push(product.node.category);
-    if (product.node.model) {
-      models.push(product.node.model);
-    }
-
     const prev = arr[index - 1];
     const next = arr[index + 1];
 
