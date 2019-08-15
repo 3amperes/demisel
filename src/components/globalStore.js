@@ -19,7 +19,7 @@ function reducer(state, action) {
   const { cursor, ...page } = action.payload ? action.payload : {};
   switch (action.type) {
     case 'activate_infinite_scroll':
-      return { ...state, useInfiniteScroll: true };
+      return { ...state, useInfiniteScroll: true, cursor: 2 };
     case 'desactivate_infinite_scroll':
       return {
         ...state,
@@ -29,7 +29,7 @@ function reducer(state, action) {
       return {
         ...state,
         cursor,
-        pages: { ...page },
+        pages: { ...state.pages, ...page },
       };
     case 'add_page':
       return {
@@ -61,7 +61,12 @@ export const GlobalProvider = ({ children }) => {
     const pageNum = state.cursor;
     // set state.cursor + 1;
     // TODO: make sure this is guaranteed to set state before another loadMore may be able to fire!
-    fetch(`./paginationJson/indexshop${pageNum}.json`)
+    fetch(`/paginationJson/indexshop${pageNum}.json`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
       .then(res => res.json())
       .then(
         res => {

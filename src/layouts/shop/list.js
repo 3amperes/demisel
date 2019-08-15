@@ -32,9 +32,10 @@ const Shop = ({ data, pageContext }) => {
     setProductIds(Object.values(pages).flat());
   }, [pages]);
 
-  const filteredProducts = allProducts.filter(product =>
-    productIds.includes(product.node.id)
-  );
+  const filteredProducts = allProducts.filter(product => {
+    const ids = useInfiniteScroll ? productIds : contextProducts;
+    return ids.includes(product.node.id);
+  });
 
   const init = () => {
     const pageKey = 'page' + pageContext.currentPage;
