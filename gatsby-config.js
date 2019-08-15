@@ -14,6 +14,18 @@ module.exports = {
     { resolve: `gatsby-transformer-sharp` },
     { resolve: `gatsby-plugin-sharp` },
     {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          '@src': 'src',
+          '@components': 'src/components',
+          '@layouts': 'src/layouts',
+          '@pages': 'src/pages',
+        },
+        extensions: ['js'],
+      },
+    },
+    {
       resolve: 'gatsby-source-sanity',
       options: {
         projectId: process.env.SANITY_PROJECT_ID,
