@@ -9,7 +9,7 @@ import InfiniteScroll from '@components/InfiniteScroll';
 
 const Shop = ({ data, pageContext }) => {
   const {
-    state,
+    state: { cursor, useInfiniteScroll, pages },
     dispatch,
     hasMore,
     loadMore,
@@ -18,7 +18,6 @@ const Shop = ({ data, pageContext }) => {
   } = useContext(GlobalContext);
   const allProducts = data.allSanityProduct.edges;
   const { currentPage, countPages } = pageContext;
-  const { cursor, useInfiniteScroll, pages } = state;
   const [productIds, setProductIds] = useState([]);
   const contextProducts = pageContext.pageProducts.map(p => p.node.id);
   const paginationData = {
