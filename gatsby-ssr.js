@@ -1,17 +1,10 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/ssr-apis/
- */
-
-// You can delete this file if you're not using it
-
-const React = require('react');
+import React from 'react';
+export { wrapRootElement } from './gatsby-browser';
 
 let warning = false;
 
-exports.onRenderBody = ({ setPostBodyComponents }) => {
-  options = Object.assign(
+export const onRenderBody = ({ setPostBodyComponents }) => {
+  const options = Object.assign(
     {
       apiKey: process.env.GATSBY_SNIPCART_API_KEY,
       autopop: false,

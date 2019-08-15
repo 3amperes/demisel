@@ -22,61 +22,67 @@
 // };
 
 const path = require(`path`);
+const fs = require('fs');
 const kebabCase = require(`lodash.kebabcase`);
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  const shopListLayout = path.resolve(`./src/layouts/shop-list.js`);
-  const shopProductLayout = path.resolve(`./src/layouts/shop-detail.js`);
-  const shopCategoryLayout = path.resolve(`./src/layouts/shop-category.js`);
+  const shopListLayout = path.resolve(`./src/layouts/shop/list.js`);
+  const shopProductLayout = path.resolve(`./src/layouts/shop/item.js`);
 
   const result = await graphql(`
     {
-      allSanityProduct(sort: { fields: _updatedAt, order: DESC }) {
+      allSanityProduct(sort: { fields: _createdAt, order: DESC }) {
         edges {
           node {
             id
-            category {
-              id
-            }
           }
         }
       }
     }
   `);
 
+  /* Iterate needed pages and create them. */
   const products = result.data.allSanityProduct.edges;
-  const productPerPage = 3;
-  const numPages = Math.ceil(products.length / productPerPage);
-  const categories = [];
-  const models = [];
+  const countProductsPerPage = 3;
+  const countPages = Math.ceil(products.length / countProductsPerPage);
 
-  // Creating blog list with pagination
-  Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/shop` : `/shop/page/${i + 1}`,
+  for (var currentPage = 1; currentPage <= countPages; currentPage++) {
+    const pathSuffix =
+      currentPage > 1
+        ? currentPage
+        : ''; /* To create paths "/", "/2", "/3", ... */
+
+    /* Collect images needed for this page. */
+    const startIndexInclusive = countProductsPerPage * (currentPage - 1);
+    const endIndexExclusive = startIndexInclusive + countProductsPerPage;
+    const pageProducts = products.slice(startIndexInclusive, endIndexExclusive);
+
+    /* Combine all data needed to construct this page. */
+    const pageData = {
+      path: `/shop/${pathSuffix}`,
       component: shopListLayout,
       context: {
-        limit: productPerPage,
-        skip: i * productPerPage,
-        currentPage: i + 1,
-        numPages,
+        /* If you need to pass additional data, you can pass it inside this context object. */
+        pageProducts: pageProducts,
+        currentPage: currentPage,
+        countPages: countPages,
       },
-    });
-  });
+    };
+
+    /* Create normal pages (for pagination) and corresponding JSON (for infinite scroll). */
+    createJSON(pageData);
+    createPage(pageData);
+  }
+  console.log(`\nCreated ${countPages} pages of paginated content.`);
 
   // Creating shop products
   products.forEach((product, index, arr) => {
-    categories.push(product.node.category);
-    if (product.node.model) {
-      models.push(product.node.model);
-    }
-
     const prev = arr[index - 1];
     const next = arr[index + 1];
 
-    createPage({
+    const productData = {
       path: `/product/${product.node.id}`,
       component: shopProductLayout,
       context: {
@@ -84,7 +90,9 @@ exports.createPages = async ({ graphql, actions }) => {
         prev: prev,
         next: next,
       },
-    });
+    };
+
+    createPage(productData);
   });
 };
 
@@ -109,3 +117,21 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
     });
   }
 };
+
+function createJSON(pageData) {
+  const pathSuffix = pageData.path.replace(
+    /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+    ''
+  );
+  const dir = 'public/paginationJson/';
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  const filePath = dir + 'index' + pathSuffix + '.json';
+  const dataToSave = JSON.stringify(pageData.context.pageProducts);
+  fs.writeFile(filePath, dataToSave, function(err) {
+    if (err) {
+      return console.log(err, pageData.path);
+    }
+  });
+}

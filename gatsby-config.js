@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     title: `demiselbijoux lab`,
@@ -10,15 +14,27 @@ module.exports = {
     { resolve: `gatsby-transformer-sharp` },
     { resolve: `gatsby-plugin-sharp` },
     {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          '@src': 'src',
+          '@components': 'src/components',
+          '@layouts': 'src/layouts',
+          '@pages': 'src/pages',
+        },
+        extensions: ['js'],
+      },
+    },
+    {
       resolve: 'gatsby-source-sanity',
       options: {
-        projectId: 'zgsfe4tu',
-        dataset: 'staging',
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET,
         // To enable preview of drafts, copy .env-example into .env,
         // and add a token with read permissions
-        // token: process.env.SANITY_TOKEN,
-        // watchMode: true,
-        // overlayDrafts: true
+        token: process.env.SANITY_TOKEN,
+        watchMode: true,
+        overlayDrafts: true,
       },
     },
     {

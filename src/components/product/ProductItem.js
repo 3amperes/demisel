@@ -7,7 +7,7 @@ import { hasPrice, getPrice, getProductTitle } from '../../utils';
 const ProductItem = ({ item }) => {
   return (
     <Link to={`/product/${item.id}`}>
-      <article>
+      <article style={{ maxWidth: '15rem' }}>
         {item.thumbnail && <Image fluid={item.thumbnail.asset.fluid} />}
         {hasPrice(item, 'salePrice') && <p>{getPrice(item, 'salePrice')} €</p>}
         <h2>{getProductTitle(item)}</h2>
