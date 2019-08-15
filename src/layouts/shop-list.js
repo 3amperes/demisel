@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import { ProductList } from '../components/product';
-import Pagination from '../components/pagination';
+import { Pagination } from '../components/pagination';
 
 const Shop = ({ data, pageContext }) => {
   const products = data.allSanityProduct.edges;
