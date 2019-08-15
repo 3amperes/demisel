@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { createContext, useReducer, useState, useEffect } from 'react';
 import { silentAuth } from '../utils/auth';
 /*
  * The reason we use Global State instead of Component State is that
@@ -7,7 +7,7 @@ import { silentAuth } from '../utils/auth';
  * state, then we will "lose" some of the items when the user clicks
  * back and the state resets, which obviously resets scroll position as well.
  */
-export const GlobalContext = React.createContext(0);
+export const GlobalContext = createContext(0);
 const initialState = {
   cursor: 0 /* Which page infinite scroll should fetch next. */,
   useInfiniteScroll: true /* Toggle between pagination and inf. scroll & fallback in case of error. */,
@@ -36,7 +36,7 @@ function reducer(state, action) {
   }
 }
 
-export const GlobalProvider = ({ children }) => {
+export default ({ children }) => {
   const [init, setInit] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
