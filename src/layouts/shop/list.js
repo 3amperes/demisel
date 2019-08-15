@@ -18,68 +18,78 @@ const Shop = ({ data, pageContext }) => {
   } = useContext(GlobalContext);
   const allProducts = data.allSanityProduct.edges;
   const { currentPage, countPages } = pageContext;
-  const pageProductsIds = Object.values(state.pages).flat();
+  const { cursor, useInfiniteScroll, pages } = state;
+  const [productIds, setProductIds] = useState([]);
   const contextProducts = pageContext.pageProducts.map(p => p.node.id);
   const paginationData = {
     currentPage,
     countPages,
-    useInfiniteScroll: state.useInfiniteScroll,
+    useInfiniteScroll,
   };
 
+  useEffect(() => {
+    console.log({ pages });
+    setProductIds(Object.values(pages).flat());
+  }, [pages]);
+
   const filteredProducts = allProducts.filter(product =>
-    state.useInfiniteScroll
-      ? pageProductsIds.includes(product.node.id)
-      : contextProducts.includes(product.node.id)
+    productIds.includes(product.node.id)
   );
 
   const init = () => {
-    if (isInitializing() || !state.useInfiniteScroll) {
-      const pageKey = 'page' + pageContext.currentPage;
-      console.log(`View is initializing items according to ${pageKey}.`);
-      dispatch({
-        type: 'init_page',
-        payload: {
-          cursor: pageContext.currentPage + 1,
-          [pageKey]: contextProducts,
-        },
-      });
-    }
+    const pageKey = 'page' + pageContext.currentPage;
+    console.log(`View is initializing items according to ${pageKey}.`);
+    dispatch({
+      type: 'init_page',
+      payload: {
+        cursor: pageContext.currentPage + 1,
+        [pageKey]: contextProducts,
+      },
+    });
   };
 
   const onToggle = () => {
+    if (useInfiniteScroll) {
+      init();
+    }
     toggle();
-    init();
   };
 
   useEffect(() => {
     console.log({ pageContext });
-    init();
+    if (isInitializing() || !useInfiniteScroll) {
+      init();
+    }
   }, [pageContext]);
 
   return (
     <MainLayout>
       <SEO title="Shop" />
       <button onClick={onToggle}>toggle infite scroll</button>
-      <div>
-        {/* Infinite Scroll */}
-        <InfiniteScroll
-          throttle={150}
-          threshold={100}
-          hasMore={hasMore(pageContext)}
-          onLoadMore={loadMore}
-        >
-          {filteredProducts.map(({ node: product }) => {
-            return <ProductItem key={product.id} item={product} />;
-          })}
-        </InfiniteScroll>
-      </div>
+      {filteredProducts.length > 0 ? (
+        <div>
+          {/* Infinite Scroll */}
+          <InfiniteScroll
+            throttle={150}
+            threshold={100}
+            hasMore={hasMore(pageContext)}
+            onLoadMore={loadMore}
+          >
+            {filteredProducts.map(({ node: product }) => {
+              return <ProductItem key={product.id} item={product} />;
+            })}
+          </InfiniteScroll>
+        </div>
+      ) : (
+        <p>pas de produits</p>
+      )}
 
       {/* Loading spinner. */}
-      {(state.cursor === 0 || hasMore(pageContext)) && (
+      {(cursor === 0 || hasMore(pageContext)) && (
         <div className="spinner">loading...</div>
       )}
       {/* Fallback to Pagination for non JS users. */}
-      {state.useInfiniteScroll && (
+      {useInfiniteScroll && (
         <noscript>
           <style>{`.spinner { display: none !important; }`}</style>
           <Pagination paginationData={paginationData} pathPrefix="/shop" />
@@ -90,7 +100,7 @@ const Shop = ({ data, pageContext }) => {
       )}
 
       {/* Fallback to Pagination on toggle (for demo) and also on error. */}
-      {!state.useInfiniteScroll && (
+      {!useInfiniteScroll && (
         <Pagination paginationData={paginationData} pathPrefix="/shop" />
       )}
     </MainLayout>
