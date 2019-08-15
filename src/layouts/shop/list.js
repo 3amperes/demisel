@@ -1,17 +1,20 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import { ProductList } from '../components/product';
-import { Pagination } from '../components/pagination';
+import MainLayout from '../main';
+import { ProductList } from '../../components/product';
+import { Pagination } from '../../components/pagination';
+import SEO from '../../components/seo';
 
 const Shop = ({ data, pageContext }) => {
   const products = data.allSanityProduct.edges;
   const { currentPage, numPages } = pageContext;
-  console.info({ pageContext });
+  console.info({ data, pageContext });
   return (
-    <div>
+    <MainLayout>
+      <SEO title="Shop" />
       <ProductList items={products} />
       <Pagination currentPage={currentPage} numPages={numPages} />
-    </div>
+    </MainLayout>
   );
 };
 

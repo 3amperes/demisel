@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
+import MainLayout from '../main';
+import SEO from '../../components/seo';
 import Image from 'gatsby-image';
-import { AddButton } from '../components/product';
+import { AddButton } from '../../components/product';
 
 const ProductDetail = ({ data }) => {
   const { title, model, thumbnail } = data.sanityProduct;
@@ -22,7 +22,7 @@ const ProductDetail = ({ data }) => {
     );
   };
   return (
-    <Layout>
+    <MainLayout>
       <SEO title={productTitle} />
       <article>{renderHeader()}</article>
       {thumbnail && (
@@ -32,7 +32,7 @@ const ProductDetail = ({ data }) => {
       )}
       détail du produit <br />
       <AddButton product={data.sanityProduct} />
-    </Layout>
+    </MainLayout>
   );
 };
 

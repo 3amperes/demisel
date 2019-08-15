@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/layout';
+import { MainLayout } from '../layouts';
 import SEO from '../components/seo';
 import { ProductList, Filters } from '../components/product';
 import { withLocation } from '../utils';
@@ -23,12 +23,12 @@ const Shop = ({ data, search }) => {
 
   console.info('shop props:', { data }, { search });
   return (
-    <Layout>
+    <MainLayout>
       <SEO title="Shop" />
       <Filters filters={filters} />
       <hr />
       <ProductList items={products} />
-    </Layout>
+    </MainLayout>
   );
 };
 

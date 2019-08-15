@@ -8,11 +8,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
-import { Header } from './header';
-import { Footer } from './footer';
-import './layout.css';
+import { Header } from '../components/header';
+import { Footer } from '../components/footer';
 
-const Layout = ({ children }) => (
+const MainLayout = ({ children }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -33,8 +32,8 @@ const Layout = ({ children }) => (
   />
 );
 
-Layout.propTypes = {
+MainLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default Layout;
+export default MainLayout;

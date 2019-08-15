@@ -28,9 +28,9 @@ const kebabCase = require(`lodash.kebabcase`);
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
-  const shopListLayout = path.resolve(`./src/layouts/shop-list.js`);
-  const shopProductLayout = path.resolve(`./src/layouts/shop-detail.js`);
-  const shopCategoryLayout = path.resolve(`./src/layouts/shop-category.js`);
+  const shopListLayout = path.resolve(`./src/layouts/shop/list.js`);
+  const shopProductLayout = path.resolve(`./src/layouts/shop/item.js`);
+  const shopCategoryLayout = path.resolve(`./src/layouts/shop/category.js`);
 
   const result = await graphql(`
     {
