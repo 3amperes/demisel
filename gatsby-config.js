@@ -14,6 +14,14 @@ module.exports = {
     { resolve: `gatsby-transformer-sharp` },
     { resolve: `gatsby-plugin-sharp` },
     {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Nunito Sans:400,400i,600,600i'],
+        },
+      },
+    },
+    {
       resolve: `gatsby-plugin-alias-imports`,
       options: {
         alias: {
@@ -21,6 +29,8 @@ module.exports = {
           '@components': 'src/components',
           '@layouts': 'src/layouts',
           '@pages': 'src/pages',
+          '@utils': 'src/utils',
+          '@theme': 'src/theme',
         },
         extensions: ['js'],
       },

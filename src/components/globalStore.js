@@ -1,5 +1,9 @@
 import React, { createContext, useReducer, useState, useEffect } from 'react';
 import { silentAuth } from '../utils/auth';
+import { ThemeProvider } from 'styled-components';
+
+import theme from '../theme';
+import { GlobalStyles } from './globalStyles';
 /*
  * The reason we use Global State instead of Component State is that
  * when the user clicks something on the main page and then clicks back,
@@ -104,12 +108,24 @@ export default ({ children }) => {
   };
 
   return (
-    init && (
-      <GlobalContext.Provider
-        value={{ state, dispatch, isInitializing, loadMore, hasMore, toggle }}
-      >
-        {children}
-      </GlobalContext.Provider>
-    )
+    <>
+      {init && (
+        <ThemeProvider theme={theme}>
+          <GlobalContext.Provider
+            value={{
+              state,
+              dispatch,
+              isInitializing,
+              loadMore,
+              hasMore,
+              toggle,
+            }}
+          >
+            {children}
+          </GlobalContext.Provider>
+        </ThemeProvider>
+      )}
+      <GlobalStyles />
+    </>
   );
 };
