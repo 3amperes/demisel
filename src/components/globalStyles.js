@@ -47,14 +47,6 @@ export const GlobalStyles = createGlobalStyle`
   /* autoprefixer grid: autoplace */
   ${normalize()};
 
-  /* Disable scroll on body since we implement it in layouts */
-  html, body {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    position: fixed; /* Disable overscroll: https://www.bram.us/2016/05/02/prevent-overscroll-bounce-in-ios-mobilesafari-pure-css/ */
-  }
-
   ${globalNormalize};
 
 `;
