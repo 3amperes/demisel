@@ -56,10 +56,10 @@ export default class InfiniteScroll extends React.Component {
     }
 
     return (
-      <div>
+      <>
         {this.props.children}
         {sentinel}
-      </div>
+      </>
     );
   }
 }

@@ -1,11 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { graphql } from 'gatsby';
+import styled from 'styled-components';
+import { Flex } from 'rebass';
 import MainLayout from '../main';
 import { ProductItem } from '@components/product';
 import { Pagination } from '@components/pagination';
 import SEO from '@components/seo';
 import { GlobalContext } from '@components/globalStore';
 import InfiniteScroll from '@components/InfiniteScroll';
+
+const Wrapper = styled.div`
+
+  display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 46px;
+	grid-row-gap: 46px;
+  max-width: 1076px;
+  margin: 0 auto;
+}
+`;
 
 const Shop = ({ data, pageContext }) => {
   const {
@@ -56,9 +69,9 @@ const Shop = ({ data, pageContext }) => {
   return (
     <MainLayout>
       <SEO title="Shop" />
-      <button onClick={toggle}>toggle infite scroll</button>
+      {/* <button onClick={toggle}>toggle infite scroll</button> */}
       {filteredProducts.length > 0 ? (
-        <div>
+        <Wrapper>
           {/* Infinite Scroll */}
           <InfiniteScroll
             throttle={150}
@@ -70,7 +83,7 @@ const Shop = ({ data, pageContext }) => {
               return <ProductItem key={product.id} item={product} />;
             })}
           </InfiniteScroll>
-        </div>
+        </Wrapper>
       ) : (
         <p>pas de produits</p>
       )}
