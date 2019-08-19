@@ -19,6 +19,9 @@ module.exports = {
         google: {
           families: ['Nunito Sans:400,400i,600,600i'],
         },
+        typekit: {
+          id: 'kcj8veb',
+        },
       },
     },
     {

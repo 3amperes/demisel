@@ -34,9 +34,9 @@ const ProductItem = ({ item }) => {
           item.title
         )}
       </Link>
-      <Text>{getProductTitle(item)}</Text>
+      <Text fontFamily="orpheuspro">{getProductTitle(item)}</Text>
       {hasPrice(item, 'salePrice') && (
-        <Text fontWeight="bold" color={colors.lipstick}>
+        <Text fontWeight="600" color={colors.lipstick}>
           {getPrice(item, 'salePrice')} €
         </Text>
       )}

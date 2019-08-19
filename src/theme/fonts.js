@@ -1,7 +1,7 @@
 import { rem } from 'polished';
 
 export const fonts = {
-  heading: '"Orpheus", serif',
+  heading: '"orpheuspro", serif',
   text: '"Nunito", Arial, sans-serif',
 };
 
