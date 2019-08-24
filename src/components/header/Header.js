@@ -88,7 +88,7 @@ const Header = ({ siteTitle }) => {
     <Wrapper as="header">
       <Navigation>
         <Link to="/">Accueil</Link>
-        <Link to="/shop">Collections</Link>
+        <Link to="/list">Collections</Link>
         <Link to="/shop">E-shop</Link>
       </Navigation>
       <Brand>Demisel</Brand>
