@@ -87,7 +87,6 @@ const Header = ({ siteTitle }) => {
       <Navigation>
         <Link to="/">Accueil</Link>
         <Link to="/shop">E-shop</Link>
-        <Link to="/list">Liste des pages</Link>
       </Navigation>
       <Brand>Demisel</Brand>
       <Acess>

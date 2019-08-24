@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { Box } from 'rebass';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
+import { container } from '@utils/mixins';
 
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 46px;
   grid-row-gap: 46px;
-  max-width: 1076px;
-  margin: 0 auto;
+  ${container}
 `;
 
 const ShopList = ({ items }) => {
@@ -18,14 +18,18 @@ const ShopList = ({ items }) => {
   const loadMore = () => dispatch({ type: 'loadmore' });
   const hasMore = () => state.visible < state.items.length;
 
+  // useEffect(() => {
+  //   const currentIds = state.items.map(item => item.id);
+  //   const itemsToAdd = items.filter(item => {
+  //     return !currentIds.includes(item.id);
+  //   });
+  //   if (itemsToAdd.length > 0) {
+  //     dispatch({ type: 'add_items', payload: items });
+  //   }
+  // }, [items]);
+
   useEffect(() => {
-    const currentIds = state.items.map(item => item.id);
-    const itemsToAdd = items.filter(item => {
-      return !currentIds.includes(item.id);
-    });
-    if (itemsToAdd.length > 0) {
-      dispatch({ type: 'add_items', payload: items });
-    }
+    dispatch({ type: 'init_items', payload: items });
   }, [items]);
 
   return (

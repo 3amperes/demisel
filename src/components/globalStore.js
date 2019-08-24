@@ -15,6 +15,11 @@ const initialState = {
 function reducer(state, action) {
   console.log(`*** dispatched ${action.type} ***`, action.payload);
   switch (action.type) {
+    case 'init_items':
+      return {
+        ...state,
+        items: [...action.payload],
+      };
     case 'add_items':
       return {
         ...state,
