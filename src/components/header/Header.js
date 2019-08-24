@@ -77,12 +77,11 @@ const Header = ({ siteTitle }) => {
   //   }
   // };
 
-  // const handleClickCart = e => {
-  //   e.preventDefault();
-  //   window.Snipcart.subscribe("cart.opened", function() {
-  //     console.log("Snipcart popup is visible");
-  //   });
-  // };
+  const handleClickCart = e => {
+    e.preventDefault();
+    console.log('click basket');
+    window.Snipcart.api.modal.show();
+  };
 
   return (
     <Wrapper as="header">
@@ -94,7 +93,9 @@ const Header = ({ siteTitle }) => {
       <Brand>Demisel</Brand>
       <Acess>
         <span>search</span>
-        <span>panier</span>
+        <button onClick={handleClickCart} type="button">
+          panier
+        </button>
       </Acess>
     </Wrapper>
   );
