@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
@@ -25,7 +25,7 @@ const FilterItem = styled.div`
   color: ${props => (props.isActive ? colors.lipstick : colors.black)};
 `;
 
-const Filters = ({ location, search }) => {
+const Filters = ({ location }) => {
   const { state, dispatch } = useContext(GlobalContext);
 
   const isFilterActive = (key, value) =>
@@ -36,26 +36,26 @@ const Filters = ({ location, search }) => {
   };
 
   const clearFilters = () => {
-    dispatch({ type: 'clear_filters' });
+    dispatch({ type: 'init_filters', payload: null });
   };
 
-  // useEffect(() => {
-  //   let url = location.pathname;
-  //   if (state.filters && state.filters.size > 0) {
-  //     const params = {};
-  //     state.filters.forEach((value, key) => {
-  //       params[key] = Array.from(value);
-  //     });
+  useEffect(() => {
+    let url = location.pathname;
+    if (state.filters && state.filters.size > 0) {
+      const params = {};
+      state.filters.forEach((value, key) => {
+        params[key] = Array.from(value);
+      });
 
-  //     url =
-  //       url +
-  //       '?' +
-  //       queryString.stringify(params, {
-  //         arrayFormat: 'comma',
-  //       });
-  //   }
-  //   navigate(url);
-  // }, [state.filters]);
+      url =
+        url +
+        '?' +
+        queryString.stringify(params, {
+          arrayFormat: 'comma',
+        });
+    }
+    navigate(url);
+  }, [state.filters]);
 
   return (
     <StaticQuery

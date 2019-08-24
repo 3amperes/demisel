@@ -1,23 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 
 import MainLayout from './main';
 import { ShopList, Filters } from '@components/shop';
-import withLocation from '@utils/withLocation';
 
 import SEO from '@components/seo';
 
-const Shop = ({ data, search }) => {
-  const initialSearch = useRef(search);
+const Shop = ({ data }) => {
   const products = data.allSanityProduct.edges;
-
-  useEffect(() => {
-    console.log(search, initialSearch);
-    // Object.values(initialSearch).map(value => {
-
-    //   dispatch({ type: 'update_filters', payload: { key, value } });
-    // })
-  }, [initialSearch]);
 
   return (
     <MainLayout>
@@ -28,7 +18,7 @@ const Shop = ({ data, search }) => {
   );
 };
 
-export default withLocation(Shop);
+export default Shop;
 
 export const query = graphql`
   query {

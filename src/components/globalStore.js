@@ -8,9 +8,25 @@ import { GlobalStyles } from './globalStyles';
 export const GlobalContext = createContext(0);
 const initialState = {
   items: [],
+  filteredItems: [],
   filters: new Map(),
   visible: 2,
   error: false,
+};
+
+const getFilteredItems = (items, filters) => {
+  if (filters.size === 0) return [];
+
+  const hasValue = (key, item) =>
+    !!item[key] &&
+    !!item[key].id &&
+    filters.get(key) &&
+    filters.get(key).has(item[key].id);
+
+  const result = items.filter(({ node: item }) => {
+    return hasValue('model', item);
+  });
+  return result;
 };
 
 function reducer(state, action) {
@@ -40,10 +56,15 @@ function reducer(state, action) {
         ...state,
         filters,
       };
-    case 'clear_filters':
+    case 'init_filters':
       return {
         ...state,
-        filters: new Map(),
+        filters: new Map(action.payload),
+      };
+    case 'udpate_filteredItems':
+      return {
+        ...state,
+        filteredItems: getFilteredItems(state.items, state.filters),
       };
     default:
       throw new Error();
