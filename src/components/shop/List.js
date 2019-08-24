@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 const ShopList = ({ items }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const loadMore = () => dispatch({ type: 'loadmore' });
+  const hasMore = () => state.visible < state.items.length;
 
   useEffect(() => {
     const currentIds = state.items.map(item => item.id);
@@ -34,7 +35,7 @@ const ShopList = ({ items }) => {
           return <ProductItem key={product.id} item={product} />;
         })}
       </Wrapper>
-      {state.visible < state.items.length && (
+      {hasMore() && (
         <Box my={5} textAlign="center">
           <button onClick={loadMore} type="button" className="load-more">
             Load more

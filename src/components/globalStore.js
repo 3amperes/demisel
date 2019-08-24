@@ -14,7 +14,6 @@ const initialState = {
 
 function reducer(state, action) {
   console.log(`*** dispatched ${action.type} ***`, action.payload);
-  const { cursor, ...page } = action.payload ? action.payload : {};
   switch (action.type) {
     case 'add_items':
       return {
@@ -39,8 +38,6 @@ export default ({ children }) => {
   useEffect(() => {
     silentAuth(() => setInit(true));
   }, []);
-
-  const hasMore = pageContext => {};
 
   return (
     <>
