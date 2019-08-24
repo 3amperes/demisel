@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
 import { container } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
@@ -18,12 +18,16 @@ const Inner = styled.div`
   ${container}
 `;
 
+const FilterItem = styled.div`
+  padding: 0.5rem 0;
+  cursor: pointer;
+  color: ${props => (props.isActive ? colors.lipstick : colors.black)};
+`;
+
 const Filters = ({ location, search }) => {
-  console.log(search);
   const [filters, setFilters] = useState({
     model: [],
   });
-  // to={`${location.pathname}?model=${model.id}&test`}
   const toggleFilter = (key, value) => {
     const newFilters = { ...filters };
     if (filters[key].includes(value)) {
@@ -35,8 +39,17 @@ const Filters = ({ location, search }) => {
     }
     setFilters(newFilters);
   };
+  const isFilterActive = (key, value) => filters[key].includes(value);
 
-  console.log(filters);
+  useEffect(() => {
+    const queryParams = queryString.stringify(filters, {
+      arrayFormat: 'comma',
+    });
+    const url = queryParams
+      ? `${location.pathname}?${queryParams}`
+      : location.pathname;
+    navigate(url);
+  }, [filters]);
 
   return (
     <StaticQuery
@@ -61,9 +74,12 @@ const Filters = ({ location, search }) => {
                   <ul>
                     {models.map(model => (
                       <li key={model.id}>
-                        <div onClick={() => toggleFilter('model', model.id)}>
+                        <FilterItem
+                          onClick={() => toggleFilter('model', model.id)}
+                          isActive={isFilterActive('model', model.id)}
+                        >
                           {model.title}
-                        </div>
+                        </FilterItem>
                       </li>
                     ))}
                   </ul>

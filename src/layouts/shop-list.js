@@ -3,21 +3,27 @@ import { graphql } from 'gatsby';
 
 import MainLayout from './main';
 import { ShopList, Filters } from '@components/shop';
+import withLocation from '@utils/withLocation';
 
 import SEO from '@components/seo';
 
-const Shop = ({ data }) => {
+const Shop = ({ data, search }) => {
+  const params = Object.values(search).map(value => {
+    return typeof value === 'string' ? [value] : value;
+  });
+  console.log({ params });
   const products = data.allSanityProduct.edges;
+  console.log(products, search);
   return (
     <MainLayout>
       <SEO title="Shop" />
-      <Filters></Filters>
+      <Filters />
       <ShopList items={products}></ShopList>
     </MainLayout>
   );
 };
 
-export default Shop;
+export default withLocation(Shop);
 
 export const query = graphql`
   query {
