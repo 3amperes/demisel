@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import MainLayout from '../main';
-import SEO from '../../components/seo';
+import MainLayout from './main';
+import SEO from '../components/seo';
 import Image from 'gatsby-image';
-import { AddButton } from '../../components/product';
+import { AddButton } from '../components/product';
 
 const ProductDetail = ({ data }) => {
   const { title, model, thumbnail } = data.sanityProduct;
