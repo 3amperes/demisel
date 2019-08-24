@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { graphql } from 'gatsby';
 
 import MainLayout from './main';
@@ -8,12 +8,17 @@ import withLocation from '@utils/withLocation';
 import SEO from '@components/seo';
 
 const Shop = ({ data, search }) => {
-  const params = Object.values(search).map(value => {
-    return typeof value === 'string' ? [value] : value;
-  });
-  console.log({ params });
+  const initialSearch = useRef(search);
   const products = data.allSanityProduct.edges;
-  console.log(products, search);
+
+  useEffect(() => {
+    console.log(search, initialSearch);
+    // Object.values(initialSearch).map(value => {
+
+    //   dispatch({ type: 'update_filters', payload: { key, value } });
+    // })
+  }, [initialSearch]);
+
   return (
     <MainLayout>
       <SEO title="Shop" />

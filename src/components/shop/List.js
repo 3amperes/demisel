@@ -18,16 +18,6 @@ const ShopList = ({ items }) => {
   const loadMore = () => dispatch({ type: 'loadmore' });
   const hasMore = () => state.visible < state.items.length;
 
-  // useEffect(() => {
-  //   const currentIds = state.items.map(item => item.id);
-  //   const itemsToAdd = items.filter(item => {
-  //     return !currentIds.includes(item.id);
-  //   });
-  //   if (itemsToAdd.length > 0) {
-  //     dispatch({ type: 'add_items', payload: items });
-  //   }
-  // }, [items]);
-
   useEffect(() => {
     dispatch({ type: 'init_items', payload: items });
   }, [items]);

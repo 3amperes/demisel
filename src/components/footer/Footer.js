@@ -59,6 +59,11 @@ const Footer = () => (
             <strong>Suivez-nous</strong>
           </div>
           <div>fabrication française</div>
+          <div>
+            <Link to="/shop?collection=03fd8d98-c9f5-5804-8a5a-b9162d271b88&model=4400b438-4368-5217-9c15-67c4f3b3da5e">
+              test filtres
+            </Link>
+          </div>
         </Wrapper>
       );
     }}

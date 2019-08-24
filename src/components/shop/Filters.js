@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
 import { container } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
+import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 
 const Wrapper = styled.nav`
@@ -25,37 +26,48 @@ const FilterItem = styled.div`
 `;
 
 const Filters = ({ location, search }) => {
-  const [filters, setFilters] = useState({
-    model: [],
-  });
-  const toggleFilter = (key, value) => {
-    const newFilters = { ...filters };
-    if (filters[key].includes(value)) {
-      // remove
-      newFilters[key] = filters[key].filter(f => f !== value);
-    } else {
-      // add
-      newFilters[key] = [...filters[key], value];
-    }
-    setFilters(newFilters);
-  };
-  const isFilterActive = (key, value) => filters[key].includes(value);
+  const { state, dispatch } = useContext(GlobalContext);
 
-  useEffect(() => {
-    const queryParams = queryString.stringify(filters, {
-      arrayFormat: 'comma',
-    });
-    const url = queryParams
-      ? `${location.pathname}?${queryParams}`
-      : location.pathname;
-    navigate(url);
-  }, [filters]);
+  const isFilterActive = (key, value) =>
+    state.filters.has(key) && state.filters.get(key).has(value);
+
+  const toggleFilter = (key, value) => {
+    dispatch({ type: 'update_filters', payload: { key, value } });
+  };
+
+  const clearFilters = () => {
+    dispatch({ type: 'clear_filters' });
+  };
+
+  // useEffect(() => {
+  //   let url = location.pathname;
+  //   if (state.filters && state.filters.size > 0) {
+  //     const params = {};
+  //     state.filters.forEach((value, key) => {
+  //       params[key] = Array.from(value);
+  //     });
+
+  //     url =
+  //       url +
+  //       '?' +
+  //       queryString.stringify(params, {
+  //         arrayFormat: 'comma',
+  //       });
+  //   }
+  //   navigate(url);
+  // }, [state.filters]);
 
   return (
     <StaticQuery
       query={graphql`
         query {
-          allSanityModel {
+          models: allSanityModel {
+            nodes {
+              id
+              title
+            }
+          }
+          collections: allSanityCollection {
             nodes {
               id
               title
@@ -64,7 +76,8 @@ const Filters = ({ location, search }) => {
         }
       `}
       render={data => {
-        const models = data.allSanityModel.nodes;
+        const models = data.models.nodes;
+        const collections = data.collections.nodes;
         return (
           <Wrapper>
             <Inner>
@@ -85,6 +98,30 @@ const Filters = ({ location, search }) => {
                   </ul>
                 </div>
               )}
+              {collections && collections.length > 0 && (
+                <div>
+                  <strong>Colections</strong>
+                  <ul>
+                    {collections.map(collection => (
+                      <li key={collection.id}>
+                        <FilterItem
+                          onClick={() =>
+                            toggleFilter('collection', collection.id)
+                          }
+                          isActive={isFilterActive('collection', collection.id)}
+                        >
+                          {collection.title}
+                        </FilterItem>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div>
+                <button type="button" onClick={clearFilters}>
+                  clear filters
+                </button>
+              </div>
             </Inner>
           </Wrapper>
         );
