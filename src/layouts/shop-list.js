@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 import MainLayout from './main';
-import { ShopList } from '@components/shop';
+import { ShopList, Filters } from '@components/shop';
 
 import SEO from '@components/seo';
 
@@ -11,6 +11,7 @@ const Shop = ({ data }) => {
   return (
     <MainLayout>
       <SEO title="Shop" />
+      <Filters></Filters>
       <ShopList items={products}></ShopList>
     </MainLayout>
   );

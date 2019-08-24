@@ -46,7 +46,6 @@ const Footer = () => (
       }
     `}
     render={data => {
-      console.log({ data });
       return (
         <Wrapper>
           <Categories items={data.allSanityCategory.nodes}></Categories>
