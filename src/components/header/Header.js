@@ -79,7 +79,6 @@ const Header = ({ siteTitle }) => {
 
   const handleClickCart = e => {
     e.preventDefault();
-    console.log('click basket');
     window.Snipcart.api.modal.show();
   };
 
