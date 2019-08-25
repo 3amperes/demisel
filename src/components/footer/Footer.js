@@ -46,7 +46,6 @@ const Footer = () => (
       }
     `}
     render={data => {
-      console.log({ data });
       return (
         <Wrapper>
           <Categories items={data.allSanityCategory.nodes}></Categories>
@@ -60,6 +59,11 @@ const Footer = () => (
             <strong>Suivez-nous</strong>
           </div>
           <div>fabrication française</div>
+          <div>
+            <Link to="/shop?collections=03fd8d98-c9f5-5804-8a5a-b9162d271b88&model=5a89efd0-9732-5add-934e-0cf59363d7bd">
+              test filtres
+            </Link>
+          </div>
         </Wrapper>
       );
     }}

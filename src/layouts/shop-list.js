@@ -2,15 +2,17 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 import MainLayout from './main';
-import { ShopList } from '@components/shop';
+import { ShopList, Filters } from '@components/shop';
 
 import SEO from '@components/seo';
 
 const Shop = ({ data }) => {
   const products = data.allSanityProduct.edges;
+
   return (
     <MainLayout>
       <SEO title="Shop" />
+      <Filters />
       <ShopList items={products}></ShopList>
     </MainLayout>
   );
@@ -36,7 +38,7 @@ export const query = graphql`
           price {
             salePrice
             dealerPrice
-            promoPrice
+            discountPrice
             weight
           }
           model {
@@ -45,9 +47,12 @@ export const query = graphql`
             price {
               salePrice
               dealerPrice
-              promoPrice
+              discountPrice
               weight
             }
+          }
+          collections {
+            id
           }
         }
       }

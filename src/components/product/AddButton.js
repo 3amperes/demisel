@@ -1,5 +1,5 @@
-import React from "react";
-import { hasPrice, getPrice } from "../../utils";
+import React from 'react';
+import { hasPrice, getPrice } from '../../utils';
 
 const AddButton = ({ product }) => {
   const isDisabled = !hasPrice(product);
@@ -9,9 +9,9 @@ const AddButton = ({ product }) => {
       className="snipcart-add-item"
       data-item-id={product.id}
       data-item-name={product.title}
-      data-item-price={getPrice(product, "salePrice")}
-      data-item-price-dealer={getPrice(product, "dealerPrice")}
-      data-item-price-promo={getPrice(product, "promoPrice")}
+      data-item-price={getPrice(product, 'salePrice')}
+      data-item-price-dealer={getPrice(product, 'dealerPrice')}
+      data-item-price-promo={getPrice(product, 'discountPrice')}
       data-item-url="https://demiselbijoux.netlify.com"
       data-item-description={product.title}
     >

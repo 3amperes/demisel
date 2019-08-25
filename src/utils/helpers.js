@@ -4,12 +4,23 @@ export const getProductTitle = product => {
 };
 export const getPrice = (item, key) => {
   const { price, model } = item;
-  return (price && price[key]) || (model && model.price && model.price[key]);
+  switch (true) {
+    case !!price && !!price[key]:
+      return item.price[key];
+    case !!model && !!model.price && !!model.price[key]:
+      return item.model.price[key];
+    default:
+      return null;
+  }
 };
 export const hasPrice = item => {
   const { price, model } = item;
   return (
-    (price && price.salePrice) ||
-    (model && model.price && model.price.salePrice)
+    (!!price && !!price.salePrice) ||
+    (!!model && !!model.price && !!model.price.salePrice)
   );
+};
+
+export const areEmptyFilters = filters => {
+  return Array.from(filters.values()).every(value => value.size === 0);
 };

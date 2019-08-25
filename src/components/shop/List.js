@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { Box } from 'rebass';
+import isEqual from 'lodash.isequal';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
 import { container } from '@utils/mixins';
+import withLocation from '@utils/withLocation';
 
 const Wrapper = styled.div`
   display: grid;
@@ -13,32 +15,52 @@ const Wrapper = styled.div`
   ${container}
 `;
 
-const ShopList = ({ items }) => {
+const Empty = styled.div`
+  ${container}
+`;
+
+const getFiltersFromQueryParams = params => {
+  const filters =
+    Object.keys(params).length === 0
+      ? new Map()
+      : new Map(Object.entries(params));
+  filters.forEach((value, key, map) => {
+    const v = typeof value !== 'object' ? [value] : value;
+    filters.set(key, new Set(v));
+  });
+  return filters;
+};
+
+const ShopList = ({ items, search }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const loadMore = () => dispatch({ type: 'loadmore' });
   const hasMore = () => state.visible < state.items.length;
 
-  // useEffect(() => {
-  //   const currentIds = state.items.map(item => item.id);
-  //   const itemsToAdd = items.filter(item => {
-  //     return !currentIds.includes(item.id);
-  //   });
-  //   if (itemsToAdd.length > 0) {
-  //     dispatch({ type: 'add_items', payload: items });
-  //   }
-  // }, [items]);
-
+  // overwrite items
   useEffect(() => {
+    if (isEqual(state.items, items)) return;
     dispatch({ type: 'init_items', payload: items });
   }, [items]);
 
+  // overwrite filters from query params
+  useEffect(() => {
+    const filtersFromSearch = getFiltersFromQueryParams(search);
+    const isCalm = isEqual(state.filters, filtersFromSearch);
+    if (isCalm || filtersFromSearch.size === 0) return;
+    dispatch({ type: 'init_filters', payload: filtersFromSearch });
+  }, [search]);
+
   return (
     <>
-      <Wrapper>
-        {state.items.slice(0, state.visible).map(({ node: product }) => {
-          return <ProductItem key={product.id} item={product} />;
-        })}
-      </Wrapper>
+      {state.items.length > 0 ? (
+        <Wrapper>
+          {state.items.slice(0, state.visible).map(({ node: product }) => {
+            return <ProductItem key={product.id} item={product} />;
+          })}
+        </Wrapper>
+      ) : (
+        <Empty>pas de résultats</Empty>
+      )}
       {hasMore() && (
         <Box my={5} textAlign="center">
           <button onClick={loadMore} type="button" className="load-more">
@@ -50,4 +72,4 @@ const ShopList = ({ items }) => {
   );
 };
 
-export default ShopList;
+export default withLocation(ShopList);
