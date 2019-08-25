@@ -19,6 +19,18 @@ const Empty = styled.div`
   ${container}
 `;
 
+const getFiltersFromQueryParams = params => {
+  const filters =
+    Object.keys(params).length === 0
+      ? new Map()
+      : new Map(Object.entries(params));
+  filters.forEach((value, key, map) => {
+    const v = typeof value === 'string' ? [value] : value;
+    filters.set(key, new Set(v));
+  });
+  return filters;
+};
+
 const ShopList = ({ items, search }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const loadMore = () => dispatch({ type: 'loadmore' });
@@ -31,26 +43,12 @@ const ShopList = ({ items, search }) => {
   }, [items]);
 
   // overwrite filters from query params
-  // useEffect(() => {
-  //   const filters =
-  //     Object.keys(search).length === 0
-  //       ? new Map()
-  //       : new Map(Object.entries(search));
-  //   filters.forEach((value, key, map) => {
-  //     const v = typeof value === 'string' ? [value] : value;
-  //     filters.set(key, new Set(v));
-  //   });
-  //   const isCalm = isEqual(state.filters, filters);
-  //   console.log('filters are', filters);
-  //   console.log('state filters are', state.filters);
-  //   console.log(isCalm);
-  //   if (isCalm) return;
-  //   dispatch({ type: 'init_filters', payload: filters });
-  // }, [search]);
-
-  // useEffect(() => {
-  //   dispatch({ type: 'udpate_filteredItems' });
-  // }, [state.filters]);
+  useEffect(() => {
+    const filtersFromSearch = getFiltersFromQueryParams(search);
+    const isCalm = isEqual(state.filters, filtersFromSearch);
+    if (isCalm || filtersFromSearch.size === 0) return;
+    dispatch({ type: 'init_filters', payload: filtersFromSearch });
+  }, [search]);
 
   return (
     <>

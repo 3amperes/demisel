@@ -60,7 +60,7 @@ const Footer = () => (
           </div>
           <div>fabrication française</div>
           <div>
-            <Link to="/shop?collection=03fd8d98-c9f5-5804-8a5a-b9162d271b88&model=4400b438-4368-5217-9c15-67c4f3b3da5e">
+            <Link to="/shop?collections=03fd8d98-c9f5-5804-8a5a-b9162d271b88&model=5a89efd0-9732-5add-934e-0cf59363d7bd">
               test filtres
             </Link>
           </div>

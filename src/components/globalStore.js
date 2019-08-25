@@ -20,7 +20,6 @@ function reducer(state, action) {
   const getFilteredItems = filters => {
     if (filters.size === 0) return [];
     const arrayFilter = Array.from(filters);
-    console.info('arrayFilter in get method: ', arrayFilter);
 
     return state.allItems.filter(({ node: item }) => {
       const result = arrayFilter.map(a => {
@@ -41,7 +40,6 @@ function reducer(state, action) {
             break;
         }
       });
-      console.log(result);
       return result.every(a => a);
     });
   };
@@ -70,15 +68,15 @@ function reducer(state, action) {
       if (keyFilters.has(value)) {
         console.log('filters has value', value);
         keyFilters.delete(value);
-        if (keyFilters.size === 0) {
-          console.log('key to clean', key);
-          keyFilters.clear();
-        }
       } else {
         console.log('filters has not value', value);
         keyFilters.add(value);
       }
       filters.set(key, keyFilters);
+      if (keyFilters.size === 0) {
+        console.log('key to clean', key);
+        filters.delete(key);
+      }
       return {
         ...state,
         filters,

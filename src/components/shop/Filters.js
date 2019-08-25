@@ -40,6 +40,7 @@ const Filters = ({ location }) => {
     dispatch({ type: 'clear_filters' });
   };
 
+  // write query params in url with filters
   useEffect(() => {
     let url = location.pathname;
     if (state.filters && !areEmptyFilters(state.filters)) {
