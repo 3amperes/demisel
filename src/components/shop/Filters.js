@@ -122,6 +122,14 @@ const Filters = ({ location }) => {
                 </div>
               )}
               <div>
+                <FilterItem
+                  onClick={() => toggleFilter('discount', true)}
+                  isActive={isFilterActive('discount', true)}
+                >
+                  solde
+                </FilterItem>
+              </div>
+              <div>
                 <button type="button" onClick={clearFilters}>
                   clear filters
                 </button>

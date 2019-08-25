@@ -35,7 +35,7 @@ function reducer(state, action) {
           case 'discount':
             return (
               (item.price && item.price.discountPrice) ||
-              (item.model.price && item.model.discountPrice)
+              (item.model && item.model.price && item.model.discountPrice)
             );
           default:
             break;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Image from 'gatsby-image';
 import { Link } from 'gatsby';
-import { Text } from 'rebass';
+import { Text, Flex } from 'rebass';
 import { hasPrice, getPrice, getProductTitle } from '@utils';
 import { colors } from '@theme';
 
@@ -14,6 +14,12 @@ const Figure = styled.div`
   padding: 4rem 2rem;
   background-color: ${colors.whiteTwo};
   margin-bottom: 1rem;
+`;
+
+const Price = styled(Text)`
+  text-decoration: ${props => (props.isDiscount ? 'line-through' : 'none')};
+  color: ${props => (props.isDiscount ? colors.warmGrey : colors.lipstick)};
+  font-weight: ${props => (props.isDiscount ? 400 : 600)};
 `;
 
 const ProductItem = ({ item }) => {
@@ -35,11 +41,16 @@ const ProductItem = ({ item }) => {
         )}
       </Link>
       <Text fontFamily="orpheuspro">{getProductTitle(item)}</Text>
-      {hasPrice(item, 'salePrice') && (
-        <Text fontWeight="600" color={colors.lipstick}>
-          {getPrice(item, 'salePrice')} €
-        </Text>
-      )}
+      <Flex>
+        {hasPrice(item, 'salePrice') && (
+          <Price isDiscount={!!getPrice(item, 'discountPrice')}>
+            {getPrice(item, 'salePrice')} €
+          </Price>
+        )}
+        {hasPrice(item, 'discountPrice') && (
+          <Price ml="1rem">{getPrice(item, 'discountPrice')} €</Price>
+        )}
+      </Flex>
     </article>
   );
 };
