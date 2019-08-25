@@ -6,6 +6,7 @@ export const globalNormalize = css`
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-y: scroll;
   }
   body {
     background-color: ${colors.white};
