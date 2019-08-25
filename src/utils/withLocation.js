@@ -12,7 +12,10 @@ const withLocation = ComponentToWrap => props => (
           navigate={navigate}
           search={
             location.search
-              ? queryString.parse(location.search, { arrayFormat: 'comma' })
+              ? queryString.parse(location.search, {
+                  arrayFormat: 'comma',
+                  parseBooleans: true,
+                })
               : {}
           }
         />
