@@ -11,7 +11,7 @@ const initialState = {
   items: [],
   allItems: [],
   filters: new Map(),
-  visible: 10,
+  visible: 6,
   error: false,
 };
 
