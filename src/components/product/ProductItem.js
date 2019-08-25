@@ -47,7 +47,7 @@ const ProductItem = ({ item }) => {
             {getPrice(item, 'salePrice')} €
           </Price>
         )}
-        {hasPrice(item, 'discountPrice') && (
+        {!!getPrice(item, 'discountPrice') && (
           <Price ml="1rem">{getPrice(item, 'discountPrice')} €</Price>
         )}
       </Flex>
