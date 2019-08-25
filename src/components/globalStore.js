@@ -66,15 +66,12 @@ function reducer(state, action) {
       const { key, value } = action.payload;
       const keyFilters = filters.get(key) || new Set();
       if (keyFilters.has(value)) {
-        console.log('filters has value', value);
         keyFilters.delete(value);
       } else {
-        console.log('filters has not value', value);
         keyFilters.add(value);
       }
       filters.set(key, keyFilters);
       if (keyFilters.size === 0) {
-        console.log('key to clean', key);
         filters.delete(key);
       }
       return {
