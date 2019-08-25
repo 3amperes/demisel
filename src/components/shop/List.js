@@ -25,7 +25,7 @@ const getFiltersFromQueryParams = params => {
       ? new Map()
       : new Map(Object.entries(params));
   filters.forEach((value, key, map) => {
-    const v = typeof value !== 'array' ? [value] : value;
+    const v = typeof value !== 'object' ? [value] : value;
     filters.set(key, new Set(v));
   });
   return filters;
@@ -44,10 +44,8 @@ const ShopList = ({ items, search }) => {
 
   // overwrite filters from query params
   useEffect(() => {
-    console.log(search);
     const filtersFromSearch = getFiltersFromQueryParams(search);
     const isCalm = isEqual(state.filters, filtersFromSearch);
-    console.log(filtersFromSearch, isCalm);
     if (isCalm || filtersFromSearch.size === 0) return;
     dispatch({ type: 'init_filters', payload: filtersFromSearch });
   }, [search]);
