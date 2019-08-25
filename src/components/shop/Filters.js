@@ -6,6 +6,7 @@ import { container } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
+import { areEmptyFilters } from '@utils/helpers';
 
 const Wrapper = styled.nav`
   padding: 50px 0;
@@ -36,12 +37,12 @@ const Filters = ({ location }) => {
   };
 
   const clearFilters = () => {
-    dispatch({ type: 'init_filters', payload: null });
+    dispatch({ type: 'clear_filters' });
   };
 
   useEffect(() => {
     let url = location.pathname;
-    if (state.filters && state.filters.size > 0) {
+    if (state.filters && !areEmptyFilters(state.filters)) {
       const params = {};
       state.filters.forEach((value, key) => {
         params[key] = Array.from(value);
@@ -88,7 +89,7 @@ const Filters = ({ location }) => {
                     {models.map(model => (
                       <li key={model.id}>
                         <FilterItem
-                          onClick={() => toggleFilter('model', model.id)}
+                          onClick={e => toggleFilter('model', model.id, e)}
                           isActive={isFilterActive('model', model.id)}
                         >
                           {model.title}
@@ -100,15 +101,18 @@ const Filters = ({ location }) => {
               )}
               {collections && collections.length > 0 && (
                 <div>
-                  <strong>Colections</strong>
+                  <strong>Collections</strong>
                   <ul>
                     {collections.map(collection => (
                       <li key={collection.id}>
                         <FilterItem
                           onClick={() =>
-                            toggleFilter('collection', collection.id)
+                            toggleFilter('collections', collection.id)
                           }
-                          isActive={isFilterActive('collection', collection.id)}
+                          isActive={isFilterActive(
+                            'collections',
+                            collection.id
+                          )}
                         >
                           {collection.title}
                         </FilterItem>

@@ -13,3 +13,7 @@ export const hasPrice = item => {
     (model && model.price && model.price.salePrice)
   );
 };
+
+export const areEmptyFilters = filters => {
+  return Array.from(filters.values()).every(value => value.size === 0);
+};

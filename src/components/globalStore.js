@@ -4,37 +4,52 @@ import { ThemeProvider } from 'styled-components';
 
 import theme from '../theme';
 import { GlobalStyles } from './globalStyles';
+import { areEmptyFilters } from '@utils/helpers';
 
 export const GlobalContext = createContext(0);
 const initialState = {
   items: [],
-  filteredItems: [],
+  allItems: [],
   filters: new Map(),
-  visible: 2,
+  visible: 10,
   error: false,
-};
-
-const getFilteredItems = (items, filters) => {
-  if (filters.size === 0) return [];
-
-  const hasValue = (key, item) =>
-    !!item[key] &&
-    !!item[key].id &&
-    filters.get(key) &&
-    filters.get(key).has(item[key].id);
-
-  const result = items.filter(({ node: item }) => {
-    return hasValue('model', item);
-  });
-  return result;
 };
 
 function reducer(state, action) {
   console.log(`*** dispatched ${action.type} ***`, action.payload);
+  const getFilteredItems = filters => {
+    if (filters.size === 0) return [];
+    const arrayFilter = Array.from(filters);
+    console.info('arrayFilter in get method: ', arrayFilter);
+
+    return state.allItems.filter(({ node: item }) => {
+      const result = arrayFilter.map(a => {
+        const [key, collection] = a;
+        if (collection.size === 0) return true;
+        switch (key) {
+          case 'model':
+            return item[key] && item[key].id && collection.has(item[key].id);
+          case 'collections':
+          case 'colors':
+            return item[key] && item[key].some(({ id }) => collection.has(id));
+          case 'discount':
+            return (
+              (item.price && item.price.discountPrice) ||
+              (item.model.price && item.model.discountPrice)
+            );
+          default:
+            break;
+        }
+      });
+      console.log(result);
+      return result.every(a => a);
+    });
+  };
   switch (action.type) {
     case 'init_items':
       return {
         ...state,
+        allItems: [...action.payload],
         items: [...action.payload],
       };
     case 'loadmore':
@@ -42,29 +57,40 @@ function reducer(state, action) {
         ...state,
         visible: state.visible + 2,
       };
-    case 'update_filters':
+    case 'init_filters':
+      return {
+        ...state,
+        filters: new Map(action.payload),
+        items: getFilteredItems(action.payload),
+      };
+    case 'update_filters': // {key, value}
       const filters = new Map(state.filters);
       const { key, value } = action.payload;
       const keyFilters = filters.get(key) || new Set();
       if (keyFilters.has(value)) {
+        console.log('filters has value', value);
         keyFilters.delete(value);
+        if (keyFilters.size === 0) {
+          console.log('key to clean', key);
+          keyFilters.clear();
+        }
       } else {
+        console.log('filters has not value', value);
         keyFilters.add(value);
       }
       filters.set(key, keyFilters);
       return {
         ...state,
         filters,
+        items: !areEmptyFilters(filters)
+          ? getFilteredItems(filters)
+          : state.allItems,
       };
-    case 'init_filters':
+    case 'clear_filters':
       return {
         ...state,
-        filters: new Map(action.payload),
-      };
-    case 'udpate_filteredItems':
-      return {
-        ...state,
-        filteredItems: getFilteredItems(state.items, state.filters),
+        filters: new Map(),
+        items: state.allItems,
       };
     default:
       throw new Error();
@@ -88,6 +114,7 @@ export default ({ children }) => {
             value={{
               state,
               dispatch,
+              areEmptyFilters,
             }}
           >
             {children}

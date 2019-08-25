@@ -38,7 +38,7 @@ export const query = graphql`
           price {
             salePrice
             dealerPrice
-            promoPrice
+            discountPrice
             weight
           }
           model {
@@ -47,9 +47,12 @@ export const query = graphql`
             price {
               salePrice
               dealerPrice
-              promoPrice
+              discountPrice
               weight
             }
+          }
+          collections {
+            id
           }
         }
       }
