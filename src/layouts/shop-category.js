@@ -1,14 +1,16 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import MainLayout from './main';
+
 import SEO from '@components/seo';
-import { ShopList } from '@components/shop';
+import { ShopList, Filters } from '@components/shop';
 
 const Shop = ({ data }) => {
   const products = data.allSanityProduct.edges;
   return (
     <MainLayout>
       <SEO title="Shop" />
+      <Filters />
       <ShopList items={products}></ShopList>
     </MainLayout>
   );
