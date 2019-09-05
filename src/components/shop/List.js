@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { Box } from 'rebass';
+import { Box } from 'rebass/styled-components';
 import isEqual from 'lodash.isequal';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';

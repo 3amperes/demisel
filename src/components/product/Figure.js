@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Flex } from 'rebass';
+import { Flex } from 'rebass/styled-components';
 import { colors } from '@theme';
 
 export default styled(Flex)`

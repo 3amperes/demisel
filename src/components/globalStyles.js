@@ -38,6 +38,11 @@ export const globalNormalize = css`
     padding: 0;
   }
 
+  p {
+    margin: 0;
+    margin-bottom: 1em;
+  }
+
   main {
     display: block;
   }

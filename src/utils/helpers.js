@@ -20,6 +20,9 @@ export const hasPrice = item => {
     (!!model && !!model.price && !!model.price.salePrice)
   );
 };
+export const hasModel = item => {
+  return item && item.model;
+};
 
 export const areEmptyFilters = filters => {
   return Array.from(filters.values()).every(value => value.size === 0);

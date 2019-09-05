@@ -1,12 +1,12 @@
 import React from 'react';
 import BlockContent from '@sanity/block-content-to-react';
 import styled from 'styled-components';
-import { Box } from 'rebass';
+import { Box, Text, Heading } from 'rebass/styled-components';
 import { graphql } from 'gatsby';
-import MainLayout from './main';
-import SEO from '../components/seo';
 import Image from 'gatsby-image';
-import { AddButton, Figure } from '../components/product';
+import MainLayout from './main';
+import SEO from '@components/seo';
+import { AddButton, Figure, Price } from '@components/product';
 
 const Wrapper = styled.article`
   display: grid;
@@ -29,33 +29,65 @@ const Inner = styled.div`
   max-width: 400px;
 `;
 
+const Title = ({ children }) => (
+  <Heading fontSize={[24, 32]} as="h1" mb="0.5rem">
+    {children}
+  </Heading>
+);
+
+const DefinitionTitle = ({ children }) => (
+  <Text color="warmGrey" fontSize={[12]} mt="1.5rem" mb="0.5rem">
+    {children}
+  </Text>
+);
+
+const Header = ({ item }) => {
+  const { title, model, price } = item;
+  if (!title) return;
+  return (
+    <header>
+      <Title>{model && model.title ? model.title : title}</Title>
+      <Price item={{ model, price }} />
+      {model && model.title && (
+        <>
+          <DefinitionTitle>Couleurs</DefinitionTitle>
+          <Text>{title}</Text>
+        </>
+      )}
+    </header>
+  );
+};
+
 const ProductDetail = ({ data }) => {
-  const { title, model, thumbnail } = data.sanityProduct;
+  const { title, model, thumbnail, price } = data.sanityProduct;
   const productTitle = model ? `${model.title} • ${title}` : title;
   const body = model && model._rawDescription;
   const specification = model && model.specification;
-
-  const renderHeader = () => {
-    return model ? (
-      <header>
-        <h1>{model.title}</h1>
-        <h2>{title}</h2>
-      </header>
-    ) : (
-      <header>
-        <h1>{title}</h1>
-      </header>
-    );
-  };
   return (
     <MainLayout>
       <SEO title={productTitle} />
       <Wrapper>
         <main className="main">
           <Inner>
-            <header className="header">{renderHeader()}</header>
+            <Header
+              item={{
+                title,
+                price,
+                model: { title: model.title, price: model.price },
+              }}
+            />
+            <DefinitionTitle>Description</DefinitionTitle>
             <BlockContent blocks={body} />
-            {specification && <footer>{specification}</footer>}
+            {specification && (
+              <Text
+                as="footer"
+                color="warmGrey"
+                fontSize={1}
+                style={{ fontStyle: 'italic' }}
+              >
+                {specification}
+              </Text>
+            )}
             <Box pt="50px">
               <AddButton product={data.sanityProduct} />
             </Box>

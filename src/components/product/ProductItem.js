@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Image from 'gatsby-image';
 import { Link } from 'gatsby';
-import { Text, Flex } from 'rebass';
-import { hasPrice, getPrice, getProductTitle } from '@utils';
-import { colors } from '@theme';
+import { Text } from 'rebass/styled-components';
+import { getProductTitle } from '@utils';
 import Figure from './Figure';
-
-const Price = styled(Text)`
-  text-decoration: ${props => (props.isDiscount ? 'line-through' : 'none')};
-  color: ${props => (props.isDiscount ? colors.warmGrey : colors.lipstick)};
-  font-weight: ${props => (props.isDiscount ? 400 : 600)};
-`;
+import Price from './Price';
 
 const ProductItem = ({ item }) => {
   return (
@@ -33,16 +26,7 @@ const ProductItem = ({ item }) => {
         )}
       </Link>
       <Text fontFamily="orpheuspro">{getProductTitle(item)}</Text>
-      <Flex>
-        {hasPrice(item, 'salePrice') && (
-          <Price isDiscount={!!getPrice(item, 'discountPrice')}>
-            {getPrice(item, 'salePrice')} €
-          </Price>
-        )}
-        {!!getPrice(item, 'discountPrice') && (
-          <Price ml="1rem">{getPrice(item, 'discountPrice')} €</Price>
-        )}
-      </Flex>
+      <Price item={item} />
     </article>
   );
 };
