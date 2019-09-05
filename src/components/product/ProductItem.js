@@ -6,15 +6,7 @@ import { Link } from 'gatsby';
 import { Text, Flex } from 'rebass';
 import { hasPrice, getPrice, getProductTitle } from '@utils';
 import { colors } from '@theme';
-
-const Figure = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  background-color: ${colors.whiteTwo};
-  margin-bottom: 1rem;
-`;
+import Figure from './Figure';
 
 const Price = styled(Text)`
   text-decoration: ${props => (props.isDiscount ? 'line-through' : 'none')};

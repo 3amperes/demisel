@@ -10,8 +10,7 @@ import withLocation from '@utils/withLocation';
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 46px;
-  grid-row-gap: 46px;
+  grid-gap: 46px;
   ${container}
 `;
 
