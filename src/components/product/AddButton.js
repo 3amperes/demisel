@@ -26,17 +26,19 @@ const Button = styled.button`
 
 const AddButton = ({ product }) => {
   const isDisabled = !hasPrice(product);
+  const title = product.model ? product.model.title : product.title;
+  const description = product.model ? product.title : product.category.title;
   return (
     <Button
       disabled={isDisabled}
       className="snipcart-add-item"
       data-item-id={product.id}
-      data-item-name={product.title}
+      data-item-name={title}
       data-item-price={getPrice(product, 'salePrice')}
       data-item-price-dealer={getPrice(product, 'dealerPrice')}
       data-item-price-promo={getPrice(product, 'discountPrice')}
       data-item-url="https://demiselbijoux.netlify.com"
-      data-item-description={product.title}
+      data-item-description={description}
     >
       Ajouter au panier
     </Button>
