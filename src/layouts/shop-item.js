@@ -11,7 +11,7 @@ import { AddButton, Figure, Price } from '@components/product';
 const Wrapper = styled.article`
   display: grid;
   grid-template-columns: 3fr 2fr;
-  grid-template-rows: 100vh;
+  grid-template-rows: auto;
   grid-template-areas: 'aside main';
   border-top: 4px solid rgba(0, 0, 0, 0.16);
   grid-gap: 40px;
@@ -27,6 +27,8 @@ const Wrapper = styled.article`
 const Inner = styled.div`
   padding: 40px;
   max-width: 400px;
+  position: sticky;
+  top: 0;
 `;
 
 const Title = ({ children }) => (
@@ -62,6 +64,7 @@ const ProductDetail = ({ data }) => {
   const { title, model, thumbnail, price } = data.sanityProduct;
   const productTitle = model ? `${model.title} • ${title}` : title;
   const body = model && model._rawDescription;
+  const images = model && model.images;
   const specification = model && model.specification;
   return (
     <MainLayout>
@@ -95,12 +98,17 @@ const ProductDetail = ({ data }) => {
         </main>
         <aside className="images">
           {thumbnail && (
-            <Figure>
-              <div style={{ width: 500 }}>
+            <Figure mb={0}>
+              <div style={{ width: 700 }}>
                 <Image fluid={thumbnail.asset.fluid} />
               </div>
             </Figure>
           )}
+          {images &&
+            images.length > 0 &&
+            images.map((image, index) => {
+              return <Image key={index} fluid={image.asset.fluid} />;
+            })}
         </aside>
       </Wrapper>
     </MainLayout>
@@ -118,6 +126,13 @@ export const query = graphql`
         title
         _rawDescription
         specification
+        images {
+          asset {
+            fluid(maxWidth: 700) {
+              ...GatsbySanityImageFluid
+            }
+          }
+        }
         price {
           salePrice
         }

@@ -8,5 +8,4 @@ export default styled(Flex)`
   justify-content: center;
   padding: 4rem 2rem;
   background-color: ${colors.whiteTwo};
-  margin-bottom: 1rem;
 `;
