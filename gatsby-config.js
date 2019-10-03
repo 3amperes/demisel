@@ -13,6 +13,7 @@ module.exports = {
     { resolve: `gatsby-transformer-remark` },
     { resolve: `gatsby-transformer-sharp` },
     { resolve: `gatsby-plugin-sharp` },
+    { resolve: `gatsby-plugin-styled-components` },
     {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {

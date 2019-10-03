@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import { Box } from 'rebass';
+import { Box } from 'rebass/styled-components';
 import isEqual from 'lodash.isequal';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
@@ -10,8 +10,7 @@ import withLocation from '@utils/withLocation';
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 46px;
-  grid-row-gap: 46px;
+  grid-gap: 46px;
   ${container}
 `;
 

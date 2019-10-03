@@ -6,14 +6,8 @@ export const fonts = {
 };
 
 export const fontWeigths = {
-  heading: {
-    normal: 400,
-    emphase: 600,
-  },
-  text: {
-    normal: 400,
-    emphase: 600,
-  },
+  heading: 600,
+  text: 400,
 };
 
 const fontSizesinPx = [10, 12, 14, 16, 18, 20, 21, 24, 28, 32, 42];

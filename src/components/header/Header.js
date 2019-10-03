@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { Flex, Box } from 'rebass';
+import { Flex, Box } from 'rebass/styled-components';
 import { colors, fontWeigths } from '@theme';
 // import { login, logout, getProfile, isAuthenticated } from '../../utils/auth';
 
