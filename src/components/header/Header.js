@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { Flex, Box } from 'rebass/styled-components';
 import { colors, fontWeigths } from '@theme';
+import Logo from '../logo';
+import Search from './Search';
+import Basket from './Basket';
 // import { login, logout, getProfile, isAuthenticated } from '../../utils/auth';
 
 const Wrapper = styled(Box)`
@@ -88,12 +91,12 @@ const Header = ({ siteTitle }) => {
         <Link to="/">Accueil</Link>
         <Link to="/shop">E-shop</Link>
       </Navigation>
-      <Brand>Demisel</Brand>
+      <Brand>
+        <Logo width={120} />
+      </Brand>
       <Acess>
-        <span>search</span>
-        <button onClick={handleClickCart} type="button">
-          panier
-        </button>
+        <Search />
+        <Basket onClick={handleClickCart} ml="1rem" />
       </Acess>
     </Wrapper>
   );
