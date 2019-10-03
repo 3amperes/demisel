@@ -5,4 +5,5 @@ export const colors = {
   warmGrey: '#959595',
   greyishBrown: '#404040',
   whiteTwo: '#f4f4f4',
+  ligthPeach: '#fcd0c8',
 };
