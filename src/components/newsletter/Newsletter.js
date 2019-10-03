@@ -54,7 +54,7 @@ export default props => (
       <Heading fontSize={[32, 48]} as="h2" mb="1rem">
         Restez informés
       </Heading>
-      <Text fontSize={14}>
+      <Text fontSize={14} lineHeight={1.8}>
         Inscrivez-vous à notre newsletter et restez informés des nouvelles
         collections, nouveaux modèles et des offres promotionnelles.
       </Text>
