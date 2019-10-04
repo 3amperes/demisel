@@ -33,16 +33,18 @@ const Form = styled.form`
   button[type='submit'] {
     color: ${colors.lipstick};
     font-weight: 700;
+    font-size: 14px;
     border: none;
     outline: none;
     background-color: transparent;
     cursor: pointer;
+    padding: 0;
     &:after {
       content: '';
       display: block;
       width: 100%;
       height: 2px;
-      marfin-top: 2px;
+      margin-top: 2px;
       background-color: ${colors.lipstick};
     }
   }
