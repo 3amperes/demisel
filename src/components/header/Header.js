@@ -15,6 +15,12 @@ const Wrapper = styled(Box)`
   grid-template-columns: 1fr auto 1fr;
   grid-template-areas: 'navigation brand acess';
   padding: 0 2rem;
+  position: ${props => (props.isFloat ? 'absolute' : 'relative')};
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: ${props => (props.isFloat ? colors.white : colors.black)};
+  z-index: 999;
 `;
 
 const Navigation = styled.nav`
@@ -24,7 +30,7 @@ const Navigation = styled.nav`
 
   a {
     display: inline-block;
-    color: ${colors.black};
+    color: currentColor;
     font-weight: ${fontWeigths.text.emphase};
     font-size: 14px;
     text-decoration: none;
@@ -40,7 +46,7 @@ const Navigation = styled.nav`
       display: block;
       width: 100%;
       height: 2px;
-      background-color: ${colors.black};
+      background-color: currentColor;
       transform: translateX(-100%);
       transition: transform 250ms ease-in-out;
     }
@@ -62,7 +68,7 @@ const Acess = styled(Flex)`
   justify-content: flex-end;
 `;
 
-const Header = ({ siteTitle }) => {
+const Header = ({ siteTitle, isFloat }) => {
   // const content = { message: "", login: true };
   // if (isAuthenticated()) {
   //   content.message = `Hello, ${getProfile().name}`;
@@ -86,7 +92,7 @@ const Header = ({ siteTitle }) => {
   };
 
   return (
-    <Wrapper as="header">
+    <Wrapper as="header" isFloat={isFloat}>
       <Navigation>
         <Link to="/">Accueil</Link>
         <Link to="/shop">E-shop</Link>
@@ -96,7 +102,7 @@ const Header = ({ siteTitle }) => {
       </Brand>
       <Acess>
         <Search />
-        <Basket onClick={handleClickCart} ml="1rem" />
+        <Basket onClick={handleClickCart} ml="2rem" />
       </Acess>
     </Wrapper>
   );

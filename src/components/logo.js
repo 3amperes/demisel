@@ -1,7 +1,12 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Svg = styled.svg`
+  fill: currentColor;
+`;
 
 export default props => (
-  <svg viewBox="0 0 169.77 28.29" {...props}>
+  <Svg viewBox="0 0 169.77 28.29" {...props}>
     <title>{'DemiselLogoBlack'}</title>
     <g data-name="Calque 2">
       <g data-name="Calque 1">
@@ -69,5 +74,5 @@ export default props => (
         </g>
       </g>
     </g>
-  </svg>
+  </Svg>
 );

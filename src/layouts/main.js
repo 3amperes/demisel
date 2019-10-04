@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
+import { relative } from 'upath';
 
-const MainLayout = ({ children }) => (
+const MainLayout = ({ children, headerFloat }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -24,7 +25,10 @@ const MainLayout = ({ children }) => (
     `}
     render={data => (
       <>
-        <Header siteTitle={data.site.siteMetadata.title} />
+        <Header
+          siteTitle={data.site.siteMetadata.title}
+          isFloat={headerFloat}
+        />
         <main>{children}</main>
         <Footer />
       </>

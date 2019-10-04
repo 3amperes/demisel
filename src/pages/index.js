@@ -8,7 +8,7 @@ import Carousel from '../components/carousel';
 
 const IndexPage = () => {
   return (
-    <MainLayout>
+    <MainLayout headerFloat={true}>
       <SEO title="Accueil" />
       <Carousel />
       <Commitments />
