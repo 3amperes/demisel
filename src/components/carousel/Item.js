@@ -33,15 +33,14 @@ const Grid = styled(Box)`
   ${container};
 `;
 
-const Button = styled.button`
+const Link = styled.a`
+  display: inline-block;
   color: currentColor;
   font-weight: 700;
   font-size: 14px;
-  border: none;
-  outline: none;
-  background-color: transparent;
   cursor: pointer;
   padding: 0;
+  text-decoration: none;
   &:after {
     content: '';
     display: block;
@@ -52,28 +51,32 @@ const Button = styled.button`
   }
 `;
 
-export default ({ slide, isCurrent }) => {
-  console.log(isCurrent);
+const ItemContent = ({ title, description, link }) => (
+  <Inner>
+    <Grid>
+      <div>
+        {title && (
+          <Heading fontSize={[32, 48]} lineHeight={1.2} as="h2" mb="1rem">
+            {title}
+          </Heading>
+        )}
+        {description && (
+          <Text fontSize={14} lineHeight={1.8} mb="60px">
+            {description}
+          </Text>
+        )}
+        {link && <Link href={link.url}>{link.label}</Link>}
+      </div>
+    </Grid>
+  </Inner>
+);
+
+export default ({ item, isCurrent }) => {
+  const { image, ...rest } = item;
   return (
     <Wrapper isCurrent={isCurrent}>
-      <Image height={400} fluid={slide.image.asset.childImageSharp.fluid} />
-      <Inner>
-        <Grid>
-          <div>
-            {slide.title && (
-              <Heading fontSize={[32, 48]} lineHeight={1.2} as="h2" mb="1rem">
-                {slide.title}
-              </Heading>
-            )}
-            {slide.description && (
-              <Text fontSize={14} lineHeight={1.8} mb="60px">
-                {slide.description}
-              </Text>
-            )}
-            {slide.link && <a href={slide.link.url}>{slide.link.label}</a>}
-          </div>
-        </Grid>
-      </Inner>
+      <Image height={400} fluid={image.asset.fluid} />
+      <ItemContent {...rest} />
     </Wrapper>
   );
 };

@@ -6,13 +6,7 @@ import Newsletter from '../components/newsletter';
 import Instagram from '../components/instagram';
 import Commitments from '../components/commitments';
 import Carousel from '../components/carousel';
-import { log } from 'util';
 
-// childImageSharp {
-//   fluid(maxWidth: 1200) {
-//     ...GatsbyImageSharpFluid
-//   }
-// }
 const IndexPage = () => {
   return (
     <StaticQuery
@@ -23,12 +17,11 @@ const IndexPage = () => {
               node {
                 id
                 carousel {
+                  _key
                   image {
                     asset {
-                      childImageSharp {
-                        fluid(maxWidth: 1200) {
-                          ...GatsbyImageSharpFluid
-                        }
+                      fluid(maxWidth: 2000) {
+                        ...GatsbySanityImageFluid
                       }
                     }
                   }
@@ -49,7 +42,7 @@ const IndexPage = () => {
         return (
           <MainLayout headerFloat={true}>
             <SEO title="Accueil" />
-            <Carousel slides={config.node.carousel} />
+            <Carousel items={config.node.carousel} />
             <Commitments />
             <Instagram />
             <Newsletter />
