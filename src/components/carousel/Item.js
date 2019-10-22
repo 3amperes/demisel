@@ -13,6 +13,7 @@ const Wrapper = styled(Box)`
   opacity: ${props => (props.isCurrent ? 1 : 0)};
   position: ${props => (props.isCurrent ? 'relative' : 'absolute')};
   transition: all 250ms ease-in-out;
+  background-color: pink;
 `;
 const Inner = styled(Flex)`
   position: absolute;
@@ -51,22 +52,25 @@ const Button = styled.button`
   }
 `;
 
-export default ({ fluid, ...rest }) => {
+export default ({ slide, isCurrent }) => {
+  console.log(isCurrent);
   return (
-    <Wrapper {...rest}>
-      <Image height={400} fluid={fluid} />
+    <Wrapper isCurrent={isCurrent}>
+      <Image height={400} fluid={slide.image.asset.childImageSharp.fluid} />
       <Inner>
         <Grid>
           <div>
-            <Heading fontSize={[32, 48]} lineHeight={1.2} as="h2" mb="1rem">
-              Nouvelle collection en cuir végétal
-            </Heading>
-            <Text fontSize={14} lineHeight={1.8} mb="60px">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
-              libero sequi voluptates corporis vitae eligendi rerum reiciendis,
-              provident error totam.
-            </Text>
-            <Button>Découvrir</Button>
+            {slide.title && (
+              <Heading fontSize={[32, 48]} lineHeight={1.2} as="h2" mb="1rem">
+                {slide.title}
+              </Heading>
+            )}
+            {slide.description && (
+              <Text fontSize={14} lineHeight={1.8} mb="60px">
+                {slide.description}
+              </Text>
+            )}
+            {slide.link && <a href={slide.link.url}>{slide.link.label}</a>}
           </div>
         </Grid>
       </Inner>
