@@ -22,6 +22,11 @@ const Button = styled.button`
   &:hover {
     background-color: ${shade(0.1, colors.lipstick)};
   }
+
+  :disabled {
+    background-color: ${colors.greyishBrown};
+    cursor: not-allowed;
+  }
 `;
 
 const AddButton = ({ product }) => {

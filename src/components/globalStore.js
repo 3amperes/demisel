@@ -27,6 +27,7 @@ function reducer(state, action) {
         if (collection.size === 0) return true;
         switch (key) {
           case 'model':
+          default:
             return item[key] && item[key].id && collection.has(item[key].id);
           case 'collections':
           case 'colors':
@@ -36,8 +37,6 @@ function reducer(state, action) {
               (item.price && item.price.discountPrice) ||
               (item.model && item.model.price && item.model.discountPrice)
             );
-          default:
-            break;
         }
       });
       return result.every(a => a);
