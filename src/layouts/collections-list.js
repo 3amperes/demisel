@@ -1,13 +1,13 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
+import Image from 'gatsby-image';
 import MainLayout from './main';
 
 import SEO from '@components/seo';
+import { Figure } from '@components/product';
 
 const Collections = ({ data }) => {
   const collections = data.allSanityCollection.edges;
-
-  console.log(collections);
 
   return (
     <MainLayout>
@@ -16,7 +16,16 @@ const Collections = ({ data }) => {
       <ol>
         {collections.map(({ node: item }) => (
           <li key={item.id}>
-            <Link to={`/collections/${item.id}`}>{item.title}</Link>
+            <Link to={`/collections/${item.id}`}>
+              {item.thumbnail && (
+                <Figure mb={0}>
+                  <div style={{ width: 700 }}>
+                    <Image fluid={item.thumbnail.asset.fluid} />
+                  </div>
+                </Figure>
+              )}
+              {item.title}
+            </Link>
           </li>
         ))}
       </ol>
@@ -33,6 +42,14 @@ export const query = graphql`
         node {
           id
           title
+          thumbnail {
+            alt
+            asset {
+              fluid(maxWidth: 700) {
+                ...GatsbySanityImageFluid
+              }
+            }
+          }
         }
       }
     }
