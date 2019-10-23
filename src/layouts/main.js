@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
-import { relative } from 'upath';
 
 const MainLayout = ({ children, headerFloat }) => (
   <StaticQuery
