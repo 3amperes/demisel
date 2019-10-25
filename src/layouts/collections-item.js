@@ -40,7 +40,6 @@ const Header = styled(Flex)`
 
 const ProductDetail = ({ data }) => {
   const { title, _rawDescription, sections } = data.sanityCollection;
-  console.log(sections);
   return (
     <MainLayout>
       <SEO title={title} />
