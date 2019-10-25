@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Empty = styled.div`
-  ${container}
+  ${container};
 `;
 
 const getFiltersFromQueryParams = params => {

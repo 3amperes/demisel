@@ -9,7 +9,7 @@ import SEO from '@components/seo';
 import { colors } from '@theme';
 import MainLayout from './main';
 
-import { container } from '@utils/mixins';
+import { container, link } from '@utils/mixins';
 
 const offset = 200;
 
@@ -24,6 +24,10 @@ const Wrapper = styled.article`
   }
 `;
 
+const Link = styled.a`
+  ${link(colors.lipstick)};
+`;
+
 const Header = styled(Flex)`
   width: 100%;
   height: 600px;
@@ -36,6 +40,7 @@ const Header = styled(Flex)`
 
 const ProductDetail = ({ data }) => {
   const { title, _rawDescription, sections } = data.sanityCollection;
+  console.log(sections);
   return (
     <MainLayout>
       <SEO title={title} />
@@ -49,27 +54,32 @@ const ProductDetail = ({ data }) => {
             <BlockContent blocks={_rawDescription} />
           </Box>
         </Header>
-        <ol className="main">
-          {sections.map((section, index) => (
-            <li key={index}>
-              {section.thumbnail && (
-                <Flex mb="200px">
-                  <Image fixed={section.thumbnail.asset.fixed} />
-                  <Image
-                    fixed={section.thumbnail.asset.fixed}
-                    style={{ position: 'relative', top: '100px' }}
-                  />
-                </Flex>
-              )}
-              <Box textAlign="center">
-                <Heading fontSize={40} as="h2" mb="1rem">
-                  {section.title}
-                </Heading>
-                <BlockContent blocks={section._rawDescription} />
-              </Box>
-            </li>
-          ))}
-        </ol>
+        {sections.length > 0 && (
+          <ol className="main">
+            {sections.map((section, index) => (
+              <li key={index}>
+                {section.thumbnail && (
+                  <Flex mb="200px">
+                    <Image fixed={section.thumbnail.asset.fixed} />
+                    <Image
+                      fixed={section.thumbnail.asset.fixed}
+                      style={{ position: 'relative', top: '100px' }}
+                    />
+                  </Flex>
+                )}
+                <Box textAlign="center">
+                  <Heading fontSize={40} as="h2" mb="1rem">
+                    {section.title}
+                  </Heading>
+                  <BlockContent blocks={section._rawDescription} />
+                  {section.link && (
+                    <Link href={section.link.url}>{section.link.label}</Link>
+                  )}
+                </Box>
+              </li>
+            ))}
+          </ol>
+        )}
       </Wrapper>
     </MainLayout>
   );
@@ -94,6 +104,10 @@ export const query = graphql`
               ...GatsbySanityImageFixed
             }
           }
+        }
+        link {
+          label
+          url
         }
       }
     }
