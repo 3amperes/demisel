@@ -6,6 +6,12 @@ exports.createPages = async ({ graphql, actions }) => {
   const shopListLayout = path.resolve(`./src/layouts/shop-list.js`);
   const shopCategoryLayout = path.resolve(`./src/layouts/shop-category.js`);
   const shopProductLayout = path.resolve(`./src/layouts/shop-item.js`);
+  const collectionsListLayout = path.resolve(
+    `./src/layouts/collections-list.js`
+  );
+  const collectionsItemLayout = path.resolve(
+    `./src/layouts/collections-item.js`
+  );
 
   const result = await graphql(`
     {
@@ -24,12 +30,23 @@ exports.createPages = async ({ graphql, actions }) => {
         }
         totalCount
       }
+      collections: allSanityCollection(
+        sort: { order: DESC, fields: _updatedAt }
+        limit: 2000
+      ) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
     }
   `);
 
   /* Iterate needed pages and create them. */
   const products = result.data.products.edges;
   const categories = result.data.products.group;
+  const collections = result.data.collections.edges;
 
   /* Combine all data needed to construct this page. */
   createPage({
@@ -75,6 +92,34 @@ exports.createPages = async ({ graphql, actions }) => {
     };
 
     createPage(productData);
+  });
+
+  /* Combine all data needed to construct this page. */
+  createPage({
+    path: `/collections`,
+    component: collectionsListLayout,
+    context: {
+      /* If you need to pass additional data, you can pass it inside this context object. */
+      collections,
+    },
+  });
+
+  // Creating shop products
+  collections.forEach((collection, index, arr) => {
+    const prev = arr[index - 1];
+    const next = arr[index + 1];
+
+    const collectionData = {
+      path: `/collections/${collection.node.id}`,
+      component: collectionsItemLayout,
+      context: {
+        id: collection.node.id,
+        prev: prev,
+        next: next,
+      },
+    };
+
+    createPage(collectionData);
   });
 };
 

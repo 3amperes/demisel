@@ -3,7 +3,7 @@ import Image from 'gatsby-image';
 import styled from 'styled-components';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { colors } from '@theme';
-import { container } from '@utils/mixins';
+import { container, link } from '@utils/mixins';
 
 const Wrapper = styled(Box)`
   width: 100%;
@@ -34,21 +34,7 @@ const Grid = styled(Box)`
 `;
 
 const Link = styled.a`
-  display: inline-block;
-  color: currentColor;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 0;
-  text-decoration: none;
-  &:after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    margin-top: 2px;
-    background-color: currentColor;
-  }
+  ${link()}
 `;
 
 const ItemContent = ({ title, description, link }) => (

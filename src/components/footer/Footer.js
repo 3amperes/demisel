@@ -10,8 +10,7 @@ const Wrapper = styled.footer`
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 46px;
   grid-row-gap: 100px;
-  padding: 150px 0;
-  ${container}
+  ${container({ py: '150px' })}
 
   a {
     color: ${colors.warmGrey};

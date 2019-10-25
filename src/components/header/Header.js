@@ -7,7 +7,6 @@ import { colors, fontWeigths } from '@theme';
 import Logo from '../logo';
 import Search from './Search';
 import Basket from './Basket';
-// import { login, logout, getProfile, isAuthenticated } from '../../utils/auth';
 
 const Wrapper = styled(Box)`
   display: grid;
@@ -69,23 +68,6 @@ const Acess = styled(Flex)`
 `;
 
 const Header = ({ siteTitle, isFloat }) => {
-  // const content = { message: "", login: true };
-  // if (isAuthenticated()) {
-  //   content.message = `Hello, ${getProfile().name}`;
-  // } else {
-  //   content.message = "You are not logged in";
-  // }
-
-  // const handleLogin = e => {
-  //   console.log("handle login", isAuthenticated());
-  //   e.preventDefault();
-  //   if (!isAuthenticated()) {
-  //     login();
-  //   } else {
-  //     logout();
-  //   }
-  // };
-
   const handleClickCart = e => {
     e.preventDefault();
     window.Snipcart.api.modal.show();
@@ -95,6 +77,7 @@ const Header = ({ siteTitle, isFloat }) => {
     <Wrapper as="header" isFloat={isFloat}>
       <Navigation>
         <Link to="/">Accueil</Link>
+        <Link to="/collections">Collections</Link>
         <Link to="/shop">E-shop</Link>
       </Navigation>
       <Brand>
