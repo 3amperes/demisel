@@ -42,7 +42,8 @@ const AddButton = ({ product }) => {
       data-item-price={getPrice(product, 'salePrice')}
       data-item-price-dealer={getPrice(product, 'dealerPrice')}
       data-item-price-promo={getPrice(product, 'discountPrice')}
-      data-item-url="https://demiselbijoux.netlify.com"
+      data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
+      data-item-image={product.thumbnail.asset.fluid.src}
       data-item-description={description}
     >
       Ajouter au panier

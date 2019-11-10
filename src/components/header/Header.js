@@ -19,7 +19,7 @@ const Wrapper = styled(Box)`
   left: 0;
   width: 100%;
   color: ${props => (props.isFloat ? colors.white : colors.black)};
-  z-index: 999;
+  z-index: 9;
 `;
 
 const Navigation = styled.nav`
@@ -85,7 +85,7 @@ const Header = ({ siteTitle, isFloat }) => {
       </Brand>
       <Acess>
         <Search />
-        <Basket onClick={handleClickCart} ml="2rem" />
+        <Basket className="snipcart-checkout" ml="2rem" />
       </Acess>
     </Wrapper>
   );
