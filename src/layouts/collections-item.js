@@ -38,7 +38,7 @@ const Header = styled(Flex)`
   background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
 `;
 
-const ProductDetail = ({ data }) => {
+const Collection = ({ data }) => {
   const { title, _rawDescription, sections } = data.sanityCollection;
   return (
     <MainLayout>
@@ -57,11 +57,11 @@ const ProductDetail = ({ data }) => {
           <ol className="main">
             {sections.map((section, index) => (
               <li key={index}>
-                {section.thumbnail && (
+                {section.image && (
                   <Flex mb="200px">
-                    <Image fixed={section.thumbnail.asset.fixed} />
+                    <Image fixed={section.image.asset.fixed} />
                     <Image
-                      fixed={section.thumbnail.asset.fixed}
+                      fixed={section.image.asset.fixed}
                       style={{ position: 'relative', top: '100px' }}
                     />
                   </Flex>
@@ -70,7 +70,7 @@ const ProductDetail = ({ data }) => {
                   <Heading fontSize={40} as="h2" mb="1rem">
                     {section.title}
                   </Heading>
-                  <BlockContent blocks={section._rawDescription} />
+                  <BlockContent blocks={section.description} />
                   {section.link && (
                     <Link href={section.link.url}>{section.link.label}</Link>
                   )}
@@ -84,7 +84,7 @@ const ProductDetail = ({ data }) => {
   );
 };
 
-export default ProductDetail;
+export default Collection;
 
 export const query = graphql`
   query($id: String) {
@@ -95,8 +95,8 @@ export const query = graphql`
 
       sections {
         title
-        _rawDescription
-        thumbnail {
+        description
+        image {
           alt
           asset {
             fixed(width: 538, height: 643) {
