@@ -39,7 +39,7 @@ const Header = styled(Flex)`
 `;
 
 const Collection = ({ data }) => {
-  const { title, _rawDescription, sections } = data.sanityCollection;
+  const { title, _rawDescription, _rawSections } = data.sanityCollection;
   return (
     <MainLayout>
       <SEO title={title} />
@@ -53,15 +53,15 @@ const Collection = ({ data }) => {
             <BlockContent blocks={_rawDescription} />
           </Box>
         </Header>
-        {sections.length > 0 && (
+        {_rawSections.length > 0 && (
           <ol className="main">
-            {sections.map((section, index) => (
+            {_rawSections.map((section, index) => (
               <li key={index}>
-                {section.image && (
+                {section.thumbnail && (
                   <Flex mb="200px">
-                    <Image fixed={section.image.asset.fixed} />
+                    <Image fixed={section.thumbnail.asset.fixed} />
                     <Image
-                      fixed={section.image.asset.fixed}
+                      fixed={section.thumbnail.asset.fixed}
                       style={{ position: 'relative', top: '100px' }}
                     />
                   </Flex>
@@ -92,23 +92,7 @@ export const query = graphql`
       id
       title
       _rawDescription
-
-      sections {
-        title
-        description
-        image {
-          alt
-          asset {
-            fixed(width: 538, height: 643) {
-              ...GatsbySanityImageFixed
-            }
-          }
-        }
-        link {
-          label
-          url
-        }
-      }
+      _rawSections
     }
   }
 `;
