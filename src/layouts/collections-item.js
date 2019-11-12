@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BlockContent from '@sanity/block-content-to-react';
 import Image from 'gatsby-image';
 import { graphql } from 'gatsby';
-import { Box, Flex, Heading } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import SEO from '@components/seo';
 
 import { colors } from '@theme';
@@ -39,7 +39,7 @@ const Header = styled(Flex)`
 `;
 
 const Collection = ({ data }) => {
-  const { title, _rawDescription, _rawSections } = data.sanityCollection;
+  const { title, _rawDescription, sections } = data.sanityCollection;
   return (
     <MainLayout>
       <SEO title={title} />
@@ -53,24 +53,24 @@ const Collection = ({ data }) => {
             <BlockContent blocks={_rawDescription} />
           </Box>
         </Header>
-        {_rawSections.length > 0 && (
+        {sections.length > 0 && (
           <ol className="main">
-            {_rawSections.map((section, index) => (
+            {sections.map((section, index) => (
               <li key={index}>
-                {section.thumbnail && (
-                  <Flex mb="200px">
-                    <Image fixed={section.thumbnail.asset.fixed} />
+                <Flex mb="200px">
+                  {section.img1 && <Image fixed={section.img1.asset.fixed} />}
+                  {section.img2 && (
                     <Image
-                      fixed={section.thumbnail.asset.fixed}
+                      fixed={section.img1.asset.fixed}
                       style={{ position: 'relative', top: '100px' }}
                     />
-                  </Flex>
-                )}
+                  )}
+                </Flex>
                 <Box textAlign="center">
                   <Heading fontSize={40} as="h2" mb="1rem">
                     {section.title}
                   </Heading>
-                  <BlockContent blocks={section.description} />
+                  <Text>{section.description}</Text>
                   {section.link && (
                     <Link href={section.link.url}>{section.link.label}</Link>
                   )}
@@ -92,7 +92,30 @@ export const query = graphql`
       id
       title
       _rawDescription
-      _rawSections
+      sections {
+        img1 {
+          alt
+          asset {
+            fixed(width: 538, height: 644) {
+              ...GatsbySanityImageFixed
+            }
+          }
+        }
+        img2 {
+          alt
+          asset {
+            fixed(width: 538, height: 644) {
+              ...GatsbySanityImageFixed
+            }
+          }
+        }
+        title
+        description
+        link {
+          label
+          url
+        }
+      }
     }
   }
 `;

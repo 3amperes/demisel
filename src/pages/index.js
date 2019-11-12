@@ -13,20 +13,46 @@ import Carousel from '../components/carousel';
 import { colors } from '@theme';
 import { container, link } from '@utils/mixins';
 
-const Intro = styled.section`
+const IntroWrapper = styled.section`
   background-color: ${colors.ligthPeach};
   background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
-  padding: 120px 0;
+  padding-top: 120px;
+  padding-bottom: 260px;
+  position: relative;
 `;
-
 const IntroInner = styled(Box)`
-  ${container};
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  bottom: 120px;
+
   > div {
-    background-color: ${colors.white};
-    padding: 2rem;
-    max-width: 515px;
+    ${container}
   }
 `;
+
+const Intro = ({ title, image, description }) => {
+  console.log({ image });
+  return (
+    <IntroWrapper>
+      <Box ml="auto" width="50%">
+        {image && <Image fluid={image.asset.fluid} />}
+      </Box>
+      <IntroInner>
+        <div>
+          <Box bg="white" py="12em" px="8em" width="60%">
+            {title && (
+              <Heading fontSize={[32, 48]} as="h1" mb="1rem">
+                {title}
+              </Heading>
+            )}
+            {description && <BlockContent blocks={description} />}
+          </Box>
+        </div>
+      </IntroInner>
+    </IntroWrapper>
+  );
+};
 
 const Pushes = styled.section`
   background-color: ${colors.white};
@@ -63,7 +89,7 @@ const IndexPage = () => {
                   title
                   image {
                     asset {
-                      fluid(maxWidth: 800) {
+                      fluid(maxWidth: 1200) {
                         ...GatsbySanityImageFluid
                       }
                     }
@@ -73,7 +99,6 @@ const IndexPage = () => {
                   title
                   introduction
                   items {
-                    _id
                     title
                   }
                 }
@@ -89,28 +114,15 @@ const IndexPage = () => {
           _rawIntroduction,
           pushes,
         } = data.allSanityConfig.edges[0].node;
-        console.log({ introduction });
         return (
           <MainLayout headerFloat={true}>
             <SEO title="Accueil" />
             <Carousel items={carousel} />
-            <Intro>
-              <Box ml="auto" width="50%">
-                {introduction.image && (
-                  <Image fluid={introduction.image.asset.fluid} />
-                )}
-              </Box>
-              <IntroInner>
-                <div>
-                  <Heading fontSize={[32, 48]} as="h1" mb="1rem">
-                    {introduction.title}
-                  </Heading>
-                  {_rawIntroduction && _rawIntroduction.description && (
-                    <BlockContent blocks={_rawIntroduction.description} />
-                  )}
-                </div>
-              </IntroInner>
-            </Intro>
+            <Intro
+              title={introduction.title}
+              image={introduction.image}
+              description={_rawIntroduction.description}
+            />
             <Pushes>
               {pushes.items.map(item => {
                 return (
