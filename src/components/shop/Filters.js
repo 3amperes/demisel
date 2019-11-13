@@ -57,7 +57,7 @@ const Filters = ({ location }) => {
         });
     }
     navigate(url);
-  }, [state.filters]);
+  }, [state.filters, location.pathname]);
 
   return (
     <StaticQuery

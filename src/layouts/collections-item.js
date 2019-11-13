@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import BlockContent from '@sanity/block-content-to-react';
 import Image from 'gatsby-image';
 import { graphql } from 'gatsby';
-import { Box, Flex, Heading } from 'rebass/styled-components';
+import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import SEO from '@components/seo';
 
 import { colors } from '@theme';
@@ -38,9 +38,8 @@ const Header = styled(Flex)`
   background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
 `;
 
-const ProductDetail = ({ data }) => {
+const Collection = ({ data }) => {
   const { title, _rawDescription, sections } = data.sanityCollection;
-  console.log(sections);
   return (
     <MainLayout>
       <SEO title={title} />
@@ -58,20 +57,20 @@ const ProductDetail = ({ data }) => {
           <ol className="main">
             {sections.map((section, index) => (
               <li key={index}>
-                {section.thumbnail && (
-                  <Flex mb="200px">
-                    <Image fixed={section.thumbnail.asset.fixed} />
+                <Flex mb="200px">
+                  {section.img1 && <Image fixed={section.img1.asset.fixed} />}
+                  {section.img2 && (
                     <Image
-                      fixed={section.thumbnail.asset.fixed}
+                      fixed={section.img1.asset.fixed}
                       style={{ position: 'relative', top: '100px' }}
                     />
-                  </Flex>
-                )}
+                  )}
+                </Flex>
                 <Box textAlign="center">
                   <Heading fontSize={40} as="h2" mb="1rem">
                     {section.title}
                   </Heading>
-                  <BlockContent blocks={section._rawDescription} />
+                  <Text>{section.description}</Text>
                   {section.link && (
                     <Link href={section.link.url}>{section.link.label}</Link>
                   )}
@@ -85,7 +84,7 @@ const ProductDetail = ({ data }) => {
   );
 };
 
-export default ProductDetail;
+export default Collection;
 
 export const query = graphql`
   query($id: String) {
@@ -93,18 +92,25 @@ export const query = graphql`
       id
       title
       _rawDescription
-
       sections {
-        title
-        _rawDescription
-        thumbnail {
+        img1 {
           alt
           asset {
-            fixed(width: 538, height: 643) {
+            fixed(width: 538, height: 644) {
               ...GatsbySanityImageFixed
             }
           }
         }
+        img2 {
+          alt
+          asset {
+            fixed(width: 538, height: 644) {
+              ...GatsbySanityImageFixed
+            }
+          }
+        }
+        title
+        description
         link {
           label
           url
