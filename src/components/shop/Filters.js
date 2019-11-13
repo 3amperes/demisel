@@ -1,7 +1,8 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
+import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { container } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
@@ -9,15 +10,28 @@ import { colors } from '@theme';
 import { areEmptyFilters } from '@utils/helpers';
 
 const Wrapper = styled.nav`
-  padding: 50px 0;
   margin-bottom: 25px;
   border: solid 1px ${colors.whiteTwo};
+  overflow: hidden;
 `;
-const Inner = styled.div`
+
+const Header = styled(Flex)`
+  ${container};
+  padding: 1rem 0;
+  height: 80px;
+  align-items: center;
+`;
+
+const ColumnsWrapper = styled.div`
+  ${container}
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 46px;
-  ${container}
+  max-height: ${props => (props.isOpen ? 'auto' : 0)};
+  transition: max-height 250ms ease-out;
+  > div {
+    padding: 1rem 0;
+  }
 `;
 
 const FilterItem = styled.div`
@@ -26,15 +40,92 @@ const FilterItem = styled.div`
   color: ${props => (props.isActive ? colors.lipstick : colors.black)};
 `;
 
-const Filters = ({ location }) => {
+const Columns = ({ isOpen }) => {
   const { state, dispatch } = useContext(GlobalContext);
-
   const isFilterActive = (key, value) =>
     state.filters.has(key) && state.filters.get(key).has(value);
 
   const toggleFilter = (key, value) => {
     dispatch({ type: 'update_filters', payload: { key, value } });
   };
+
+  return (
+    <StaticQuery
+      query={graphql`
+        query {
+          models: allSanityModel {
+            nodes {
+              id
+              title
+            }
+          }
+          collections: allSanityCollection {
+            nodes {
+              id
+              title
+            }
+          }
+        }
+      `}
+      render={data => {
+        const models = data.models.nodes;
+        const collections = data.collections.nodes;
+        return (
+          <ColumnsWrapper isOpen={isOpen}>
+            {models && models.length > 0 && (
+              <div>
+                <strong>Modèles</strong>
+                <ul>
+                  {models.map(model => (
+                    <li key={model.id}>
+                      <FilterItem
+                        onClick={e => toggleFilter('model', model.id, e)}
+                        isActive={isFilterActive('model', model.id)}
+                      >
+                        {model.title}
+                      </FilterItem>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {collections && collections.length > 0 && (
+              <div>
+                <strong>Collections</strong>
+                <ul>
+                  {collections.map(collection => (
+                    <li key={collection.id}>
+                      <FilterItem
+                        onClick={() =>
+                          toggleFilter('collections', collection.id)
+                        }
+                        isActive={isFilterActive('collections', collection.id)}
+                      >
+                        {collection.title}
+                      </FilterItem>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div>
+              <FilterItem
+                onClick={() => toggleFilter('discount', true)}
+                isActive={isFilterActive('discount', true)}
+              >
+                solde
+              </FilterItem>
+            </div>
+          </ColumnsWrapper>
+        );
+      }}
+    />
+  );
+};
+
+const Filters = ({ location }) => {
+  const { state, dispatch } = useContext(GlobalContext);
+  const [isOpen, setIsOpen] = useState(false);
 
   const clearFilters = () => {
     dispatch({ type: 'clear_filters' });
@@ -59,87 +150,23 @@ const Filters = ({ location }) => {
     navigate(url);
   }, [state.filters, location.pathname]);
 
+  console.log(state.filters);
+
   return (
-    <StaticQuery
-      query={graphql`
-        query {
-          models: allSanityModel {
-            nodes {
-              id
-              title
-            }
-          }
-          collections: allSanityCollection {
-            nodes {
-              id
-              title
-            }
-          }
-        }
-      `}
-      render={data => {
-        const models = data.models.nodes;
-        const collections = data.collections.nodes;
-        return (
-          <Wrapper>
-            <Inner>
-              {models && models.length > 0 && (
-                <div>
-                  <strong>Modèles</strong>
-                  <ul>
-                    {models.map(model => (
-                      <li key={model.id}>
-                        <FilterItem
-                          onClick={e => toggleFilter('model', model.id, e)}
-                          isActive={isFilterActive('model', model.id)}
-                        >
-                          {model.title}
-                        </FilterItem>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {collections && collections.length > 0 && (
-                <div>
-                  <strong>Collections</strong>
-                  <ul>
-                    {collections.map(collection => (
-                      <li key={collection.id}>
-                        <FilterItem
-                          onClick={() =>
-                            toggleFilter('collections', collection.id)
-                          }
-                          isActive={isFilterActive(
-                            'collections',
-                            collection.id
-                          )}
-                        >
-                          {collection.title}
-                        </FilterItem>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              <div>
-                <FilterItem
-                  onClick={() => toggleFilter('discount', true)}
-                  isActive={isFilterActive('discount', true)}
-                >
-                  solde
-                </FilterItem>
-              </div>
-              <div>
-                <button type="button" onClick={clearFilters}>
-                  clear filters
-                </button>
-              </div>
-            </Inner>
-          </Wrapper>
-        );
-      }}
-    />
+    <Wrapper>
+      <Header>
+        <Heading fontSize="1em">Filtres ({state.filters.size})</Heading>
+        <button onClick={() => setIsOpen(!isOpen)}>here</button>
+        <button
+          type="button"
+          onClick={clearFilters}
+          style={{ marginLeft: 'auto' }}
+        >
+          Réinitialiser
+        </button>
+      </Header>
+      <Columns isOpen={isOpen} />
+    </Wrapper>
   );
 };
 
