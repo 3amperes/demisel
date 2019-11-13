@@ -5,6 +5,13 @@ export const container = ({ my = 0, py = 0 }) => css`
   margin: ${my} auto;
   padding: ${py} 1rem;
 `;
+
+export const grid = css`
+  display: grid;
+  grid-template-columns: 1fr repeat(6, minmax(80px, 140px)) 1fr;
+  grid-gap: 40px;
+`;
+
 export const link = (color = 'currentColor') => css`
   display: inline-block;
   color: ${color};
