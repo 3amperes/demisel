@@ -73,21 +73,41 @@ const PushesWrapper = styled.section`
   column-gap: 40px;
   break-inside: avoid;
 
-  > div {
+  header,
+  footer {
     margin-bottom: 40px;
   }
 
-  a {
-    ${link(colors.lipstick)};
+  footer {
+    a {
+      ${link(colors.lipstick)};
+    }
   }
 
   .pushes-item {
+    display: block;
     position: relative;
+    margin-bottom: 40px;
+    overflow: hidden;
+
+    .gatsby-image-wrapper,
+    .pushes-title-arrow {
+      transition: all 250ms ease-in-out;
+    }
+
+    &:hover {
+      .gatsby-image-wrapper {
+        transform: scale(1.1) rotate(-2deg);
+      }
+      .pushes-title-arrow {
+        transform: translateX(-1em);
+      }
+    }
     &-title {
       position: absolute;
       width: 100%;
       bottom: 0;
-      padding: 1rem;
+      padding: 2rem;
       color: ${colors.white};
       z-index: 2;
       align-items: center;
@@ -100,7 +120,7 @@ const Pushes = ({ pushes }) => {
   return (
     <PushesWrapper>
       {(introduction || title) && (
-        <Box py="2rem" className="pushes-introduction">
+        <Box as="header" py="2rem" className="pushes-introduction">
           {title && (
             <Heading fontSize={[32, 48]} lineHeight="1.2" as="h2" mb="1rem">
               {title}
@@ -112,18 +132,18 @@ const Pushes = ({ pushes }) => {
       {items.length > 0 &&
         items.map(item => {
           return (
-            <div key={item._id} className="pushes-item">
+            <a href={item.link} key={item._id} className="pushes-item">
               <Flex className="pushes-item-title">
                 <Heading fontSize={[24]} as="h3" mr="auto">
                   {item.title}
                 </Heading>
-                <Go />
+                <Go className="pushes-title-arrow" />
               </Flex>
               <Image fluid={item.thumbnail.asset.fluid} />
-            </div>
+            </a>
           );
         })}
-      <Box textAlign="center">
+      <Box as="footer" textAlign="center" className="pushes-footer">
         <Heading fontSize={[32, 48]} lineHeight="1.2" as="h2" mb="1rem">
           Découvrez <br /> tous nos bijoux
         </Heading>
@@ -173,6 +193,7 @@ const query = graphql`
             introduction
             items {
               title
+              link
               thumbnail {
                 asset {
                   fluid(maxWidth: 400) {
