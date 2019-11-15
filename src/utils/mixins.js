@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+import { colors } from '@theme';
 
 export const container = ({ my = 0, py = 0 }) => css`
   max-width: 1076px;
@@ -28,4 +29,19 @@ export const link = (color = 'currentColor') => css`
     margin-top: 2px;
     background-color: ${color};
   }
+`;
+
+export const coloredSection = (height = '600px', orientation = '111deg') => css`
+  width: 100%;
+  height: ${height};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: ${colors.ligthPeach};
+  background-image: linear-gradient(
+    ${orientation},
+    rgba(215, 239, 244, 0),
+    #cbebf2
+  );
 `;
