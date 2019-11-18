@@ -22,6 +22,21 @@ const Header = styled(Flex)`
   align-items: center;
 `;
 
+const Dot = styled(Box)`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+`;
+
+const Color = ({ title, hex }) => {
+  return (
+    <Flex alignItems="center">
+      <Dot bg={hex} mr=".5rem" />
+      <Text>{title}</Text>
+    </Flex>
+  );
+};
+
 const ColumnsWrapper = styled.div`
   ${container}
   display: grid;
@@ -65,11 +80,21 @@ const Columns = ({ isOpen }) => {
               title
             }
           }
+          colors: allSanityProductColor {
+            nodes {
+              id
+              title
+              ref {
+                hex
+              }
+            }
+          }
         }
       `}
       render={data => {
         const models = data.models.nodes;
         const collections = data.collections.nodes;
+        const colors = data.colors.nodes;
         return (
           <ColumnsWrapper isOpen={isOpen}>
             {models && models.length > 0 && (
@@ -105,6 +130,25 @@ const Columns = ({ isOpen }) => {
                       </FilterItem>
                     </li>
                   ))}
+                </ul>
+              </div>
+            )}
+            {colors && colors.length > 0 && (
+              <div>
+                <strong>Couleurs</strong>
+                <ul>
+                  {colors.map(color => {
+                    return (
+                      <li key={color.id}>
+                        <FilterItem
+                          onClick={() => toggleFilter('collections', color.id)}
+                          isActive={isFilterActive('collections', color.id)}
+                        >
+                          <Color title={color.title} hex={color.ref.hex} />
+                        </FilterItem>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
