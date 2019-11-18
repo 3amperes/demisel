@@ -12,7 +12,7 @@ const Wrapper = styled(Box)`
   display: grid;
   grid-template-rows: 88px;
   grid-template-columns: 1fr auto 1fr;
-  grid-template-areas: 'navigation brand acess';
+  grid-template-areas: 'navigation brand access';
   padding: 0 2rem;
   position: ${props => (props.isFloat ? 'absolute' : 'relative')};
   top: 0;
@@ -61,8 +61,8 @@ const Brand = styled(Flex)`
   align-items: center;
   justify-content: center;
 `;
-const Acess = styled(Flex)`
-  grid-area: acess;
+const Access = styled(Flex)`
+  grid-area: access;
   align-items: center;
   justify-content: flex-end;
 `;
@@ -83,10 +83,10 @@ const Header = ({ siteTitle, isFloat }) => {
       <Brand>
         <Logo width={120} />
       </Brand>
-      <Acess>
-        <Search />
-        <Basket className="snipcart-checkout" ml="2rem" />
-      </Acess>
+      <Access>
+        {/* <Search /> */}
+        <Basket />
+      </Access>
     </Wrapper>
   );
 };

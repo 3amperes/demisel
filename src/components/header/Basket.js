@@ -1,29 +1,64 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { Flex } from 'rebass/styled-components';
+import { colors } from '@theme';
 
-const Wrapper = styled(Flex)`
-  border: none;
-  outline: 0;
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
-  align-items: center;
+const styles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: colors.white,
+  color: colors.black,
+  borderRadius: '50%',
+  width: 48,
+  height: 48,
+  outline: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  marginLeft: '2rem',
+  position: 'relative',
+};
+
+const Svg = styled.svg`
+  fill: currentColor;
+`;
+
+const Count = styled(Flex)`
   justify-content: center;
+  align-items: center;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  cursor: pointer;
-
-  svg {
-    fill: currentColor;
-  }
+  color: currentColor;
+  font-size: 10px;
+  line-height: 1;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 `;
 
 export default props => (
-  <Wrapper as="button" bg="lipstick" color="white" size={48} {...props}>
-    <svg viewBox="0 0 16 16" width={16}>
+  <motion.button
+    style={styles}
+    whileHover={{
+      scale: 1.1,
+      backgroundColor: colors.lipstick,
+      color: colors.white,
+    }}
+    whileTap={{
+      scale: 0.9,
+      backgroundColor: colors.lipstick,
+      color: colors.white,
+    }}
+    className="snipcart-checkout"
+  >
+    <Svg viewBox="0 0 16 16" width={16}>
       <title>{'Basket'}</title>
       <path d="M16 16H0V5h3v1H1v9h14V6h-2V5h3v11z" />
       <path d="M12 9h-1V1H5v8H4V0h8v9z" />
       <path d="M6 5h4v1H6z" />
-    </svg>
-  </Wrapper>
+    </Svg>
+    <Count className="snipcart-items-count"></Count>
+  </motion.button>
 );
