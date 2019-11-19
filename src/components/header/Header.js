@@ -19,7 +19,7 @@ const Wrapper = styled(Box)`
   left: 0;
   width: 100%;
   color: ${props => (props.isFloat ? colors.white : colors.black)};
-  z-index: 99;
+  z-index: 9;
 `;
 
 const Navigation = styled.nav`

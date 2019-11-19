@@ -49,7 +49,7 @@ const Header = styled(Flex)`
   align-items: center;
   position: relative;
   background-color: ${colors.white};
-  z-index: 20;
+  z-index: 8;
 `;
 
 const Dot = ({ isActive, bg }) => (
@@ -366,7 +366,7 @@ const Filters = ({ location }) => {
             position: 'absolute',
             top: '80px',
             width: '100%',
-            zIndex: 10,
+            zIndex: 7,
           }}
         >
           <Columns />
