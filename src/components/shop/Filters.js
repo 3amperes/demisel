@@ -19,7 +19,7 @@ const wrapper = {
     },
   },
   closed: {
-    opacity: 0.8,
+    opacity: 0,
     y: '-100%',
   },
 };
@@ -27,6 +27,11 @@ const wrapper = {
 const items = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: 16 },
+};
+
+const toggle = {
+  open: { rotate: 180 },
+  closed: { rotate: 0 },
 };
 
 const Wrapper = styled.nav`
@@ -59,6 +64,20 @@ const Dot = ({ isActive, bg }) => (
       />
     )}
     <circle fill={bg} cx={8} cy={8} r={5} />
+  </svg>
+);
+
+const Chevron = props => (
+  <svg
+    aria-hidden="true"
+    data-icon="chevron-down"
+    viewBox="0 0 448 512"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+    />
   </svg>
 );
 
@@ -114,6 +133,38 @@ const ColumnTitle = ({ title }) => (
     {title}
   </Text>
 );
+
+const ToggleButton = styled.button`
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 16px;
+  color: ${colors.warmGrey};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  cursor: pointer;
+`;
+
+const ClearButton = styled.button`
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: ${colors.lipstick};
+  cursor: pointer;
+  padding: 0;
+  transition: all 250ms ease;
+
+  &:disabled {
+    color: ${colors.warmGrey};
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+`;
 
 const Columns = () => {
   const { state, dispatch } = useContext(GlobalContext);
@@ -190,15 +241,13 @@ const Columns = () => {
                       return (
                         <motion.li key={color.id} variants={items}>
                           <FilterItem
-                            onClick={() =>
-                              toggleFilter('collections', color.id)
-                            }
-                            isActive={isFilterActive('collections', color.id)}
+                            onClick={() => toggleFilter('color', color.id)}
+                            isActive={isFilterActive('color', color.id)}
                           >
                             <Color
                               title={color.title}
                               hex={color.ref.hex}
-                              isActive={isFilterActive('collections', color.id)}
+                              isActive={isFilterActive('color', color.id)}
                             />
                           </FilterItem>
                         </motion.li>
@@ -277,32 +326,50 @@ const Filters = ({ location }) => {
     navigate(url);
   }, [state.filters, location.pathname]);
 
+  const flatFiltersSize = Array.from(state.filters.values())
+    .map(collection => [...collection])
+    .flat().length;
+
   return (
     <Wrapper isOpen={isOpen}>
-      <Header>
-        <Heading fontSize="1em">Filtres ({state.filters.size})</Heading>
-        <button onClick={() => setIsOpen(!isOpen)}>here</button>
-        <button
-          type="button"
-          onClick={clearFilters}
-          style={{ marginLeft: 'auto' }}
+      <motion.div animate={isOpen ? 'open' : 'closed'} initial="closed">
+        <Header>
+          <Heading fontSize="1rem">Filtres</Heading>
+          <Text
+            ml="0.5rem"
+            fontSize={14}
+            color={flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey}
+          >
+            ({flatFiltersSize || 'aucun'})
+          </Text>
+          <Box mx="0.5rem" mr="auto">
+            <motion.div variants={toggle}>
+              <ToggleButton onClick={() => setIsOpen(!isOpen)}>
+                <Chevron width="12px" />
+              </ToggleButton>
+            </motion.div>
+          </Box>
+          <motion.div whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+            <ClearButton
+              disabled={flatFiltersSize === 0}
+              onClick={clearFilters}
+            >
+              Réinitialiser
+            </ClearButton>
+          </motion.div>
+        </Header>
+        <motion.nav
+          variants={wrapper}
+          style={{
+            position: 'absolute',
+            top: '80px',
+            width: '100%',
+            zIndex: 10,
+          }}
         >
-          Réinitialiser
-        </button>
-      </Header>
-      <motion.nav
-        animate={isOpen ? 'open' : 'closed'}
-        initial="closed"
-        variants={wrapper}
-        style={{
-          position: 'absolute',
-          top: '80px',
-          width: '100%',
-          zIndex: 10,
-        }}
-      >
-        <Columns />
-      </motion.nav>
+          <Columns />
+        </motion.nav>
+      </motion.div>
     </Wrapper>
   );
 };
