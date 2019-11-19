@@ -216,7 +216,9 @@ const Columns = () => {
                     className={
                       models.length > 6
                         ? 'column-3'
-                        : models.length > 3 && 'column-2'
+                        : models.length > 3
+                        ? 'column-2'
+                        : ''
                     }
                   >
                     {models.map(model => (
@@ -241,13 +243,13 @@ const Columns = () => {
                       return (
                         <motion.li key={color.id} variants={items}>
                           <FilterItem
-                            onClick={() => toggleFilter('color', color.id)}
-                            isActive={isFilterActive('color', color.id)}
+                            onClick={() => toggleFilter('colors', color.id)}
+                            isActive={isFilterActive('colors', color.id)}
                           >
                             <Color
                               title={color.title}
                               hex={color.ref.hex}
-                              isActive={isFilterActive('color', color.id)}
+                              isActive={isFilterActive('colors', color.id)}
                             />
                           </FilterItem>
                         </motion.li>

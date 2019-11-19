@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { Box } from 'rebass/styled-components';
 import isEqual from 'lodash.isequal';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
-import { container } from '@utils/mixins';
+import { colors } from '@theme';
+import { container, link } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
 
-const Wrapper = styled.div`
+const Wrapper = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 46px;
@@ -16,6 +18,15 @@ const Wrapper = styled.div`
 
 const Empty = styled.div`
   ${container};
+`;
+
+const LoadMoreButton = styled.button`
+  outline: none;
+  border: none;
+  background: none;
+  padding: 0;
+
+  ${link(colors.lipstick)}
 `;
 
 const getFiltersFromQueryParams = params => {
@@ -54,7 +65,11 @@ const ShopList = ({ items, search }) => {
       {state.items.length > 0 ? (
         <Wrapper>
           {state.items.slice(0, state.visible).map(({ node: product }) => {
-            return <ProductItem key={product.id} item={product} />;
+            return (
+              <motion.li positionTransition key={product.id}>
+                <ProductItem item={product} />
+              </motion.li>
+            );
           })}
         </Wrapper>
       ) : (
@@ -62,9 +77,13 @@ const ShopList = ({ items, search }) => {
       )}
       {hasMore() && (
         <Box my={5} textAlign="center">
-          <button onClick={loadMore} type="button" className="load-more">
+          <LoadMoreButton
+            onClick={loadMore}
+            type="button"
+            className="load-more"
+          >
             Load more
-          </button>
+          </LoadMoreButton>
         </Box>
       )}
     </>
