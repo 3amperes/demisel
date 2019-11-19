@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
+import { hidden } from 'ansi-colors';
 
 const MainLayout = ({ children, headerFloat }) => (
   <StaticQuery
@@ -28,7 +29,9 @@ const MainLayout = ({ children, headerFloat }) => (
           siteTitle={data.site.siteMetadata.title}
           isFloat={headerFloat}
         />
-        <main>{children}</main>
+        <main style={{ overflow: 'hidden', minHeight: '400px' }}>
+          {children}
+        </main>
         <Footer />
       </>
     )}
