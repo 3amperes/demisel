@@ -25,7 +25,9 @@ const ProductItem = ({ item }) => {
           item.title
         )}
       </Link>
-      <Text fontFamily="orpheuspro">{getProductTitle(item)}</Text>
+      <Text mt="1rem" fontFamily="orpheuspro">
+        {getProductTitle(item)}
+      </Text>
       <Price item={item} />
     </article>
   );

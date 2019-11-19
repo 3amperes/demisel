@@ -54,6 +54,9 @@ export const query = graphql`
           collections {
             id
           }
+          colors {
+            id
+          }
         }
       }
     }
