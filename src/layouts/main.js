@@ -8,10 +8,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
+import styled from 'styled-components';
+import { Box } from 'rebass/styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 
-const MainLayout = ({ children, headerFloat }) => (
+const Main = styled.main`
+  overflow: hidden;
+  min-height: 400px;
+`;
+
+const MainLayout = ({ children, headerFloat, ...rest }) => (
   <StaticQuery
     query={graphql`
       query SiteTitleQuery {
@@ -23,7 +30,7 @@ const MainLayout = ({ children, headerFloat }) => (
       }
     `}
     render={data => (
-      <>
+      <Box {...rest}>
         <Header
           siteTitle={data.site.siteMetadata.title}
           isFloat={headerFloat}
@@ -32,7 +39,7 @@ const MainLayout = ({ children, headerFloat }) => (
           {children}
         </main>
         <Footer />
-      </>
+      </Box>
     )}
   />
 );
