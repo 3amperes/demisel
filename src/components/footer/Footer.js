@@ -72,13 +72,7 @@ const Footer = () => (
                 <Link to="/contact">Contactez-nous</Link>
               </li>
               <li>
-                <Link to="/rgpd">Politique de confidentialité</Link>
-              </li>
-              <li>
-                <Link to="/cgu">CGV - CGU</Link>
-              </li>
-              <li>
-                <Link to="/shipping">Livraison et retour</Link>
+                <Link to="/cgu">CGV</Link>
               </li>
               <li>
                 <Link to="/legal">Mentions légales</Link>
