@@ -50,7 +50,7 @@ const Navigation = styled.nav`
       width: 100%;
       height: 2px;
       background-color: currentColor;
-      transform: translateX(-100%);
+      transform: translateX(-105%);
       transition: transform 250ms ease-in-out;
     }
 
