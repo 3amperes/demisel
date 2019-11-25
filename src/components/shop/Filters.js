@@ -52,6 +52,10 @@ const Header = styled(Flex)`
   z-index: 8;
 `;
 
+const List = styled.ul`
+  columns: ${props => props.columns};
+`;
+
 const Dot = ({ isActive, bg }) => (
   <svg width={16} height={16}>
     {isActive && (
@@ -143,10 +147,9 @@ const ToggleButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
   padding: 0;
   cursor: pointer;
+  display: flex;
 `;
 
 const ClearButton = styled.button`
@@ -212,14 +215,8 @@ const Columns = () => {
               {models && models.length > 0 && (
                 <Box width={1 / 2}>
                   <ColumnTitle title="Modèles" />
-                  <ul
-                    className={
-                      models.length > 6
-                        ? 'column-3'
-                        : models.length > 3
-                        ? 'column-2'
-                        : ''
-                    }
+                  <List
+                    columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
                   >
                     {models.map(model => (
                       <motion.li key={model.id} variants={items}>
@@ -231,14 +228,14 @@ const Columns = () => {
                         </FilterItem>
                       </motion.li>
                     ))}
-                  </ul>
+                  </List>
                 </Box>
               )}
 
               {colors && colors.length > 0 && (
                 <Box width={[1 / 3]}>
                   <ColumnTitle title="Couleurs" />
-                  <ul className={models.length > 3 && 'column-2'}>
+                  <List columns={colors.length > 3 ? 2 : 1}>
                     {colors.map(color => {
                       return (
                         <motion.li key={color.id} variants={items}>
@@ -255,7 +252,7 @@ const Columns = () => {
                         </motion.li>
                       );
                     })}
-                  </ul>
+                  </List>
                 </Box>
               )}
 
@@ -336,20 +333,23 @@ const Filters = ({ location }) => {
     <Wrapper isOpen={isOpen}>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial="closed">
         <Header>
-          <Heading fontSize="1rem">Filtres</Heading>
-          <Text
-            ml="0.5rem"
-            fontSize={14}
-            color={flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey}
-          >
-            ({flatFiltersSize || 'aucun'})
-          </Text>
-          <Box mx="0.5rem" mr="auto">
-            <motion.div variants={toggle}>
-              <ToggleButton onClick={() => setIsOpen(!isOpen)}>
-                <Chevron width="12px" />
-              </ToggleButton>
-            </motion.div>
+          <Box mr="auto">
+            <ToggleButton onClick={() => setIsOpen(!isOpen)}>
+              <Heading fontSize="1rem">Filtres</Heading>
+              <Text
+                mx="0.5rem"
+                fontSize={14}
+                color={flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey}
+              >
+                ({flatFiltersSize || 'aucun'})
+              </Text>
+              <motion.div
+                variants={toggle}
+                style={{ lineHeight: 1, height: '14px' }}
+              >
+                <Chevron width="12px" mx="0.5rem" />
+              </motion.div>
+            </ToggleButton>
           </Box>
           <motion.div whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
             <ClearButton

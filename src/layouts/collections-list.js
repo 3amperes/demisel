@@ -42,7 +42,8 @@ const ItemTitle = styled(Flex)`
 `;
 
 const Collections = ({ data }) => {
-  const collections = data.allSanityCollection.edges;
+  const collections =
+    data && data.allSanityCollection ? data.allSanityCollection.edges : [];
 
   return (
     <MainLayout>

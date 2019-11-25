@@ -13,7 +13,6 @@ const Wrapper = styled.article`
   grid-template-columns: 3fr 2fr;
   grid-template-rows: auto;
   grid-template-areas: 'aside main';
-  border-top: 4px solid rgba(0, 0, 0, 0.16);
   grid-gap: 40px;
 
   .aside {

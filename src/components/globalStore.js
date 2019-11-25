@@ -11,12 +11,12 @@ const initialState = {
   items: [],
   allItems: [],
   filters: new Map(),
-  visible: 6,
+  visible: 9,
   error: false,
 };
 
 function reducer(state, action) {
-  console.log(`*** dispatched ${action.type} ***`, action.payload);
+  // console.log(`*** dispatched ${action.type} ***`, action.payload);
   const getFilteredItems = filters => {
     if (filters.size === 0) return [];
     const arrayFilter = Array.from(filters);
@@ -32,7 +32,6 @@ function reducer(state, action) {
           case 'collections':
             return item[key] && item[key].some(({ id }) => collection.has(id));
           case 'colors':
-            console.log('YEEE');
             return item[key] && item[key].some(({ id }) => collection.has(id));
           case 'discount':
             return (
@@ -54,7 +53,7 @@ function reducer(state, action) {
     case 'loadmore':
       return {
         ...state,
-        visible: state.visible + 2,
+        visible: state.visible + 9,
       };
     case 'init_filters':
       return {

@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import { Flex, Box } from 'rebass/styled-components';
 import { colors, fontWeigths } from '@theme';
 import Logo from '../logo';
-import Search from './Search';
+// import Search from './Search';
 import Basket from './Basket';
 
 const Wrapper = styled(Box)`
@@ -19,7 +19,11 @@ const Wrapper = styled(Box)`
   left: 0;
   width: 100%;
   color: ${props => (props.isFloat ? colors.white : colors.black)};
-  z-index: 9;
+  background-color: ${props => (props.isFloat ? 'transparent' : colors.white)};
+  border-color: ${props => (props.isFloat ? 'transparent' : colors.whiteTwo)};
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  z-index: 1;
 `;
 
 const Navigation = styled.nav`
@@ -67,12 +71,7 @@ const Access = styled(Flex)`
   justify-content: flex-end;
 `;
 
-const Header = ({ siteTitle, isFloat }) => {
-  const handleClickCart = e => {
-    e.preventDefault();
-    window.Snipcart.api.modal.show();
-  };
-
+const Header = ({ isFloat }) => {
   return (
     <Wrapper as="header" isFloat={isFloat}>
       <Navigation>

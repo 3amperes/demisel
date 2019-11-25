@@ -37,7 +37,6 @@ export default props => (
       </Text>
     </Box>
     <Flex as="ul">
-      <Item>#1%pourlaplanète</Item>
       <Item>#zérodéchet</Item>
       <Item>#recyclage</Item>
       <Item>#upcycling</Item>

@@ -69,9 +69,14 @@ const PushesWrapper = styled.section`
   ${container};
   padding: 120px 0;
   background-color: ${colors.white};
-  columns: 2;
+  columns: ${props => props.columns};
   column-gap: 40px;
-  break-inside: avoid;
+
+  a {
+    display: block;
+    break-inside: avoid;
+    cursor: pointer;
+  }
 
   header,
   footer {
@@ -97,7 +102,7 @@ const PushesWrapper = styled.section`
 
     &:hover {
       .gatsby-image-wrapper {
-        transform: scale(1.1) rotate(-2deg);
+        transform: scale(1.1);
       }
       .pushes-title-arrow {
         transform: translateX(-1em);
@@ -118,7 +123,7 @@ const PushesWrapper = styled.section`
 const Pushes = ({ pushes }) => {
   const { title, introduction, items } = pushes;
   return (
-    <PushesWrapper>
+    <PushesWrapper columns={2}>
       {(introduction || title) && (
         <Box as="header" py="2rem" className="pushes-introduction">
           {title && (
@@ -132,7 +137,7 @@ const Pushes = ({ pushes }) => {
       {items.length > 0 &&
         items.map(item => {
           return (
-            <a href={item.link} key={item._id} className="pushes-item">
+            <a href={item.link} key={item.title} className="pushes-item">
               <Flex className="pushes-item-title">
                 <Heading fontSize={[24]} as="h3" mr="auto">
                   {item.title}

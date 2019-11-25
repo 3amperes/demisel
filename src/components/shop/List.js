@@ -82,7 +82,7 @@ const ShopList = ({ items, search }) => {
             type="button"
             className="load-more"
           >
-            Load more
+            Voir plus ({state.visible} / {state.items.length})
           </LoadMoreButton>
         </Box>
       )}
