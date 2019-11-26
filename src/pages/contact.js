@@ -136,7 +136,8 @@ export default () => (
               >
                 Votre message
               </Heading>
-              <Form name="contact" netlify>
+              <Form name="contact" data-netlify="true">
+                <input type="hidden" name="form-name" value="Contact" />
                 <Field label="Votre demande" id="demand">
                   <input type="text" name="demand" required />
                 </Field>
