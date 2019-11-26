@@ -136,8 +136,14 @@ export default () => (
               >
                 Votre message
               </Heading>
-              <Form name="contact" data-netlify="true">
-                <input type="hidden" name="form-name" value="Contact" />
+              <Form
+                method="post"
+                name="contact"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <input type="hidden" name="bot-field" />
                 <Field label="Votre demande" id="demand">
                   <input type="text" name="demand" required />
                 </Field>
