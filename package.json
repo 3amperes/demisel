@@ -36,6 +36,7 @@
     "react-dom": "^16.8.4",
     "react-helmet": "^5.2.0",
     "rebass": "^4.0.2",
+    "styled-breakpoints": "^7.1.0",
     "styled-components": "^4.3.2",
     "styled-system": "^5.1.0"
   },

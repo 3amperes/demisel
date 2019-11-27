@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { StaticQuery, Link, graphql } from 'gatsby';
 import { Text } from 'rebass/styled-components';
 import { container } from '@utils/mixins';
@@ -7,10 +8,13 @@ import { colors } from '@theme';
 
 const Wrapper = styled.footer`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 46px;
   grid-row-gap: 100px;
-  ${container({ py: '150px' })}
+  ${container({ py: '150px' })};
+  ${up('tablet')} {
+    grid-template-columns: repeat(4, 1fr);
+  }
 
   a {
     color: ${colors.warmGrey};

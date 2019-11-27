@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { Box } from 'rebass/styled-components';
 import isEqual from 'lodash.isequal';
@@ -11,9 +12,16 @@ import withLocation from '@utils/withLocation';
 
 const Wrapper = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 46px;
   ${container}
+
+  ${up('tablet')} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  ${up('desktop')} {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const Empty = styled.div`

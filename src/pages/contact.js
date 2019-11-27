@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { StaticQuery, graphql } from 'gatsby';
 import { navigate } from 'gatsby-link';
 import styled from 'styled-components';
 import { Heading, Text, Box, Flex } from 'rebass/styled-components';
 import { MainLayout } from '@layouts';
-import { coloredSection, container } from '@utils/mixins';
+import { coloredSection } from '@utils/mixins';
 import { colors } from '@theme';
 import SEO from '@components/seo';
 import Newsletter from '@components/newsletter';

@@ -12,11 +12,11 @@ const ProductItem = ({ item }) => {
     <article>
       <Link to={`/product/${item.id}`}>
         {item.thumbnail ? (
-          <Figure>
+          <Figure py={[20, 40]}>
             <Image
               style={{
-                width: '100%',
-                height: '100%',
+                width: '80%',
+                height: '80%',
               }}
               fluid={item.thumbnail.asset.fluid}
             />

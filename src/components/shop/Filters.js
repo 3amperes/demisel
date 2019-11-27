@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
@@ -40,6 +41,7 @@ const Wrapper = styled.nav`
   border-bottom: solid 1px
     ${props => (!props.isOpen ? colors.whiteTwo : colors.white)};
   position: relative;
+  padding: 0 1rem;
 `;
 
 const Header = styled(Flex)`
@@ -53,7 +55,10 @@ const Header = styled(Flex)`
 `;
 
 const List = styled.ul`
-  columns: ${props => props.columns};
+  columns: 2;
+  ${up('tablet')} {
+    columns: ${props => props.columns};
+  }
 `;
 
 const Dot = ({ isActive, bg }) => (
@@ -100,20 +105,12 @@ const ColumnsWrapper = styled.div`
 `;
 
 const ColumnsInner = styled(Flex)`
-  ${container}
+  ${container};
+  flex-wrap: wrap;
   padding: 1rem 0;
 
   ul {
     padding: 0.5rem 0;
-  }
-
-  .column {
-    &-2 {
-      columns: 2;
-    }
-    &-3 {
-      columns: 3;
-    }
   }
   .separator {
     width: 24px;
@@ -213,7 +210,7 @@ const Columns = () => {
           <ColumnsWrapper>
             <ColumnsInner>
               {models && models.length > 0 && (
-                <Box width={1 / 2}>
+                <Box width={[1, 1 / 2]}>
                   <ColumnTitle title="Modèles" />
                   <List
                     columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
@@ -233,7 +230,7 @@ const Columns = () => {
               )}
 
               {colors && colors.length > 0 && (
-                <Box width={[1 / 3]}>
+                <Box width={[1, 1 / 3]}>
                   <ColumnTitle title="Couleurs" />
                   <List columns={colors.length > 3 ? 2 : 1}>
                     {colors.map(color => {
@@ -257,7 +254,7 @@ const Columns = () => {
               )}
 
               {collections && collections.length > 0 && (
-                <Box width={[1 / 6]}>
+                <Box width={[1, 1 / 6]}>
                   <ColumnTitle title="Collections" />
                   <ul>
                     {collections.map(collection => (

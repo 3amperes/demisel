@@ -64,7 +64,12 @@ const Collections = ({ data }) => {
         {collections.map(({ node: item }) => (
           <li key={item.id}>
             <Link to={`/collections/${item.id}`}>
-              {item.thumbnail && <Image fixed={item.thumbnail.asset.fixed} />}
+              {item.thumbnail && (
+                <Image
+                  style={{ maxWidth: '100%' }}
+                  fixed={item.thumbnail.asset.fixed}
+                />
+              )}
               <ItemTitle>
                 <Heading
                   fontSize={24}

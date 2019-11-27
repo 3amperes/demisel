@@ -12411,6 +12411,11 @@ style-value-types@^3.1.6:
   dependencies:
     hey-listen "^1.0.8"
 
+styled-breakpoints@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/styled-breakpoints/-/styled-breakpoints-7.1.0.tgz#7c2f97f2e74585b6e60f03b5f2fe7c4fcaf003aa"
+  integrity sha512-FIDpNFEHjdc//hlKM5W2zQ8zMzcUzZMdONa6Fb+WCAxRBnTpYoaDHCirXMm49kxQrwjaq+L1r39/chS5teLdqw==
+
 styled-components@^4.3.2:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-4.4.1.tgz#e0631e889f01db67df4de576fedaca463f05c2f2"
