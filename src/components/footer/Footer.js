@@ -28,7 +28,7 @@ const Title = ({ children }) => (
 const Categories = ({ items }) =>
   items.length > 0 ? (
     <div>
-      <Title>Collections</Title>
+      <Title>Catégories</Title>
       <ul>
         {items.map(node => {
           return (
