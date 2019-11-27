@@ -98,134 +98,93 @@ export default () => {
   };
 
   return (
-    <StaticQuery
-      query={graphql`
-        query {
-          introImage: file(relativePath: { eq: "outlets.jpg" }) {
-            childImageSharp {
-              fluid(maxWidth: 800) {
-                ...GatsbyImageSharpFluid
-              }
-            }
-          }
-          countries: allSanityCountry(sort: { fields: name }) {
-            edges {
-              node {
-                id
-                name
-                outlets {
-                  _key
-                  name
-                  city
-                  url
-                }
-              }
-            }
-          }
-        }
-      `}
-      render={data => {
-        return (
-          <MainLayout bg="whiteTwo">
-            <SEO title="Contact" />
-            <Header>
-              <Heading as="h1" fontSize={[32, 56]} lineHeight="1.2" mb="0.5em">
-                Contactez-nous
-              </Heading>
-              <Text
-                maxWidth="338px"
-                mb={`${offset}px`}
-                color="greyishBrown"
-                fontSize={14}
-                lineHeight="24px"
-                textAlign="center"
-              >
-                On adore avoir de vos nouvelles ! Alors que ce soir pour une
-                question sur un produit, sur une disponibilité, sur nos
-                collections, pour parler up cycling ou zéro déchet ou encore
-                pour devenir revendeur de nos bijoux, envoyez nous votre message
-                !
-              </Text>
-            </Header>
-            <Flex>
-              <Box
-                p={[20, 120]}
-                bg="white"
-                mt={`-${offset}px`}
-                mb={`${offset}px`}
-                ml="auto"
-                mr="auto"
-                width={[1, '700px']}
-              >
-                <Heading
-                  textAlign="center"
-                  as="h2"
-                  fontSize={24}
-                  lineHeight="1.2"
-                  mb="0.5em"
-                >
-                  Votre message
-                </Heading>
-                <Form
-                  name="contact"
-                  method="post"
-                  action="/thanks/"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit}
-                >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <input
-                    type="hidden"
-                    name="bot-field"
-                    onChange={handleChange}
-                  />
-                  <Field label="Votre demande" id="demand">
-                    <input
-                      type="text"
-                      name="demand"
-                      required
-                      onChange={handleChange}
-                    />
-                  </Field>
-                  <Field label="Votre nom complet">
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      onChange={handleChange}
-                    />
-                  </Field>
-                  <Field label="Votre email">
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      onChange={handleChange}
-                    />
-                  </Field>
-                  <Field label="Votre entreprise (facultatif)">
-                    <input type="text" name="company" onChange={handleChange} />
-                  </Field>
-                  <Field label="Votre demande">
-                    <textarea
-                      name="message"
-                      cols="30"
-                      rows="10"
-                      required
-                      onChange={handleChange}
-                    ></textarea>
-                  </Field>
-                  <Box mt={['1rem', '4rem']}>
-                    <button type="submit">Envoyer la missive</button>
-                  </Box>
-                </Form>
-              </Box>
-            </Flex>
-            <Newsletter />
-          </MainLayout>
-        );
-      }}
-    />
+    <MainLayout bg="whiteTwo">
+      <SEO title="Contact" />
+      <Header>
+        <Heading as="h1" fontSize={[32, 56]} lineHeight="1.2" mb="0.5em">
+          Contactez-nous
+        </Heading>
+        <Text
+          maxWidth="338px"
+          mb={`${offset}px`}
+          color="greyishBrown"
+          fontSize={14}
+          lineHeight="24px"
+          textAlign="center"
+        >
+          On adore avoir de vos nouvelles ! Alors que ce soir pour une question
+          sur un produit, sur une disponibilité, sur nos collections, pour
+          parler up cycling ou zéro déchet ou encore pour devenir revendeur de
+          nos bijoux, envoyez nous votre message !
+        </Text>
+      </Header>
+      <Flex>
+        <Box
+          p={[20, 120]}
+          bg="white"
+          mt={`-${offset}px`}
+          mb={`${offset}px`}
+          ml="auto"
+          mr="auto"
+          width={[1, '700px']}
+        >
+          <Heading
+            textAlign="center"
+            as="h2"
+            fontSize={24}
+            lineHeight="1.2"
+            mb="0.5em"
+          >
+            Votre message
+          </Heading>
+          <Form
+            name="contact"
+            method="post"
+            action="/thanks/"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="bot-field" onChange={handleChange} />
+            <Field label="Votre demande" id="demand">
+              <input
+                type="text"
+                name="demand"
+                required
+                onChange={handleChange}
+              />
+            </Field>
+            <Field label="Votre nom complet">
+              <input type="text" name="name" required onChange={handleChange} />
+            </Field>
+            <Field label="Votre email">
+              <input
+                type="email"
+                name="email"
+                required
+                onChange={handleChange}
+              />
+            </Field>
+            <Field label="Votre entreprise (facultatif)">
+              <input type="text" name="company" onChange={handleChange} />
+            </Field>
+            <Field label="Votre demande">
+              <textarea
+                name="message"
+                cols="30"
+                rows="10"
+                required
+                onChange={handleChange}
+              ></textarea>
+            </Field>
+            <Box mt={['1rem', '4rem']}>
+              <button type="submit">Envoyer la missive</button>
+            </Box>
+          </Form>
+        </Box>
+      </Flex>
+      <Newsletter />
+    </MainLayout>
   );
 };
