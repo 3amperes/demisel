@@ -23,6 +23,10 @@ const Form = styled.form`
   align-items: center;
   box-sizing: border-box;
 
+  label {
+    visibilty: hidden;
+  }
+
   input {
     margin-right: auto;
     flex: 1;
@@ -61,9 +65,34 @@ export default props => (
         collections, nouveaux modèles et des offres promotionnelles.
       </Text>
     </Box>
-    <Form>
-      <input type="text" name="email" placeholder="Saisissez votre email" />
-      <button type="submit">S'inscrire</button>
+    <Form
+      action="https://demiselbijoux.us4.list-manage.com/subscribe/post?u=82d123f955831cfd6e69c3fa3&amp;id=8036f1697c"
+      method="post"
+      id="mc-embedded-subscribe-form"
+      name="mc-embedded-subscribe-form"
+      className="validate"
+      target="_blank"
+      novalidate
+    >
+      {/* <label htmlFor="mce-EMAIL">Email Address</label> */}
+      <input
+        type="email"
+        name="EMAIL"
+        id="mce-EMAIL"
+        required
+        placeholder="Saisissez votre email"
+      />
+      <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+        <input
+          type="text"
+          name="b_82d123f955831cfd6e69c3fa3_8036f1697c"
+          tabIndex="-1"
+          value=""
+        />
+      </div>
+      <button type="submit" id="mc-embedded-subscribe">
+        S'inscrire
+      </button>
     </Form>
   </Wrapper>
 );
