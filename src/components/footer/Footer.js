@@ -51,8 +51,9 @@ const Footer = () => (
   <StaticQuery
     query={graphql`
       query {
-        allSanityCategory {
+        categories: allSanityCategory {
           nodes {
+            _id
             id
             slug {
               current
@@ -60,12 +61,24 @@ const Footer = () => (
             title
           }
         }
+        productsGroupByCategories: allSanityProduct(limit: 2000) {
+          group(field: category____id) {
+            fieldValue
+            totalCount
+          }
+        }
       }
     `}
     render={data => {
       return (
         <Wrapper>
-          <Categories items={data.allSanityCategory.nodes}></Categories>
+          <Categories
+            items={data.categories.nodes.filter(category =>
+              data.productsGroupByCategories.group
+                .map(item => item.fieldValue)
+                .includes(category._id)
+            )}
+          ></Categories>
           <div>
             <Title>Entreprise</Title>
             <ul>

@@ -166,7 +166,7 @@ const ClearButton = styled.button`
   }
 `;
 
-const Columns = () => {
+const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const isFilterActive = (key, value) =>
     state.filters.has(key) && state.filters.get(key).has(value);
@@ -175,24 +175,30 @@ const Columns = () => {
     dispatch({ type: 'update_filters', payload: { key, value } });
   };
 
+  const filterEmptyItems = (array, key) =>
+    array.filter(item => ids[key].includes(item._id));
+
   return (
     <StaticQuery
       query={graphql`
         query {
           models: allSanityModel {
             nodes {
+              _id
               id
               title
             }
           }
           collections: allSanityCollection {
             nodes {
+              _id
               id
               title
             }
           }
           colors: allSanityProductColor {
             nodes {
+              _id
               id
               title
               ref {
@@ -203,9 +209,12 @@ const Columns = () => {
         }
       `}
       render={data => {
-        const models = data.models.nodes;
-        const collections = data.collections.nodes;
-        const colors = data.colors.nodes;
+        const models = filterEmptyItems(data.models.nodes, 'models');
+        const collections = filterEmptyItems(
+          data.collections.nodes,
+          'collections'
+        );
+        const colors = filterEmptyItems(data.colors.nodes, 'colors');
         return (
           <ColumnsWrapper>
             <ColumnsInner>
@@ -295,7 +304,7 @@ const Columns = () => {
   );
 };
 
-const Filters = ({ location }) => {
+const Filters = ({ location, ids }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -366,7 +375,7 @@ const Filters = ({ location }) => {
             zIndex: 7,
           }}
         >
-          <Columns />
+          <Columns ids={ids} />
         </motion.nav>
       </motion.div>
     </Wrapper>
