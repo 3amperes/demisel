@@ -61,7 +61,7 @@ const Collection = ({ data }) => {
                   {section.img1 && <Image fixed={section.img1.asset.fixed} />}
                   {section.img2 && (
                     <Image
-                      fixed={section.img1.asset.fixed}
+                      fixed={section.img2.asset.fixed}
                       style={{ position: 'relative', top: '100px' }}
                     />
                   )}
