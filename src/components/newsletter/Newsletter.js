@@ -88,6 +88,7 @@ export default props => (
           name="b_82d123f955831cfd6e69c3fa3_8036f1697c"
           tabIndex="-1"
           value=""
+          onChange={() => {}}
         />
       </div>
       <button type="submit" id="mc-embedded-subscribe">

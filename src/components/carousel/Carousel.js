@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'rebass/styled-components';
 import { colors } from '@theme';
@@ -13,8 +13,8 @@ const Wrapper = styled(Box)`
 
 const Pagination = styled(Flex)`
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 2rem;
+  bottom: 2rem;
 `;
 
 const PaginationButton = styled.button`
@@ -30,6 +30,18 @@ const PaginationButton = styled.button`
 
 export default ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      currentIndex < items.length - 1
+        ? setCurrentIndex(currentIndex + 1)
+        : setCurrentIndex(0);
+    }, 8000);
+    return () => {
+      clearTimeout(t);
+    };
+  }, [currentIndex, setCurrentIndex]);
+
   return (
     items.length > 0 && (
       <Wrapper>

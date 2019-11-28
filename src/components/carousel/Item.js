@@ -12,9 +12,23 @@ const Wrapper = styled(Box)`
   left: 0;
   opacity: ${props => (props.isCurrent ? 1 : 0)};
   position: ${props => (props.isCurrent ? 'relative' : 'absolute')};
-  transition: all 250ms ease-in-out;
-  background-color: pink;
+  transition: all 450ms ease-in-out;
+  background-color: ${colors.whiteTwo};
 `;
+
+const Filigrane = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  opacity: 0.5;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(84, 84, 84, 0) 100%
+  );
+`;
+
 const Inner = styled(Flex)`
   position: absolute;
   height: 100%;
@@ -62,6 +76,7 @@ export default ({ item, isCurrent }) => {
   return (
     <Wrapper isCurrent={isCurrent}>
       <Image height={400} fluid={image.asset.fluid} />
+      <Filigrane />
       <ItemContent {...rest} />
     </Wrapper>
   );

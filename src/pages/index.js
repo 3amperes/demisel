@@ -170,7 +170,7 @@ const query = graphql`
             _key
             image {
               asset {
-                fluid(maxWidth: 2000) {
+                fluid(maxWidth: 1330, maxHeight: 768) {
                   ...GatsbySanityImageFluid
                 }
               }
