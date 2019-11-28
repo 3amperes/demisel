@@ -58,6 +58,12 @@ export const query = graphql`
               weight
             }
           }
+          collections {
+            id
+          }
+          colors {
+            id
+          }
         }
       }
     }

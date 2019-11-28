@@ -30,7 +30,6 @@ function reducer(state, action) {
           default:
             return item[key] && item[key].id && collection.has(item[key].id);
           case 'collections':
-            return item[key] && item[key].some(({ id }) => collection.has(id));
           case 'colors':
             return item[key] && item[key].some(({ id }) => collection.has(id));
           case 'discount':
