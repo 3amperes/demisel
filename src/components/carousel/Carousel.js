@@ -6,7 +6,7 @@ import Item from './Item';
 
 const Wrapper = styled(Box)`
   width: 100%;
-  min-height: 400px;
+  height: 100vh;
   position: relative;
   transition: all 250ms ease-in-out;
 `;

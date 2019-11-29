@@ -49,17 +49,19 @@ const Intro = ({ title, image, description, subtitle }) => {
       {image && <Image fluid={image.asset.fluid} className="intro-image" />}
       <Box bg="white" py="10em" px="5em" className="intro-content">
         {title && (
-          <Heading fontSize={[32, 48]} as="h1" mb="1rem">
+          <Heading fontSize={[32, 40]} as="h1" mb="2rem" lineHeight={1.2}>
             {title}
           </Heading>
         )}
         {subtitle && (
-          <Heading fontSize={[24, 32]} as="h2" mb="1rem">
+          <Heading fontSize={[20, 24]} as="h2" mb="2rem" lineHeight={1.2}>
             {subtitle}
           </Heading>
         )}
         {description && <BlockContent blocks={description} />}
-        <Link to="/shop">Découvrir nos bijoux</Link>
+        <Box pt="1rem">
+          <Link to="/shop">Découvrir nos bijoux</Link>
+        </Box>
       </Box>
     </IntroWrapper>
   );
@@ -125,9 +127,14 @@ const Pushes = ({ pushes }) => {
   return (
     <PushesWrapper columns={2}>
       {(introduction || title) && (
-        <Box as="header" py="2rem" className="pushes-introduction">
+        <Box
+          as="header"
+          py="2rem"
+          className="pushes-introduction"
+          maxWidth="380px"
+        >
           {title && (
-            <Heading fontSize={[32, 48]} lineHeight="1.2" as="h2" mb="1rem">
+            <Heading fontSize={[32, 48]} lineHeight="1.2" as="h2" mb="2rem">
               {title}
             </Heading>
           )}
@@ -170,7 +177,7 @@ const query = graphql`
             _key
             image {
               asset {
-                fluid(maxWidth: 1330, maxHeight: 768) {
+                fluid(maxWidth: 1800) {
                   ...GatsbySanityImageFluid
                 }
               }
@@ -185,6 +192,7 @@ const query = graphql`
           _rawIntroduction
           introduction {
             title
+            subtitle
             image {
               asset {
                 fluid(maxWidth: 1200) {
@@ -231,6 +239,7 @@ const IndexPage = () => {
             <Carousel items={carousel} />
             <Intro
               title={introduction.title}
+              subtitle={introduction.subtitle}
               image={introduction.image}
               description={_rawIntroduction.description}
             />

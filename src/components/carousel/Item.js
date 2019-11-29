@@ -75,7 +75,7 @@ export default ({ item, isCurrent }) => {
   const { image, ...rest } = item;
   return (
     <Wrapper isCurrent={isCurrent}>
-      <Image height={400} fluid={image.asset.fluid} />
+      <Image style={{ height: '100vh' }} fluid={image.asset.fluid} />
       <Filigrane />
       <ItemContent {...rest} />
     </Wrapper>
