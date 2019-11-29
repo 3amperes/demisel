@@ -15,11 +15,12 @@ const Shop = ({ data }) => {
   const colors = data.groupByColors.group.map(model => model.fieldValue);
 
   useEffect(() => {
+    console.log('change in products');
     dispatch({ type: 'init_items', payload: products });
     return () => {
       dispatch({ type: 'init_items', payload: [] });
     };
-  }, [dispatch]);
+  }, [dispatch, products]);
 
   return (
     <MainLayout>

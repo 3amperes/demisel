@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Flex, Heading, Text } from 'rebass/styled-components';
+import { StaticQuery, graphql } from 'gatsby';
 import { motion } from 'framer-motion';
+import { GlobalContext } from '@components/globalStore';
 
 const CloseIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16" width="16">
@@ -18,6 +20,9 @@ const Wrapper = styled(Flex)`
   padding: 0 1rem;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid rgba(256, 256, 256, 0.2);
+  position: relative;
+  z-index: 9;
 
   button {
     border: none;
@@ -32,26 +37,60 @@ const Wrapper = styled(Flex)`
   }
 `;
 
-export default ({ title, desc, onClose }) => {
-  return title || desc ? (
-    <Wrapper bg="lipstick" color="white">
-      {title && (
-        <Heading fontSize="16px" lineHeight="12px" ml="auto" mr="1rem">
-          {title}
-        </Heading>
-      )}
-      {desc && (
-        <Text fontSize="12px" lineHeight="12px" pt="4px">
-          {desc}
-        </Text>
-      )}
-      <motion.button
-        onClick={onClose}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <CloseIcon />
-      </motion.button>
-    </Wrapper>
-  ) : null;
+export default () => {
+  const {
+    state: { isBannerClosed },
+    dispatch,
+  } = useContext(GlobalContext);
+  const closeBanner = () => {
+    dispatch({ type: 'banner_is_closed' });
+  };
+  return (
+    <StaticQuery
+      query={graphql`
+        query {
+          config: allSanityConfig {
+            edges {
+              node {
+                banner {
+                  isDisplay
+                  title
+                  description
+                }
+              }
+            }
+          }
+        }
+      `}
+      render={data => {
+        const {
+          isDisplay,
+          title,
+          description,
+        } = data.config.edges[0].node.banner;
+        const displayBanner = isDisplay && !isBannerClosed;
+        return displayBanner ? (
+          <Wrapper bg="lipstick" color="white">
+            {title && (
+              <Heading fontSize="16px" lineHeight="12px" ml="auto" mr="1rem">
+                {title}
+              </Heading>
+            )}
+            {description && (
+              <Text fontSize="12px" lineHeight="12px" pt="4px">
+                {description}
+              </Text>
+            )}
+            <motion.button
+              onClick={closeBanner}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <CloseIcon />
+            </motion.button>
+          </Wrapper>
+        ) : null;
+      }}
+    />
+  );
 };

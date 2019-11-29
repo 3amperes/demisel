@@ -176,7 +176,7 @@ const Header = ({ isFloat }) => {
         </NavItem>
       </Navigation>
       <Brand>
-        <Logo width={120} />
+        <Logo width={150} />
       </Brand>
       <Access>
         {/* <Search /> */}

@@ -1,7 +1,5 @@
-import React, { createContext, useReducer, useState, useEffect } from 'react';
-import { silentAuth } from '../utils/auth';
+import React, { createContext, useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
-
 import theme from '../theme';
 import { GlobalStyles } from './globalStyles';
 import { areEmptyFilters } from '@utils/helpers';
@@ -13,6 +11,7 @@ const initialState = {
   filters: new Map(),
   visible: 9,
   error: false,
+  isBannerClosed: false,
 };
 
 function reducer(state, action) {
@@ -86,35 +85,32 @@ function reducer(state, action) {
         filters: new Map(),
         items: state.allItems,
       };
+    case 'banner_is_closed':
+      return {
+        ...state,
+        isBannerClosed: true,
+      };
     default:
       throw new Error();
   }
 }
 
 export default ({ children }) => {
-  const [init, setInit] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // on mount
-  useEffect(() => {
-    silentAuth(() => setInit(true));
-  }, []);
 
   return (
     <>
-      {init && (
-        <ThemeProvider theme={theme}>
-          <GlobalContext.Provider
-            value={{
-              state,
-              dispatch,
-              areEmptyFilters,
-            }}
-          >
-            {children}
-          </GlobalContext.Provider>
-        </ThemeProvider>
-      )}
+      <ThemeProvider theme={theme}>
+        <GlobalContext.Provider
+          value={{
+            state,
+            dispatch,
+            areEmptyFilters,
+          }}
+        >
+          {children}
+        </GlobalContext.Provider>
+      </ThemeProvider>
       <GlobalStyles />
     </>
   );
