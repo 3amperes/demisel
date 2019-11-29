@@ -7,7 +7,7 @@ import SEO from '@components/seo';
 
 const Shop = ({ data }) => {
   const {
-    state: { currentCategory },
+    state: { currentCategory, allItems },
     dispatch,
   } = useContext(GlobalContext);
   const products = data.products.edges;
@@ -17,7 +17,7 @@ const Shop = ({ data }) => {
   );
   const colors = data.groupByColors.group.map(model => model.fieldValue);
 
-  if (currentCategory) {
+  if (currentCategory || allItems.length === 0) {
     dispatch({ type: 'update_current_category', payload: null });
     dispatch({ type: 'init_items', payload: products });
   }

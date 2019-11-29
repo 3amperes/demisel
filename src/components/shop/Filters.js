@@ -341,9 +341,12 @@ const Filters = ({ location, ids }) => {
     navigate(url);
   }, [state.filters, location.pathname]);
 
-  const flatFiltersSize = Array.from(state.filters.values())
-    .map(collection => [...collection])
-    .flat().length;
+  const flatFilters = Array.from(state.filters.values()).flatMap(collection => [
+    ...collection,
+  ]);
+
+  console.log(flatFilters);
+  const flatFiltersSize = flatFilters.length;
 
   return (
     <Wrapper isOpen={isOpen}>

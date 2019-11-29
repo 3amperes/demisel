@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StaticQuery, graphql } from 'gatsby';
 import { Box } from 'rebass/styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
