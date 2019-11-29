@@ -190,21 +190,23 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
     <StaticQuery
       query={graphql`
         query {
-          models: allSanityModel {
+          models: allSanityModel(sort: { fields: title, order: ASC }) {
             nodes {
               _id
               id
               title
             }
           }
-          collections: allSanityCollection {
+          collections: allSanityCollection(
+            sort: { fields: title, order: ASC }
+          ) {
             nodes {
               _id
               id
               title
             }
           }
-          colors: allSanityProductColor {
+          colors: allSanityProductColor(sort: { fields: title, order: ASC }) {
             nodes {
               _id
               id
