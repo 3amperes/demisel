@@ -21,10 +21,16 @@ const Outlet = ({ name, city, url }) => (
       {name}
     </Heading>
     <Text fontSize="14px" lineHeight="24px">
-      {city}&nbsp;-&nbsp;
-      <a href={url} style={{ color: colors.lipstick, textDecoration: 'none' }}>
-        Voir le site
-      </a>
+      {city}
+      {url && <span>&nbsp;-&nbsp;</span>}
+      {url && (
+        <a
+          href={url}
+          style={{ color: colors.lipstick, textDecoration: 'none' }}
+        >
+          Voir le site
+        </a>
+      )}
     </Text>
   </Box>
 );
