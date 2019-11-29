@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { graphql } from 'gatsby';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
@@ -6,25 +6,28 @@ import MainLayout from './main';
 import SEO from '@components/seo';
 
 const Shop = ({ data }) => {
-  const { dispatch } = useContext(GlobalContext);
+  const {
+    state: { currentCategory },
+    dispatch,
+  } = useContext(GlobalContext);
+  const { id, title } = data.category;
   const products = data.products.edges;
+
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(
     model => model.fieldValue
   );
   const colors = data.groupByColors.group.map(model => model.fieldValue);
 
-  useEffect(() => {
-    console.log('change in products');
+  if (id !== currentCategory) {
+    dispatch({ type: 'update_current_category', payload: id });
     dispatch({ type: 'init_items', payload: products });
     dispatch({ type: 'init_filters', payload: [] });
-    return () => {
-      dispatch({ type: 'init_items', payload: [] });
-    };
-  }, [dispatch, products]);
+  }
+
   return (
     <MainLayout>
-      <SEO title="Shop" />
+      <SEO title={`Shop | ${title}`} />
       <Filters ids={{ models, collections, colors }} />
       <ShopList items={products}></ShopList>
     </MainLayout>
@@ -35,6 +38,10 @@ export default Shop;
 
 export const query = graphql`
   query($slug: String) {
+    category: sanityCategory(slug: { current: { eq: $slug } }) {
+      id
+      title
+    }
     products: allSanityProduct(
       sort: { order: DESC, fields: _updatedAt }
       limit: 2000

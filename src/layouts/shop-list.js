@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { graphql } from 'gatsby';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
@@ -6,7 +6,10 @@ import MainLayout from './main';
 import SEO from '@components/seo';
 
 const Shop = ({ data }) => {
-  const { dispatch } = useContext(GlobalContext);
+  const {
+    state: { currentCategory },
+    dispatch,
+  } = useContext(GlobalContext);
   const products = data.products.edges;
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(
@@ -14,13 +17,10 @@ const Shop = ({ data }) => {
   );
   const colors = data.groupByColors.group.map(model => model.fieldValue);
 
-  useEffect(() => {
-    console.log('change in products');
+  if (currentCategory) {
+    dispatch({ type: 'update_current_category', payload: null });
     dispatch({ type: 'init_items', payload: products });
-    return () => {
-      dispatch({ type: 'init_items', payload: [] });
-    };
-  }, [dispatch, products]);
+  }
 
   return (
     <MainLayout>

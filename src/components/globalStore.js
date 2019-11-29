@@ -12,10 +12,11 @@ const initialState = {
   visible: 9,
   error: false,
   isBannerClosed: false,
+  currentCategory: null,
 };
 
 function reducer(state, action) {
-  console.log(`*** dispatched ${action.type} ***`, action.payload);
+  // console.log(`*** dispatched ${action.type} ***`, action.payload);
   const getFilteredItems = filters => {
     if (filters.size === 0) return [];
     const arrayFilter = Array.from(filters);
@@ -46,7 +47,7 @@ function reducer(state, action) {
       return {
         ...state,
         allItems: [...action.payload],
-        items: state.items ? state.items : [...action.payload],
+        items: [...action.payload],
       };
     case 'loadmore':
       return {
@@ -89,6 +90,11 @@ function reducer(state, action) {
       return {
         ...state,
         isBannerClosed: true,
+      };
+    case 'update_current_category':
+      return {
+        ...state,
+        currentCategory: action.payload,
       };
     default:
       throw new Error();
