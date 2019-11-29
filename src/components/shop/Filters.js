@@ -20,7 +20,7 @@ const wrapper = {
     },
   },
   closed: {
-    opacity: 0,
+    opacity: 1,
     y: '-100%',
   },
 };
@@ -35,13 +35,21 @@ const toggle = {
   closed: { rotate: 0 },
 };
 
-const Wrapper = styled.nav`
+const Wrapper = styled.div`
   margin-bottom: 25px;
-  border-top: solid 1px ${colors.whiteTwo};
-  border-bottom: solid 1px
-    ${props => (!props.isOpen ? colors.whiteTwo : colors.white)};
   position: relative;
+  max-height: ${props => (props.isOpen ? '800px' : '80px')};
+`;
+const Inner = styled.div`
   padding: 0 1rem;
+  position: relative;
+  z-index: 2;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(256, 256, 256, 1) 0%,
+    rgba(256, 256, 256, 1) 70%,
+    rgba(256, 256, 256, 0) 100%
+  );
 `;
 
 const Header = styled(Flex)`
@@ -50,7 +58,6 @@ const Header = styled(Flex)`
   height: 80px;
   align-items: center;
   position: relative;
-  background-color: ${colors.white};
   z-index: 8;
 `;
 
@@ -102,6 +109,7 @@ const Color = ({ title, hex, isActive }) => {
 const ColumnsWrapper = styled.div`
   background-color: ${colors.white};
   border-bottom: solid 1px ${colors.whiteTwo};
+  padding: 0 1rem;
 `;
 
 const ColumnsInner = styled(Flex)`
@@ -219,7 +227,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
           <ColumnsWrapper>
             <ColumnsInner>
               {models && models.length > 0 && (
-                <Box width={[1, 1 / 2]}>
+                <Box width={[1, 1 / 2]} mb={[20, 0]}>
                   <ColumnTitle title="Modèles" />
                   <List
                     columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
@@ -239,7 +247,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
               )}
 
               {colors && colors.length > 0 && (
-                <Box width={[1, 1 / 3]}>
+                <Box width={[1, 1 / 3]} mb={[20, 0]}>
                   <ColumnTitle title="Couleurs" />
                   <List columns={colors.length > 3 ? 2 : 1}>
                     {colors.map(color => {
@@ -338,43 +346,39 @@ const Filters = ({ location, ids }) => {
   return (
     <Wrapper isOpen={isOpen}>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial="closed">
-        <Header>
-          <Box mr="auto">
-            <ToggleButton onClick={() => setIsOpen(!isOpen)}>
-              <Heading fontSize="1rem">Filtres</Heading>
-              <Text
-                mx="0.5rem"
-                fontSize={14}
-                color={flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey}
+        <Inner>
+          <Header>
+            <Box mr="auto">
+              <ToggleButton onClick={() => setIsOpen(!isOpen)}>
+                <Heading fontSize="1rem">Filtres</Heading>
+                <Text
+                  mx="0.5rem"
+                  fontSize={14}
+                  color={
+                    flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey
+                  }
+                >
+                  ({flatFiltersSize || 'aucun'})
+                </Text>
+                <motion.div
+                  variants={toggle}
+                  style={{ lineHeight: 1, height: '14px' }}
+                >
+                  <Chevron width="12px" mx="0.5rem" />
+                </motion.div>
+              </ToggleButton>
+            </Box>
+            <motion.div whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
+              <ClearButton
+                disabled={flatFiltersSize === 0}
+                onClick={clearFilters}
               >
-                ({flatFiltersSize || 'aucun'})
-              </Text>
-              <motion.div
-                variants={toggle}
-                style={{ lineHeight: 1, height: '14px' }}
-              >
-                <Chevron width="12px" mx="0.5rem" />
-              </motion.div>
-            </ToggleButton>
-          </Box>
-          <motion.div whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
-            <ClearButton
-              disabled={flatFiltersSize === 0}
-              onClick={clearFilters}
-            >
-              Réinitialiser
-            </ClearButton>
-          </motion.div>
-        </Header>
-        <motion.nav
-          variants={wrapper}
-          style={{
-            position: 'absolute',
-            top: '80px',
-            width: '100%',
-            zIndex: 7,
-          }}
-        >
+                Réinitialiser
+              </ClearButton>
+            </motion.div>
+          </Header>
+        </Inner>
+        <motion.nav style={{ zIndex: 1 }} variants={wrapper}>
           <Columns ids={ids} />
         </motion.nav>
       </motion.div>

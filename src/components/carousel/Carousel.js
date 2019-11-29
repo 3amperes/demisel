@@ -40,7 +40,7 @@ export default ({ items }) => {
     return () => {
       clearTimeout(t);
     };
-  }, [currentIndex, setCurrentIndex]);
+  }, [currentIndex, setCurrentIndex, items]);
 
   return (
     items.length > 0 && (

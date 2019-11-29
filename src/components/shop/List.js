@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { Box } from 'rebass/styled-components';
-import isEqual from 'lodash.isequal';
 import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
@@ -54,21 +53,19 @@ const ShopList = ({ items, search }) => {
   const loadMore = () => dispatch({ type: 'loadmore' });
   const hasMore = () => state.visible < state.items.length;
 
-  // overwrite items
-  useEffect(() => {
-    if (isEqual(state.items, items)) return;
-    dispatch({ type: 'init_items', payload: items });
-  }, [items]);
+  const initialSearch = useRef(search);
 
   // overwrite filters from query params
   useEffect(() => {
-    const filtersFromSearch = getFiltersFromQueryParams(search);
-    const isCalm = isEqual(state.filters, filtersFromSearch);
-    if (isCalm || filtersFromSearch.size === 0) return;
-    dispatch({ type: 'init_filters', payload: filtersFromSearch });
-  }, [search]);
+    const filtersFromSearch = getFiltersFromQueryParams(initialSearch.current);
+    if (filtersFromSearch.size === 0) return;
+    dispatch({
+      type: 'init_filters',
+      payload: filtersFromSearch,
+    });
+  }, [initialSearch, dispatch]);
 
-  return (
+  return !state.items ? null : (
     <>
       {state.items.length > 0 ? (
         <Wrapper>

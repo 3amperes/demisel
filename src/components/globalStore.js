@@ -8,7 +8,7 @@ import { areEmptyFilters } from '@utils/helpers';
 
 export const GlobalContext = createContext(0);
 const initialState = {
-  items: [],
+  items: null,
   allItems: [],
   filters: new Map(),
   visible: 9,
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  // console.log(`*** dispatched ${action.type} ***`, action.payload);
+  console.log(`*** dispatched ${action.type} ***`, action.payload);
   const getFilteredItems = filters => {
     if (filters.size === 0) return [];
     const arrayFilter = Array.from(filters);
@@ -47,7 +47,7 @@ function reducer(state, action) {
       return {
         ...state,
         allItems: [...action.payload],
-        items: [...action.payload],
+        items: state.items ? state.items : [...action.payload],
       };
     case 'loadmore':
       return {

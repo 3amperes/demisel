@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { graphql } from 'gatsby';
-
-import MainLayout from './main';
+import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
-
+import MainLayout from './main';
 import SEO from '@components/seo';
 
 const Shop = ({ data }) => {
+  const { dispatch } = useContext(GlobalContext);
   const products = data.products.edges;
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(
     model => model.fieldValue
   );
   const colors = data.groupByColors.group.map(model => model.fieldValue);
+
+  useEffect(() => {
+    dispatch({ type: 'init_items', payload: products });
+    return () => {
+      dispatch({ type: 'init_items', payload: [] });
+    };
+  }, [dispatch]);
 
   return (
     <MainLayout>
@@ -24,7 +31,7 @@ const Shop = ({ data }) => {
           colors,
         }}
       />
-      <ShopList items={products}></ShopList>
+      <ShopList />
     </MainLayout>
   );
 };
