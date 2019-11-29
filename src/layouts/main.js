@@ -5,12 +5,29 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import { Box } from 'rebass/styled-components';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
+import Banner from '../components/banner';
+
+const Wrapper = ({ children, banner }) => {
+  const [displayBanner, setDisplayBanner] = useState(banner.isDisplay);
+  return (
+    <>
+      {displayBanner && (
+        <Banner
+          title={banner.title}
+          desc={banner.description}
+          onClose={() => setDisplayBanner(false)}
+        ></Banner>
+      )}
+      {children}
+    </>
+  );
+};
 
 const MainLayout = ({ children, headerFloat, ...rest }) => (
   <StaticQuery
@@ -21,19 +38,32 @@ const MainLayout = ({ children, headerFloat, ...rest }) => (
             title
           }
         }
+        config: allSanityConfig {
+          edges {
+            node {
+              banner {
+                isDisplay
+                title
+                description
+              }
+            }
+          }
+        }
       }
     `}
     render={data => (
-      <Box {...rest}>
-        <Header
-          siteTitle={data.site.siteMetadata.title}
-          isFloat={headerFloat}
-        />
-        <main style={{ minHeight: '400px', position: 'relative', zIndex: 0 }}>
-          {children}
-        </main>
-        <Footer />
-      </Box>
+      <Wrapper banner={data.config.edges[0].node.banner}>
+        <Box {...rest} style={{ position: 'relative' }}>
+          <Header
+            siteTitle={data.site.siteMetadata.title}
+            isFloat={headerFloat}
+          />
+          <main style={{ minHeight: '400px', position: 'relative', zIndex: 0 }}>
+            {children}
+          </main>
+          <Footer />
+        </Box>
+      </Wrapper>
     )}
   />
 );
