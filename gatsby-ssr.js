@@ -7,8 +7,8 @@ export const onRenderBody = ({ setPostBodyComponents }) => {
   const options = Object.assign(
     {
       apiKey: process.env.GATSBY_SNIPCART_API_KEY,
-      js: 'https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js',
-      styles: 'https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css',
+      js: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.js',
+      styles: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.css',
     },
     {}
   );
@@ -22,12 +22,7 @@ export const onRenderBody = ({ setPostBodyComponents }) => {
   }
 
   const components = [
-    <div
-      hidden
-      id="snipcart"
-      data-api-key={options.apiKey}
-      data-autopop="false"
-    ></div>,
+    <div hidden id="snipcart" data-api-key={options.apiKey}></div>,
     <script src={options.js}></script>,
   ];
 

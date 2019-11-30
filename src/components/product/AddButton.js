@@ -68,7 +68,7 @@ const AddButton = ({ product }) => {
         data-item-image={product.thumbnail.asset.fluid.src}
         data-item-description={description}
       >
-        <BasketIcon mr={[0, '1rem']} /> <span>Ajouter au panier</span>
+        <span>Ajouter au panier</span> <BasketIcon ml={[0, '1rem']} />
       </Button>
     </motion.div>
   );

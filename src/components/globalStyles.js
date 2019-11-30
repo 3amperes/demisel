@@ -48,11 +48,57 @@ export const globalNormalize = css`
   }
 `;
 
+const snipCartStyles = css`
+  .snipcart {
+    font-family: ${fonts.text}!important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+
+  .snipcart__font--secondary,
+  .snipcart__font--subtitle,
+  .snipcart-modal__close,
+  .snipcart__actions--link {
+    font-family: ${fonts.text}!important;
+  }
+  .snipcart__font--slim {
+    font-weight: 400 !important;
+  }
+  .snipcart-cart-button--highlight,
+  .snipcart__box--badge-highlight {
+    background-image: none !important;
+    background-color: ${colors.lipstick}!important;
+    color: ${colors.white}!important;
+    font-family: ${fonts.text}!important;
+  }
+  .snipcart-item-line__title,
+  .snipcart-cart-header__title,
+  .snipcart__font--subtitle {
+    font-family: ${fonts.heading}!important;
+  }
+  .snipcart-cart-header__title {
+    font-size: 32px !important;
+  }
+  .snipcart__actions--link,
+  .snipcart-order__invoice-number--highlight {
+    color: ${colors.lipstick}!important;
+    font-weight: 500 !important;
+  }
+  .snipcart__icon--blue-dark path,
+  .snipcart__icon--blue-light path {
+    fill: ${colors.lipstick}!important;
+  }
+  .base--focus {
+    border-color: ${colors.lipstick}!important;
+  }
+`;
+
 // Global Styles
 export const GlobalStyles = createGlobalStyle`
   /* autoprefixer grid: autoplace */
   ${normalize()};
 
   ${globalNormalize};
+  ${snipCartStyles};
 
 `;

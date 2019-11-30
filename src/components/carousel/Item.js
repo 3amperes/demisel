@@ -14,7 +14,7 @@ const Wrapper = styled(Box)`
   opacity: ${props => (props.isCurrent ? 1 : 0)};
   position: ${props => (props.isCurrent ? 'relative' : 'absolute')};
   transition: all 450ms ease-in-out;
-  background-color: ${colors.whiteTwo};
+  background-color: #cbebf2;
 `;
 
 const Filigrane = styled.div`
