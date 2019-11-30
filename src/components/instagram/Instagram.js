@@ -4,7 +4,6 @@ import Image from 'gatsby-image';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { Flex, Box, Heading } from 'rebass/styled-components';
-import { container } from '@utils/mixins';
 
 const Wrapper = styled(Flex)`
   width: 100%;

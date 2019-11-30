@@ -1,10 +1,5 @@
 import React from 'react';
-import { StaticQuery, graphql, Link } from 'gatsby';
-import BlockContent from '@sanity/block-content-to-react';
-import Image from 'gatsby-image';
-import styled from 'styled-components';
-import { Box, Heading } from 'rebass/styled-components';
-import { up, down } from 'styled-breakpoints';
+import { StaticQuery, graphql } from 'gatsby';
 import { MainLayout } from '../layouts';
 import SEO from '../components/seo';
 import Newsletter from '../components/newsletter';
