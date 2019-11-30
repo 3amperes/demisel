@@ -9,7 +9,7 @@ import SEO from '@components/seo';
 import { colors } from '@theme';
 import MainLayout from './main';
 
-import { container, link } from '@utils/mixins';
+import { container, link, coloredSection } from '@utils/mixins';
 
 const offset = 200;
 
@@ -17,10 +17,6 @@ const Wrapper = styled.article`
   .main {
     ${container}
     margin-top: -${offset}px;
-
-    li {
-      margin-bottom: 200px;
-    }
   }
 `;
 
@@ -29,14 +25,34 @@ const Link = styled.a`
 `;
 
 const Header = styled(Flex)`
-  width: 100%;
-  height: 600px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: ${colors.ligthPeach};
-  background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
+  ${coloredSection('600px')}
 `;
+
+const Item = ({ item }) => {
+  return (
+    <Box mb={[40, 200]}>
+      <Flex py={[20, 100]}>
+        {item.img1 && (
+          <Box mt={20} mx="auto" width={[1, 1 / 2]}>
+            <Image fluid={item.img1.asset.fluid} />
+          </Box>
+        )}
+        {item.img2 && (
+          <Box mt={[20, 20, -100]} mx="auto" width={[1, 1 / 2]}>
+            <Image fluid={item.img2.asset.fluid} />
+          </Box>
+        )}
+      </Flex>
+      <Box textAlign="center">
+        <Heading fontSize={[24, 40]} as="h2" mb="1rem">
+          {item.title}
+        </Heading>
+        <Text>{item.description}</Text>
+        {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
+      </Box>
+    </Box>
+  );
+};
 
 const Collection = ({ data }) => {
   const { title, _rawDescription, sections } = data.sanityCollection;
@@ -57,24 +73,7 @@ const Collection = ({ data }) => {
           <ol className="main">
             {sections.map((section, index) => (
               <li key={index}>
-                <Flex mb="200px">
-                  {section.img1 && <Image fixed={section.img1.asset.fixed} />}
-                  {section.img2 && (
-                    <Image
-                      fixed={section.img2.asset.fixed}
-                      style={{ position: 'relative', top: '100px' }}
-                    />
-                  )}
-                </Flex>
-                <Box textAlign="center">
-                  <Heading fontSize={40} as="h2" mb="1rem">
-                    {section.title}
-                  </Heading>
-                  <Text>{section.description}</Text>
-                  {section.link && (
-                    <Link href={section.link.url}>{section.link.label}</Link>
-                  )}
-                </Box>
+                <Item item={section} />
               </li>
             ))}
           </ol>
@@ -96,16 +95,16 @@ export const query = graphql`
         img1 {
           alt
           asset {
-            fixed(width: 538, height: 644) {
-              ...GatsbySanityImageFixed
+            fluid(maxWidth: 538, maxHeight: 644) {
+              ...GatsbySanityImageFluid
             }
           }
         }
         img2 {
           alt
           asset {
-            fixed(width: 538, height: 644) {
-              ...GatsbySanityImageFixed
+            fluid(maxWidth: 538, maxHeight: 644) {
+              ...GatsbySanityImageFluid
             }
           }
         }

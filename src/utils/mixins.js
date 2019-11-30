@@ -1,5 +1,6 @@
 import { css } from 'styled-components';
 import { colors } from '@theme';
+import { up } from 'styled-breakpoints';
 
 export const container = ({ my = 0, py = 0 }) => css`
   max-width: 1076px;
@@ -33,8 +34,8 @@ export const link = (color = 'currentColor') => css`
 
 export const coloredSection = (height = '600px', orientation = '111deg') => css`
   width: 100%;
-  height: ${height};
   display: flex;
+  height: 75vh;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -44,4 +45,7 @@ export const coloredSection = (height = '600px', orientation = '111deg') => css`
     rgba(215, 239, 244, 0),
     #cbebf2
   );
+  ${up('tablet')} {
+    height: ${height};
+  }
 `;

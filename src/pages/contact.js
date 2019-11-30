@@ -104,7 +104,7 @@ export default () => {
           Contactez-nous
         </Heading>
         <Text
-          maxWidth="338px"
+          maxWidth="340px"
           mb={`${offset}px`}
           color="greyishBrown"
           fontSize={14}
@@ -117,7 +117,7 @@ export default () => {
           nos bijoux, envoyez nous votre message !
         </Text>
       </Header>
-      <Flex>
+      <Flex p={[20, 0]}>
         <Box
           p={[20, 120]}
           bg="white"

@@ -8,18 +8,12 @@ import MainLayout from './main';
 
 import SEO from '@components/seo';
 import Go from '@components/go';
-import { container } from '@utils/mixins';
+import { container, coloredSection } from '@utils/mixins';
 
 const offset = 200;
 
 const Header = styled(Flex)`
-  width: 100%;
-  height: 600px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: ${colors.ligthPeach};
-  background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
+  ${coloredSection('600px')}
 `;
 const List = styled.ol`
   ${container};

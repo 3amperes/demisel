@@ -2,23 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex, Box, Heading, Text } from 'rebass/styled-components';
 import { colors } from '@theme';
+import { coloredSection } from '@utils/mixins';
 
 const Wrapper = styled(Flex)`
-  width: 100%;
-  height: 600px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: ${colors.ligthPeach};
-  background-image: linear-gradient(to right, rgba(215, 239, 244, 0), #cbebf2);
+  ${coloredSection('450px', 'to right')};
 `;
 
 const Form = styled.form`
   width: 100%;
-  max-width: 420px;
   height: 68px;
   background-color: ${colors.white};
-  padding: 1.2rem;
+  padding: 20px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -56,7 +50,7 @@ const Form = styled.form`
 
 export default props => (
   <Wrapper {...props}>
-    <Box width="330px" mb="70px" textAlign="center">
+    <Box width="330px" px="0.5rem" mb="70px" textAlign="center">
       <Heading fontSize={[32, 48]} as="h2" mb="1rem">
         Restez informés
       </Heading>
@@ -65,35 +59,40 @@ export default props => (
         collections, nouveaux modèles et des offres promotionnelles.
       </Text>
     </Box>
-    <Form
-      action="https://demiselbijoux.us4.list-manage.com/subscribe/post?u=82d123f955831cfd6e69c3fa3&amp;id=8036f1697c"
-      method="post"
-      id="mc-embedded-subscribe-form"
-      name="mc-embedded-subscribe-form"
-      className="validate"
-      target="_blank"
-      novalidate
-    >
-      {/* <label htmlFor="mce-EMAIL">Email Address</label> */}
-      <input
-        type="email"
-        name="EMAIL"
-        id="mce-EMAIL"
-        required
-        placeholder="Saisissez votre email"
-      />
-      <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+    <Box width={['90%', 1]} maxWidth="420px">
+      <Form
+        action="https://demiselbijoux.us4.list-manage.com/subscribe/post?u=82d123f955831cfd6e69c3fa3&amp;id=8036f1697c"
+        method="post"
+        id="mc-embedded-subscribe-form"
+        name="mc-embedded-subscribe-form"
+        className="validate"
+        target="_blank"
+        novalidate
+      >
+        {/* <label htmlFor="mce-EMAIL">Email Address</label> */}
         <input
-          type="text"
-          name="b_82d123f955831cfd6e69c3fa3_8036f1697c"
-          tabIndex="-1"
-          value=""
-          onChange={() => {}}
+          type="email"
+          name="EMAIL"
+          id="mce-EMAIL"
+          required
+          placeholder="Saisissez votre email"
         />
-      </div>
-      <button type="submit" id="mc-embedded-subscribe">
-        S'inscrire
-      </button>
-    </Form>
+        <div
+          style={{ position: 'absolute', left: '-5000px' }}
+          aria-hidden="true"
+        >
+          <input
+            type="text"
+            name="b_82d123f955831cfd6e69c3fa3_8036f1697c"
+            tabIndex="-1"
+            value=""
+            onChange={() => {}}
+          />
+        </div>
+        <button type="submit" id="mc-embedded-subscribe">
+          S'inscrire
+        </button>
+      </Form>
+    </Box>
   </Wrapper>
 );
