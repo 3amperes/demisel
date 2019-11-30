@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'rebass/styled-components';
+import { up } from 'styled-breakpoints';
 import { colors } from '@theme';
+import { GlobalContext } from '@components/globalStore';
 import Item from './Item';
 
 const Wrapper = styled(Box)`
   width: 100%;
-  height: 100vh;
   position: relative;
   transition: all 250ms ease-in-out;
+  height: ${props => (props.hasBanner ? 'calc(100vh - 80px)' : '100vh')};
+  ${up('tablet')} {
+    height: ${props => (props.hasBanner ? 'calc(100vh - 50px)' : '100vh')};
+  }
 `;
 
 const Pagination = styled(Flex)`
@@ -29,6 +34,9 @@ const PaginationButton = styled.button`
 `;
 
 export default ({ items }) => {
+  const {
+    state: { isBannerClosed },
+  } = useContext(GlobalContext);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -44,7 +52,7 @@ export default ({ items }) => {
 
   return (
     items.length > 0 && (
-      <Wrapper>
+      <Wrapper hasBanner={!isBannerClosed}>
         {items.map((item, index) => {
           return (
             <Item

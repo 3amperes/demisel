@@ -13,21 +13,22 @@ const Wrapper = styled(Flex)`
   background-image: linear-gradient(111deg, rgba(215, 239, 244, 0), #cbebf2);
 `;
 
-const Item = styled.li`
-  text-transform: uppercase;
-  color: ${colors.lipstick};
-  margin-right: 80px;
-  font-size: 14px;
-  line-height: 1.8;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
+const Item = ({ children }) => (
+  <Text
+    m={['20px 0', '0 40px']}
+    color="lipstick"
+    fontSize={14}
+    lineHeight={1.8}
+    textAlign="center"
+    style={{ textTransform: 'uppercase' }}
+  >
+    {children}
+  </Text>
+);
 
 export default props => (
   <Wrapper {...props}>
-    <Box width="350px" mb="70px" textAlign="center">
+    <Box maxWidth="350px" mb={['40px', '70px']} textAlign="center">
       <Heading fontSize={[32, 48]} as="h2" mb="1rem">
         Nos engagements
       </Heading>
@@ -36,11 +37,19 @@ export default props => (
         donc à nous engager pour tenter de créer des lendemains meilleurs.
       </Text>
     </Box>
-    <Flex as="ul">
-      <Item>#zérodéchet</Item>
-      <Item>#recyclage</Item>
-      <Item>#upcycling</Item>
-      <Item>#handmade</Item>
+    <Flex as="ul" flexDirection={['column', 'row']}>
+      <li>
+        <Item>#zérodéchet</Item>
+      </li>
+      <li>
+        <Item>#recyclage</Item>
+      </li>
+      <li>
+        <Item>#upcycling</Item>
+      </li>
+      <li>
+        <Item>#handmade</Item>
+      </li>
     </Flex>
   </Wrapper>
 );

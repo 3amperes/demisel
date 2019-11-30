@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'gatsby-image';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { colors } from '@theme';
 import { container, link } from '@utils/mixins';
@@ -43,8 +44,14 @@ const Inner = styled(Flex)`
 
 const Grid = styled(Box)`
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  align-items: end;
+  height: 100%;
   ${container};
+
+  ${up('tablet')} {
+    grid-template-columns: 2fr 3fr;
+    align-items: center;
+  }
 `;
 
 const Link = styled.a`
@@ -54,19 +61,19 @@ const Link = styled.a`
 const ItemContent = ({ title, description, link }) => (
   <Inner>
     <Grid>
-      <div>
+      <Box pb={[100, 0]}>
         {title && (
           <Heading fontSize={[32, 48]} lineHeight={1.2} as="h2" mb="1rem">
             {title}
           </Heading>
         )}
         {description && (
-          <Text fontSize={14} lineHeight={1.8} mb="60px">
+          <Text fontSize={14} lineHeight={1.8} mb={[20, 60]}>
             {description}
           </Text>
         )}
         {link && <Link href={link.url}>{link.label}</Link>}
-      </div>
+      </Box>
     </Grid>
   </Inner>
 );

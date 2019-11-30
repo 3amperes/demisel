@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { Flex, Heading, Text } from 'rebass/styled-components';
 import { StaticQuery, graphql } from 'gatsby';
 import { motion } from 'framer-motion';
@@ -16,13 +17,22 @@ const CloseIcon = () => (
 
 const Wrapper = styled(Flex)`
   width: 100%;
-  height: 48px;
-  padding: 0 1rem;
+  padding: 8px 1rem;
+  padding-right: 3rem;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid rgba(256, 256, 256, 0.2);
   position: relative;
   z-index: 9;
+  flex-direction: column;
+  min-height: 80px;
+  ${up('tablet')} {
+    min-height: 50px;
+  }
+
+  ${up('tablet')} {
+    flex-direction: row;
+  }
 
   button {
     border: none;
@@ -30,7 +40,8 @@ const Wrapper = styled(Flex)`
     background: transparent;
     color: currentColor;
     cursor: pointer;
-    margin-left: auto;
+    position: absolute;
+    right: 0.5rem;
     svg {
       fill: currentColor;
     }
@@ -72,12 +83,23 @@ export default () => {
         return displayBanner ? (
           <Wrapper bg="lipstick" color="white">
             {title && (
-              <Heading fontSize="16px" lineHeight="12px" ml="auto" mr="1rem">
+              <Heading
+                fontSize="16px"
+                lineHeight="12px"
+                mr={[0, 16]}
+                mb={['4px', 0]}
+                textAlign={['center', 'left']}
+              >
                 {title}
               </Heading>
             )}
             {description && (
-              <Text fontSize="12px" lineHeight="12px" pt="4px">
+              <Text
+                fontSize="12px"
+                lineHeight="12px"
+                pt="4px"
+                textAlign={['center', 'left']}
+              >
                 {description}
               </Text>
             )}

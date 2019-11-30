@@ -2,22 +2,33 @@ import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import Image from 'gatsby-image';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import { Flex, Box, Heading } from 'rebass/styled-components';
 import { container } from '@utils/mixins';
 
 const Wrapper = styled(Flex)`
   width: 100%;
-  height: 800px;
   align-items: center;
   flex-direction: column;
-  padding: 140px 0;
+  padding: 2rem;
+
+  ${up('desktop')} {
+    padding: 140px 0;
+    height: 800px;
+  }
 `;
 
 const Grid = styled(Box)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 46px;
-  ${container};
+  grid-gap: 46px;
+  ${up('desktop')} {
+    grid-template-columns: repeat(3, 320px);
+  }
+
+  a {
+    display: block;
+    max-width: 100%;
+  }
 `;
 
 export default props => (
@@ -30,7 +41,7 @@ export default props => (
               id
               localFile {
                 childImageSharp {
-                  fixed(width: 328, height: 328) {
+                  fixed(width: 320, height: 320) {
                     ...GatsbyImageSharpFixed
                   }
                 }
@@ -44,7 +55,12 @@ export default props => (
       const instaThumbs = data.allInstaNode.edges.slice(0, 3);
       return (
         <Wrapper {...props}>
-          <Heading fontSize={[32, 48]} as="h2" mb="100px">
+          <Heading
+            fontSize={[32, 48]}
+            as="h2"
+            mb={[40, 100]}
+            textAlign="center"
+          >
             Suivez-nous sur Instagram
           </Heading>
           <Grid>
