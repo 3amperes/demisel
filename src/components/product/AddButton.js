@@ -50,6 +50,8 @@ const AddButton = ({ product }) => {
   const isDisabled = !hasPrice(product);
   const title = product.model ? product.model.title : product.title;
   const description = product.model ? product.title : product.category.title;
+  const productPrice =
+    getPrice(product, 'discountPrice') || getPrice(product, 'salePrice');
   return (
     <motion.div
       animate={{ x: 0 }}
@@ -61,9 +63,8 @@ const AddButton = ({ product }) => {
         className="snipcart-add-item"
         data-item-id={product.id}
         data-item-name={title}
-        data-item-price={getPrice(product, 'salePrice')}
+        data-item-price={productPrice}
         data-item-price-dealer={getPrice(product, 'dealerPrice')}
-        data-item-price-promo={getPrice(product, 'discountPrice')}
         data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
         data-item-image={product.thumbnail.asset.fluid.src}
         data-item-description={description}

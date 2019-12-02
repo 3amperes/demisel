@@ -1,6 +1,6 @@
 export const getProductTitle = product => {
   const { title, model } = product;
-  return !!model ? model.title : title;
+  return (model && model.title) || title;
 };
 export const getPrice = (item, key) => {
   const { price, model } = item;

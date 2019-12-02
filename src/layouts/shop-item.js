@@ -90,8 +90,9 @@ const Header = ({ item }) => {
 };
 
 const ProductDetail = ({ data }) => {
-  const { title, model, thumbnail, price } = data.sanityProduct;
-  const productTitle = model ? `${model.title} • ${title}` : title;
+  const { title, model, thumbnail, price } = data.product;
+  const productTitle = (model && model.title) || title;
+  const productPrice = price || model.price;
   const body = model && model._rawDescription;
   const images = model && model.images;
   const specification = model && model.specification;
@@ -123,7 +124,7 @@ const ProductDetail = ({ data }) => {
               item={{
                 title,
                 price,
-                model: { title: model.title, price: model.price },
+                model: { title: productTitle, price: productPrice },
               }}
             />
             <DefinitionTitle>Description</DefinitionTitle>
@@ -139,7 +140,7 @@ const ProductDetail = ({ data }) => {
               </Text>
             )}
             <ButtonWrapper pt={40} pr={[20, 40]}>
-              <AddButton product={data.sanityProduct} />
+              <AddButton product={data.product} />
             </ButtonWrapper>
           </Inner>
         </main>
@@ -152,7 +153,7 @@ export default ProductDetail;
 
 export const query = graphql`
   query($id: String) {
-    sanityProduct(id: { eq: $id }) {
+    product: sanityProduct(id: { eq: $id }) {
       id
       title
       model {
@@ -168,10 +169,16 @@ export const query = graphql`
         }
         price {
           salePrice
+          dealerPrice
+          discountPrice
+          weight
         }
       }
       price {
         salePrice
+        dealerPrice
+        discountPrice
+        weight
       }
       thumbnail {
         alt
