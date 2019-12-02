@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import throttle from 'lodash.throttle';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
@@ -7,7 +8,10 @@ import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { container, link } from '@utils/mixins';
+import { useEventListener } from '@utils/hooks';
+import { scrollToTop } from '@utils/helpers';
 import withLocation from '@utils/withLocation';
+import { FilerIcon } from './Filters';
 
 const Wrapper = styled.ul`
   display: grid;
@@ -36,6 +40,36 @@ const LoadMoreButton = styled.button`
   ${link(colors.lipstick)}
 `;
 
+const BackToFilterButton = styled.button`
+  outline: none;
+  border: none;
+  background: ${colors.greyishBrown};
+  color: ${colors.white};
+  border-radius: 50%;
+  padding: 16px;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
+
+  &:hover,
+  &:focus {
+    background: ${colors.lipstick};
+    color: ${colors.white};
+  }
+
+  opacity: ${props => (props.isDisplay ? 1 : 0)};
+`;
+
+const BackToFilter = ({ isDisplay }) => {
+  return (
+    <BackToFilterButton onClick={scrollToTop} isDisplay={isDisplay}>
+      <FilerIcon />
+    </BackToFilterButton>
+  );
+};
+
 const getFiltersFromQueryParams = params => {
   const filters =
     Object.keys(params).length === 0
@@ -50,6 +84,7 @@ const getFiltersFromQueryParams = params => {
 
 const ShopList = ({ items, search }) => {
   const { state, dispatch } = useContext(GlobalContext);
+  const [backToFilterIsDisplay, setBackToFilterIsDisplay] = useState(false);
   const loadMore = () => dispatch({ type: 'loadmore' });
   const hasMore = () => state.visible < state.items.length;
 
@@ -64,6 +99,25 @@ const ShopList = ({ items, search }) => {
       payload: filtersFromSearch,
     });
   }, [initialSearch, dispatch]);
+
+  const onScroll = () => {
+    if (
+      document.documentElement.scrollTop >
+        document.documentElement.clientHeight / 2 &&
+      !backToFilterIsDisplay
+    ) {
+      setBackToFilterIsDisplay(true);
+    }
+    if (
+      document.documentElement.scrollTop <
+        document.documentElement.clientHeight / 2 &&
+      backToFilterIsDisplay
+    ) {
+      setBackToFilterIsDisplay(false);
+    }
+  };
+
+  useEventListener('scroll', throttle(onScroll, 200));
 
   return !state.items ? null : (
     <>
@@ -91,6 +145,8 @@ const ShopList = ({ items, search }) => {
           </LoadMoreButton>
         </Box>
       )}
+
+      <BackToFilter isDisplay={backToFilterIsDisplay} />
     </>
   );
 };

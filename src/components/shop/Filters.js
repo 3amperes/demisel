@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
@@ -10,6 +10,26 @@ import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { areEmptyFilters } from '@utils/helpers';
+import { useOnClickOutside } from '@utils/hooks';
+
+export const FilerIcon = ({ size = 16, ...rest }) => {
+  return (
+    <Flex alignItems="center" width={size} {...rest}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+      >
+        <path d="M15 1v14H1V1h14m1-1H0v16h16V0z"></path>
+        <path d="M5 3H6V4.57H5z"></path>
+        <path d="M5 8.43H6V13H5z"></path>
+        <path d="M10 3H11V7.57H10z"></path>
+        <path d="M10 11.43H11V13H10z"></path>
+        <path d="M5.5 8a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0A1.39 1.39 0 015.5 8zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.46.46 0 00.25.42.44.44 0 00.49 0A.47.47 0 006 6.5a.46.46 0 00-.25-.42A.39.39 0 005.5 6zM10.5 11a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0 1.39 1.39 0 01-.75.21zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.48.48 0 00.25.43.46.46 0 00.49 0A.47.47 0 0011 9.5a.46.46 0 00-.25-.42.39.39 0 00-.25-.08z"></path>
+      </svg>
+    </Flex>
+  );
+};
 
 const wrapper = {
   open: {
@@ -38,7 +58,7 @@ const toggle = {
 const Wrapper = styled.div`
   margin-bottom: 25px;
   position: relative;
-  max-height: ${props => (props.isOpen ? '800px' : '80px')};
+  max-height: ${props => (props.isOpen ? '2000px' : '80px')};
 `;
 const Inner = styled.div`
   padding: 0 1rem;
@@ -146,15 +166,17 @@ const ColumnTitle = ({ title }) => (
 const ToggleButton = styled.button`
   outline: none;
   border: none;
-  background: none;
+  background: ${colors.whiteTwo};
   font-size: 16px;
-  color: ${colors.warmGrey};
+  color: ${colors.black};
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
   cursor: pointer;
   display: flex;
+  padding: 8px 16px;
+  border-radius: 6px;
 `;
 
 const ClearButton = styled.button`
@@ -317,6 +339,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
 const Filters = ({ location, ids }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef();
 
   const clearFilters = () => {
     dispatch({ type: 'clear_filters' });
@@ -345,13 +368,20 @@ const Filters = ({ location, ids }) => {
     state.filters.values()
   ).flatMap(collection => [...collection]).length;
 
+  const onClickOutside = () => {
+    isOpen && setIsOpen(false);
+  };
+
+  useOnClickOutside(wrapperRef, onClickOutside);
+
   return (
-    <Wrapper isOpen={isOpen}>
+    <Wrapper isOpen={isOpen} ref={wrapperRef}>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial="closed">
         <Inner>
           <Header>
             <Box mr="auto">
               <ToggleButton onClick={() => setIsOpen(!isOpen)}>
+                <FilerIcon mr="0.5rem" />
                 <Heading fontSize="1rem">Filtres</Heading>
                 <Text
                   mx="0.5rem"

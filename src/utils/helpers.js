@@ -27,3 +27,13 @@ export const hasModel = item => {
 export const areEmptyFilters = filters => {
   return Array.from(filters.values()).every(value => value.size === 0);
 };
+
+export function scrollToTop() {
+  let scrollAnimation;
+  const position =
+    document.body.scrollTop || document.documentElement.scrollTop;
+  if (position) {
+    window.scrollBy(0, -Math.max(1, Math.floor(position / 10)));
+    scrollAnimation = setTimeout(scrollToTop, 30);
+  } else clearTimeout(scrollAnimation);
+}
