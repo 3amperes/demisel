@@ -28,6 +28,17 @@ const Header = styled(Flex)`
   ${coloredSection('600px')}
 `;
 
+const ItemWrapper = styled(Box)`
+  > a {
+    display: block;
+    color: inherit;
+
+    &:after {
+      display: none;
+    }
+  }
+`;
+
 const ImagesWrapper = styled(Flex)`
   div:first-child {
     order: 1;
@@ -43,20 +54,28 @@ const ImagesWrapper = styled(Flex)`
 `;
 
 const Item = ({ item }) => {
+  const renderImages = () => (
+    <ImagesWrapper py={[20, 100]}>
+      {item.img1 && (
+        <Box mt={20} mx="auto" width={[1, 1 / 2]}>
+          <Image fluid={item.img1.asset.fluid} />
+        </Box>
+      )}
+      {item.img2 && (
+        <Box mt={[20, 20, -100]} mx="auto" width={[1, 1 / 2]}>
+          <Image fluid={item.img2.asset.fluid} />
+        </Box>
+      )}
+    </ImagesWrapper>
+  );
   return (
-    <Box mb={[40, 200]}>
-      <ImagesWrapper py={[20, 100]}>
-        {item.img1 && (
-          <Box mt={20} mx="auto" width={[1, 1 / 2]}>
-            <Image fluid={item.img1.asset.fluid} />
-          </Box>
-        )}
-        {item.img2 && (
-          <Box mt={[20, 20, -100]} mx="auto" width={[1, 1 / 2]}>
-            <Image fluid={item.img2.asset.fluid} />
-          </Box>
-        )}
-      </ImagesWrapper>
+    <ItemWrapper mb={[40, 200]}>
+      {item.link ? (
+        <Link href={item.link.url}>{renderImages()}</Link>
+      ) : (
+        renderImages()
+      )}
+
       <Box textAlign="center">
         <Heading fontSize={[24, 40]} as="h2" mb="1rem">
           {item.title}
@@ -64,7 +83,7 @@ const Item = ({ item }) => {
         <Text>{item.description}</Text>
         {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
       </Box>
-    </Box>
+    </ItemWrapper>
   );
 };
 
