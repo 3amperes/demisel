@@ -28,10 +28,24 @@ const Header = styled(Flex)`
   ${coloredSection('600px')}
 `;
 
+const ImagesWrapper = styled(Flex)`
+  div:first-child {
+    order: 1;
+  }
+
+  div:last-child {
+    order: 0;
+
+    li:nth-child(odd) & {
+      order: 2;
+    }
+  }
+`;
+
 const Item = ({ item }) => {
   return (
     <Box mb={[40, 200]}>
-      <Flex py={[20, 100]}>
+      <ImagesWrapper py={[20, 100]}>
         {item.img1 && (
           <Box mt={20} mx="auto" width={[1, 1 / 2]}>
             <Image fluid={item.img1.asset.fluid} />
@@ -42,7 +56,7 @@ const Item = ({ item }) => {
             <Image fluid={item.img2.asset.fluid} />
           </Box>
         )}
-      </Flex>
+      </ImagesWrapper>
       <Box textAlign="center">
         <Heading fontSize={[24, 40]} as="h2" mb="1rem">
           {item.title}

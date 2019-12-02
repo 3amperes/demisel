@@ -56,7 +56,7 @@ const AddButton = ({ product }) => {
     <motion.div
       animate={{ x: 0 }}
       whileTap={{ scale: 0.94 }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.02, x: 10 }}
     >
       <Button
         disabled={isDisabled}

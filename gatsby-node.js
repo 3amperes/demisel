@@ -37,6 +37,9 @@ exports.createPages = async ({ graphql, actions }) => {
         edges {
           node {
             id
+            slug {
+              current
+            }
           }
         }
       }
@@ -110,10 +113,11 @@ exports.createPages = async ({ graphql, actions }) => {
     const next = arr[index + 1];
 
     const collectionData = {
-      path: `/collections/${collection.node.id}`,
+      path: `/collections/${collection.node.slug.current}`,
       component: collectionsItemLayout,
       context: {
         id: collection.node.id,
+        slug: collection.node.slug.current,
         prev: prev,
         next: next,
       },

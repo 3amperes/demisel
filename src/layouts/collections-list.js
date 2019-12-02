@@ -36,8 +36,7 @@ const ItemTitle = styled(Flex)`
 `;
 
 const Collections = ({ data }) => {
-  const collections =
-    data && data.allSanityCollection ? data.allSanityCollection.edges : [];
+  const collections = data && data.collections ? data.collections.edges : [];
 
   return (
     <MainLayout>
@@ -57,7 +56,7 @@ const Collections = ({ data }) => {
       <List>
         {collections.map(({ node: item }) => (
           <li key={item.id}>
-            <Link to={`/collections/${item.id}`}>
+            <Link to={`/collections/${item.slug.current}`}>
               {item.thumbnail && (
                 <Image
                   style={{ maxWidth: '100%' }}
@@ -87,10 +86,13 @@ export default Collections;
 
 export const query = graphql`
   query {
-    allSanityCollection {
+    collections: allSanityCollection(sort: { fields: order, order: ASC }) {
       edges {
         node {
           id
+          slug {
+            current
+          }
           title
           thumbnail {
             alt
