@@ -38,25 +38,3 @@ export function useEventListener(
     [eventName, element, params] // Re-run if eventName or element changes
   );
 }
-
-export function useOnClickOutside(ref, handler, wrapperElement = document) {
-  if (!wrapperElement.nodeType) wrapperElement = document;
-
-  useEffect(() => {
-    const listener = event => {
-      // Do nothing if clicking ref's element or descendent elements
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
-      }
-      handler(event);
-    };
-
-    wrapperElement.addEventListener('mousedown', listener);
-    wrapperElement.addEventListener('touchstart', listener);
-
-    return () => {
-      wrapperElement.removeEventListener('mousedown', listener);
-      wrapperElement.removeEventListener('touchstart', listener);
-    };
-  }, [ref, handler, wrapperElement]); // Empty array ensures that effect is only run on mount and unmount
-}

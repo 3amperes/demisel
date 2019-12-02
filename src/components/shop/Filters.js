@@ -10,7 +10,6 @@ import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { areEmptyFilters } from '@utils/helpers';
-import { useOnClickOutside } from '@utils/hooks';
 
 export const FilerIcon = ({ size = 16, ...rest }) => {
   return (
@@ -368,11 +367,24 @@ const Filters = ({ location, ids }) => {
     state.filters.values()
   ).flatMap(collection => [...collection]).length;
 
-  const onClickOutside = () => {
-    isOpen && setIsOpen(false);
-  };
+  useEffect(() => {
+    if (!wrapperRef.current || document === 'undefined') return;
+    const listener = event => {
+      // Do nothing if clicking ref's element or descendent elements
+      if (!wrapperRef.current || wrapperRef.current.contains(event.target)) {
+        return;
+      }
+      isOpen && setIsOpen(false);
+    };
 
-  useOnClickOutside(wrapperRef, onClickOutside);
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [wrapperRef, isOpen]); // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <Wrapper isOpen={isOpen} ref={wrapperRef}>

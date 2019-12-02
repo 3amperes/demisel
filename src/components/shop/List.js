@@ -8,7 +8,6 @@ import { ProductItem } from '@components/product';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { container, link } from '@utils/mixins';
-import { useEventListener } from '@utils/hooks';
 import { scrollToTop } from '@utils/helpers';
 import withLocation from '@utils/withLocation';
 import { FilerIcon } from './Filters';
@@ -100,24 +99,32 @@ const ShopList = ({ items, search }) => {
     });
   }, [initialSearch, dispatch]);
 
-  const onScroll = () => {
-    if (
-      document.documentElement.scrollTop >
-        document.documentElement.clientHeight / 2 &&
-      !backToFilterIsDisplay
-    ) {
-      setBackToFilterIsDisplay(true);
-    }
-    if (
-      document.documentElement.scrollTop <
-        document.documentElement.clientHeight / 2 &&
-      backToFilterIsDisplay
-    ) {
-      setBackToFilterIsDisplay(false);
-    }
-  };
+  useEffect(() => {
+    if (document === 'undefined') return;
+    const onScroll = () => {
+      if (
+        document.documentElement.scrollTop >
+          document.documentElement.clientHeight / 2 &&
+        !backToFilterIsDisplay
+      ) {
+        setBackToFilterIsDisplay(true);
+      }
+      if (
+        document.documentElement.scrollTop <
+          document.documentElement.clientHeight / 2 &&
+        backToFilterIsDisplay
+      ) {
+        setBackToFilterIsDisplay(false);
+      }
+    };
 
-  useEventListener('scroll', throttle(onScroll, 200));
+    // Add event listener
+    document.addEventListener('scroll', throttle(onScroll, 200));
+    // Remove event listener on cleanup
+    return () => {
+      document.removeEventListener('scroll', throttle(onScroll, 200));
+    };
+  }, [backToFilterIsDisplay]);
 
   return !state.items ? null : (
     <>
