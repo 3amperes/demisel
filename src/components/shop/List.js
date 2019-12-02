@@ -61,9 +61,9 @@ const BackToFilterButton = styled.button`
   opacity: ${props => (props.isDisplay ? 1 : 0)};
 `;
 
-const BackToFilter = ({ isDisplay }) => {
+const BackToFilter = props => {
   return (
-    <BackToFilterButton onClick={scrollToTop} isDisplay={isDisplay}>
+    <BackToFilterButton {...props}>
       <FilerIcon />
     </BackToFilterButton>
   );
@@ -81,7 +81,7 @@ const getFiltersFromQueryParams = params => {
   return filters;
 };
 
-const ShopList = ({ items, search }) => {
+const ShopList = ({ search, onOpenFilters }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const [backToFilterIsDisplay, setBackToFilterIsDisplay] = useState(false);
   const loadMore = () => dispatch({ type: 'loadmore' });
@@ -126,6 +126,12 @@ const ShopList = ({ items, search }) => {
     };
   }, [backToFilterIsDisplay]);
 
+  const handleBackToFilterClick = e => {
+    e.preventDefault();
+    onOpenFilters();
+    scrollToTop();
+  };
+
   return !state.items ? null : (
     <>
       {state.items.length > 0 ? (
@@ -153,7 +159,10 @@ const ShopList = ({ items, search }) => {
         </Box>
       )}
 
-      <BackToFilter isDisplay={backToFilterIsDisplay} />
+      <BackToFilter
+        onClick={handleBackToFilterClick}
+        isDisplay={backToFilterIsDisplay}
+      />
     </>
   );
 };

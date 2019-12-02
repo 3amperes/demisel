@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { graphql } from 'gatsby';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
@@ -10,6 +10,7 @@ const Shop = ({ data }) => {
     state: { currentCategory, allItems },
     dispatch,
   } = useContext(GlobalContext);
+  const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const products = data.products.edges;
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(
@@ -31,8 +32,13 @@ const Shop = ({ data }) => {
           collections,
           colors,
         }}
+        isOpen={areFiltersOpen}
+        toggle={setAreFiltersOpen}
       />
-      <ShopList />
+      <ShopList
+        areFiltersOpen={areFiltersOpen}
+        onOpenFilters={() => setAreFiltersOpen(true)}
+      />
     </MainLayout>
   );
 };

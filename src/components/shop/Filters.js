@@ -1,10 +1,10 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
-import { Box, Flex, Heading, Text } from 'rebass/styled-components';
+import { Box, Flex, Text } from 'rebass/styled-components';
 import { container } from '@utils/mixins';
 import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
@@ -37,7 +37,7 @@ const wrapper = {
     opacity: 1,
     y: 0,
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.05,
     },
   },
   closed: {
@@ -49,11 +49,6 @@ const wrapper = {
 const items = {
   open: { opacity: 1, x: 0 },
   closed: { opacity: 0, x: 16 },
-};
-
-const toggle = {
-  open: { rotate: 180 },
-  closed: { rotate: 0 },
 };
 
 const Wrapper = styled.div`
@@ -104,20 +99,6 @@ const Dot = ({ isActive, bg }) => (
   </svg>
 );
 
-const Chevron = props => (
-  <svg
-    aria-hidden="true"
-    data-icon="chevron-down"
-    viewBox="0 0 448 512"
-    {...props}
-  >
-    <path
-      fill="currentColor"
-      d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
-    />
-  </svg>
-);
-
 const Color = ({ title, hex, isActive }) => {
   return (
     <Flex alignItems="center">
@@ -164,21 +145,20 @@ const ColumnTitle = ({ title }) => (
   </Text>
 );
 
-const ToggleButton = styled.button`
-  outline: none;
-  border: none;
-  background: ${colors.whiteTwo};
-  font-size: 16px;
-  color: ${colors.black};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  padding: 8px 16px;
-  border-radius: 6px;
-`;
+const ToggleButtonStyles = {
+  outline: 'none',
+  border: 'none',
+  backgroundColor: colors.whiteTwo,
+  fontSize: '16px',
+  color: colors.black,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 0,
+  cursor: 'pointer',
+  padding: '12px 16px',
+  borderRadius: '6px',
+};
 
 const ClearButton = styled.button`
   outline: none;
@@ -337,9 +317,8 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
   );
 };
 
-const Filters = ({ location, ids }) => {
+const Filters = ({ location, ids, isOpen, toggle }) => {
   const { state, dispatch } = useContext(GlobalContext);
-  const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef();
 
   const clearFilters = () => {
@@ -376,7 +355,7 @@ const Filters = ({ location, ids }) => {
       if (!wrapperRef.current || wrapperRef.current.contains(event.target)) {
         return;
       }
-      isOpen && setIsOpen(false);
+      isOpen && toggle(false);
     };
 
     document.addEventListener('mousedown', listener);
@@ -388,32 +367,32 @@ const Filters = ({ location, ids }) => {
     };
   }, [wrapperRef, isOpen]); // Empty array ensures that effect is only run on mount and unmount
 
-  return (
+  return state.items ? (
     <Wrapper isOpen={isOpen} ref={wrapperRef}>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial="closed">
         <Inner>
           <Header>
-            <Box mr="auto">
-              <ToggleButton onClick={() => setIsOpen(!isOpen)}>
-                <FilerIcon mr="0.5rem" />
-                <Heading fontSize="1rem">Filtres</Heading>
+            <Box mr="1rem">
+              <motion.button
+                style={ToggleButtonStyles}
+                onClick={() => toggle(!isOpen)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FilerIcon mr={flatFiltersSize ? '0.5rem' : 0} />
                 <Text
-                  mx="0.5rem"
                   fontSize={14}
                   color={
                     flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey
                   }
                 >
-                  ({flatFiltersSize || 'aucun'})
+                  {flatFiltersSize || ''}
                 </Text>
-                <motion.div
-                  variants={toggle}
-                  style={{ lineHeight: 1, height: '14px' }}
-                >
-                  <Chevron width="12px" mx="0.5rem" />
-                </motion.div>
-              </ToggleButton>
+              </motion.button>
             </Box>
+            <Text mr="auto" color="warmGrey" fontSize={12}>
+              {state.items.length} bijou{state.items.length > 1 ? 'x' : ''}
+            </Text>
             <motion.div whileHover={{ y: -1 }} whileTap={{ y: 1 }}>
               <ClearButton
                 disabled={flatFiltersSize === 0}
@@ -429,7 +408,7 @@ const Filters = ({ location, ids }) => {
         </motion.nav>
       </motion.div>
     </Wrapper>
-  );
+  ) : null;
 };
 
 export default withLocation(Filters);

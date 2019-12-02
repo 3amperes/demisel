@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { graphql } from 'gatsby';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
@@ -10,6 +10,7 @@ const Shop = ({ data }) => {
     state: { currentCategory },
     dispatch,
   } = useContext(GlobalContext);
+  const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const { id, title } = data.category;
   const products = data.products.edges;
 
@@ -28,8 +29,15 @@ const Shop = ({ data }) => {
   return (
     <MainLayout>
       <SEO title={`Shop | ${title}`} />
-      <Filters ids={{ models, collections, colors }} />
-      <ShopList items={products}></ShopList>
+      <Filters
+        ids={{ models, collections, colors }}
+        isOpen={areFiltersOpen}
+        toggle={setAreFiltersOpen}
+      />
+      <ShopList
+        areFiltersOpen={areFiltersOpen}
+        onOpenFilters={() => setAreFiltersOpen(true)}
+      />
     </MainLayout>
   );
 };
