@@ -18,6 +18,8 @@ export const FilerIcon = ({ size = 16, ...rest }) => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
         fill="currentColor"
+        width={size}
+        height={size}
       >
         <path d="M15 1v14H1V1h14m1-1H0v16h16V0z"></path>
         <path d="M5 3H6V4.57H5z"></path>
