@@ -149,6 +149,10 @@ const Brand = styled(Flex)`
   grid-area: brand;
   align-items: center;
   justify-content: center;
+
+  a {
+    color: inherit;
+  }
 `;
 const Access = styled(Flex)`
   grid-area: access;
@@ -176,7 +180,9 @@ const Header = ({ isFloat }) => {
         </NavItem>
       </Navigation>
       <Brand>
-        <Logo width={150} />
+        <Link to="/">
+          <Logo width={150} />
+        </Link>
       </Brand>
       <Access>
         {/* <Search /> */}
