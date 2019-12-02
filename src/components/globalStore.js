@@ -9,7 +9,7 @@ const initialState = {
   items: null,
   allItems: [],
   filters: new Map(),
-  visible: 9,
+  visible: 36,
   error: false,
   isBannerClosed: false,
   currentCategory: null,
