@@ -34,13 +34,13 @@ export default props => (
   <StaticQuery
     query={graphql`
       query {
-        allInstaNode {
+        images: allInstaNode(sort: { order: DESC, fields: timestamp }) {
           edges {
             node {
               id
               localFile {
                 childImageSharp {
-                  fixed(width: 320, height: 320) {
+                  fixed(width: 640, height: 640) {
                     ...GatsbyImageSharpFixed
                   }
                 }
@@ -51,7 +51,7 @@ export default props => (
       }
     `}
     render={data => {
-      const instaThumbs = data.allInstaNode.edges.slice(0, 3);
+      const instaThumbs = data.images.edges.slice(0, 3);
       return (
         <Wrapper {...props}>
           <Heading
@@ -65,7 +65,10 @@ export default props => (
           <Grid>
             {instaThumbs.map(({ node }) => (
               <a href="https://www.instagram.com/demiselbijoux" key={node.id}>
-                <Image fixed={node.localFile.childImageSharp.fixed} />
+                <Image
+                  style={{ width: '320px', height: '320px' }}
+                  fixed={node.localFile.childImageSharp.fixed}
+                />
               </a>
             ))}
           </Grid>
