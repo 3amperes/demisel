@@ -40,15 +40,30 @@ const ItemWrapper = styled(Box)`
 `;
 
 const ImagesWrapper = styled(Flex)`
-  div:first-child {
-    order: 1;
+  div {
+    position: relative;
+
+    &:first-child {
+      order: 1;
+      top: 0;
+    }
   }
 
-  div:last-child {
-    order: 0;
+  li:nth-child(even) & {
+    div:last-child {
+      order: 0;
+      top: -100px;
+    }
+  }
 
-    li:nth-child(odd) & {
+  li:nth-child(odd) & {
+    div:first-child {
+      top: -100px;
+    }
+
+    div:last-child {
       order: 2;
+      top: 0;
     }
   }
 `;
@@ -57,13 +72,13 @@ const Item = ({ item }) => {
   const renderImages = () => (
     <ImagesWrapper py={[20, 100]}>
       {item.img1 && (
-        <Box mt={20} mx="auto" width={[1, 1 / 2]}>
-          <Image fluid={item.img1.asset.fluid} />
+        <Box mx="auto" width={[1, 1 / 2]}>
+          <Image fluid={item.img1.asset.fluid} className="image-title" />
         </Box>
       )}
       {item.img2 && (
-        <Box mt={[20, 20, -100]} mx="auto" width={[1, 1 / 2]}>
-          <Image fluid={item.img2.asset.fluid} />
+        <Box mx="auto" width={[1, 1 / 2]}>
+          <Image fluid={item.img2.asset.fluid} className="image-porte" />
         </Box>
       )}
     </ImagesWrapper>
