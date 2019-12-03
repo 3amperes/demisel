@@ -154,7 +154,6 @@ const ToggleButtonStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: 0,
   cursor: 'pointer',
   padding: '12px 16px',
   borderRadius: '6px',
@@ -365,7 +364,7 @@ const Filters = ({ location, ids, isOpen, toggle }) => {
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [wrapperRef, isOpen]); // Empty array ensures that effect is only run on mount and unmount
+  }, [wrapperRef, isOpen, toggle]); // Empty array ensures that effect is only run on mount and unmount
 
   return state.items ? (
     <Wrapper isOpen={isOpen} ref={wrapperRef}>

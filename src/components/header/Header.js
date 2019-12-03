@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { up } from 'styled-breakpoints';
-import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
-import { Flex, Box, Text } from 'rebass/styled-components';
+import { Flex, Box } from 'rebass/styled-components';
 import { colors } from '@theme';
+import { useBreakpoint } from '@utils/hooks';
 import Logo from '../logo';
 // import Search from './Search';
-import Navigation from '../navigation';
 import Basket from './Basket';
+import { NavigationDesktop, MenuToggle, SubMenu } from '../navigation';
 
 const Wrapper = styled(Box)`
   display: grid;
   grid-template-rows: 88px;
   grid-template-columns: 1fr auto 1fr;
   grid-template-areas: 'navigation brand access';
-  padding: 0 2rem;
+  align-items: center;
   position: ${props => (props.isFloat ? 'absolute' : 'relative')};
   top: 0;
   left: 0;
@@ -26,7 +25,7 @@ const Wrapper = styled(Box)`
   border-color: ${props => (props.isFloat ? 'transparent' : colors.whiteTwo)};
   border-style: solid;
   border-width: 0 0 1px 0;
-  z-index: 1;
+  z-index: 2;
 
   *,
   *:before,
@@ -55,19 +54,31 @@ const Access = styled(Flex)`
 `;
 
 const Header = ({ isFloat }) => {
+  const isDesktop = useBreakpoint('desktop');
+  const [isMenuOpen, setMenuIsOpen] = useState(false);
   return (
-    <Wrapper as="header" isFloat={isFloat}>
-      <Navigation className="navigation" />
-      <Brand>
-        <Link to="/">
-          <Logo width={150} />
-        </Link>
-      </Brand>
-      <Access>
-        {/* <Search /> */}
-        <Basket />
-      </Access>
-    </Wrapper>
+    <>
+      <Wrapper as="header" isFloat={isFloat} px={['1rem', '2rem']}>
+        {isDesktop ? (
+          <NavigationDesktop />
+        ) : (
+          <MenuToggle
+            isOpen={isMenuOpen}
+            onClick={() => setMenuIsOpen(!isMenuOpen)}
+          />
+        )}
+        <Brand>
+          <Link to="/">
+            <Logo width={[120, 180]} />
+          </Link>
+        </Brand>
+        <Access>
+          {/* <Search /> */}
+          <Basket />
+        </Access>
+      </Wrapper>
+      <SubMenu isOpen={isMenuOpen} />
+    </>
   );
 };
 
