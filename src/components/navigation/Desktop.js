@@ -7,6 +7,7 @@ import Image from 'gatsby-image';
 import { Text, Flex, Box } from 'rebass/styled-components';
 import { colors } from '@theme';
 import { container, navLink } from '@utils/mixins';
+import { getOtherLinks } from './utils';
 
 const Wrapper = styled.nav`
   position: absolute;
@@ -94,16 +95,8 @@ const Thumbnail = styled(motion.div)`
   left: 0;
 `;
 
-const otherLinks = [
-  {
-    id: 'discounts',
-    title: 'Les soldes',
-    link: '/shop?discount=true',
-  },
-];
-
 export const CategoriesDesktop = ({
-  data: { categories, collections, baseThumb },
+  data: { categories, collections, baseThumb, areDiscountsEnabled },
 }) => {
   const baseThumbId = 'baseThumb';
   const [currentId, setCurrentId] = useState(baseThumbId);
@@ -186,19 +179,21 @@ export const CategoriesDesktop = ({
               })}
             </ul>
           </Box>
-          <Box width={1 / 3} px={20} color="black">
-            <ul>
-              {otherLinks.map(item => {
-                return (
-                  <CategoryItem key={item.id}>
-                    <Link to={`/shop/?collections=${item.id}`}>
-                      <Text fontSize={14}>{item.title}</Text>
-                    </Link>
-                  </CategoryItem>
-                );
-              })}
-            </ul>
-          </Box>
+          {getOtherLinks(areDiscountsEnabled).length > 0 && (
+            <Box width={1 / 3} px={20} color="black">
+              <ul>
+                {getOtherLinks(areDiscountsEnabled).map(item => {
+                  return (
+                    <CategoryItem key={item.id}>
+                      <Link to={item.link}>
+                        <Text fontSize={14}>{item.title}</Text>
+                      </Link>
+                    </CategoryItem>
+                  );
+                })}
+              </ul>
+            </Box>
+          )}
         </Flex>
       </Flex>
     </SubWrapper>

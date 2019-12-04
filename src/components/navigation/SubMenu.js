@@ -31,33 +31,14 @@ const Nav = styled(motion.nav)`
     props.isFloat ? 'calc(178px + 2rem)' : 'calc(89px + 2rem)'};
   padding-bottom: 2rem;
   background: ${colors.white};
+  overflow-y: auto;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
-  overflow-y: auto;
 
-  ${up('tablet')} {
+  ${up('desktop')} {
     height: auto;
-  }
-
-  > ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-  }
-
-  > li {
-    list-style: none;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
   }
 `;
 

@@ -13,6 +13,7 @@ const initialState = {
   error: false,
   isBannerClosed: false,
   currentCategory: null,
+  lockedScroll: false,
 };
 
 function reducer(state, action) {
@@ -43,6 +44,11 @@ function reducer(state, action) {
     });
   };
   switch (action.type) {
+    case 'toggle_scroll_lock':
+      return {
+        ...state,
+        lockedScroll: action.payload,
+      };
     case 'init_items':
       return {
         ...state,

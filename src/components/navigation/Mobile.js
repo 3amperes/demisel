@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
 import { colors } from '@theme';
 import { Heading, Text, Box } from 'rebass/styled-components';
+import { getOtherLinks } from './utils';
+import SubMenu from './SubMenu';
 
 const MenuIcon = ({ isOpen }) => (
   <svg
@@ -42,6 +44,20 @@ export const MenuToggle = ({ onClick, isOpen }) => (
   </div>
 );
 
+const Wrapper = styled.ul`
+  margin: auto;
+  > li {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+`;
+
 const variantItems = {
   open: {
     y: 0,
@@ -59,7 +75,24 @@ const variantItems = {
   },
 };
 
-const MenuItem = ({ item }) => {
+const shopMenu = {
+  open: {
+    maxHeight: 'none',
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  close: {
+    maxHeight: 0,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
+const MenuItem = ({ item, ...rest }) => {
   const title = (
     <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
       <Heading fontSize={40} color="black" textAlign="center">
@@ -68,56 +101,115 @@ const MenuItem = ({ item }) => {
     </motion.div>
   );
   return (
-    <motion.li variants={variantItems}>
-      {item.subItems ? (
-        <div>
-          {title}
-          <Box pt="1rem">
-            {item.subItems.map(subItem => (
-              <Link
-                key={subItem.id}
-                to={`/shop/category/${subItem.slug.current}`}
-              >
-                <Text
-                  fontSize={14}
-                  color="greyishBrown"
-                  mb="1rem"
-                  textAlign="center"
-                >
-                  {subItem.title}
-                </Text>
-              </Link>
-            ))}
-          </Box>
-        </div>
-      ) : (
-        <Link to={item.link}>{title}</Link>
-      )}
+    <motion.li variants={variantItems} key={item.id} {...rest}>
+      {!item.link ? title : <Link to={item.link}>{title}</Link>}
     </motion.li>
   );
 };
 
-export const NavigationMobile = ({ data: { categories } }) => (
-  <ul>
-    {getItems(categories).map(i => (
-      <MenuItem item={i} key={i.id} />
-    ))}
-  </ul>
-);
+const ShopMenu = styled(motion.div)`
+  text-align: center;
+  overflow: hidden;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
 
-const getItems = categories => {
-  return [
-    { id: 0, title: 'Accueil', link: '/' },
-    {
-      id: 1,
-      title: 'Collections',
-      link: '/collections',
-    },
-    {
-      id: 2,
-      title: 'E-shop',
-      link: '/shop',
-      subItems: categories,
-    },
-  ];
+export const NavigationMobile = ({
+  data: { categories, collections, areDiscountsEnabled },
+}) => {
+  const [shopMenuIsOpen, setShopMenuIsOpen] = useState(false);
+  const toggleSubMenu = () => {
+    setShopMenuIsOpen(!shopMenuIsOpen);
+  };
+  return (
+    <Wrapper>
+      <MenuItem item={{ id: 0, title: 'Accueil', link: '/' }} />
+      <MenuItem
+        item={{
+          id: 1,
+          title: 'Collections',
+          link: '/collections',
+        }}
+      />
+      <MenuItem
+        item={{
+          id: 1,
+          title: 'E-Shop',
+        }}
+        onClick={toggleSubMenu}
+      />
+      <ShopMenu
+        variants={shopMenu}
+        animate={shopMenuIsOpen ? 'open' : 'close'}
+        initial="close"
+      >
+        <Text fontSize={12} fontWeight={600} color="warmGrey" mb="0.5rem">
+          Catégories
+        </Text>
+        <ul>
+          <Link to={`/shop`}>
+            <Text fontSize={14}>Tous les bijoux</Text>
+          </Link>
+          {categories.map(category => {
+            return (
+              <Link
+                key={category.id}
+                to={`/shop/category/${category.slug.current}`}
+              >
+                <Text fontSize={14} py="0.25rem">
+                  {category.title}
+                </Text>
+              </Link>
+            );
+          })}
+        </ul>
+        <Text
+          fontSize={12}
+          fontWeight={600}
+          color="warmGrey"
+          mt="1rem"
+          mb="0.5rem"
+        >
+          Collections
+        </Text>
+        <ul>
+          {collections.map(collection => {
+            return (
+              <Link
+                key={collection.id}
+                to={`/shop?collections=${collection.id}`}
+              >
+                <Text fontSize={14} py="0.25rem">
+                  {collection.title}
+                </Text>
+              </Link>
+            );
+          })}
+        </ul>
+        {getOtherLinks(areDiscountsEnabled).length > 0 && (
+          <Box py={20}>
+            <ul>
+              {getOtherLinks(areDiscountsEnabled).map(item => {
+                return (
+                  <Link key={item.id} to={item.link}>
+                    <Text fontSize={14}>{item.title}</Text>
+                  </Link>
+                );
+              })}
+            </ul>
+          </Box>
+        )}
+      </ShopMenu>
+      <MenuItem
+        item={{
+          id: 'contact',
+          title: 'Contact',
+          link: '/contact',
+        }}
+        onClick={toggleSubMenu}
+      />
+    </Wrapper>
+  );
 };

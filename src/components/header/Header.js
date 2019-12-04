@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, StaticQuery, graphql } from 'gatsby';
@@ -63,6 +63,17 @@ const Header = ({ isFloat }) => {
   const [isMenuOpen, setMenuIsOpen] = useState(false);
 
   const toggleMenu = () => setMenuIsOpen(!isMenuOpen);
+
+  useEffect(() => {
+    if (document === 'undefined') return;
+    // Prevent scrolling effect
+    if (!isDesktop && isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'visible';
+    }
+  }, [isMenuOpen, isDesktop]);
+
   return (
     <StaticQuery
       query={graphql`
@@ -114,9 +125,10 @@ const Header = ({ isFloat }) => {
               }
             }
           }
-          baseThumb: allSanityConfig {
+          config: allSanityConfig {
             edges {
               node {
+                areDiscountsEnabled
                 menuBaseThumb {
                   asset {
                     fixed(width: 320) {
@@ -140,6 +152,7 @@ const Header = ({ isFloat }) => {
             .map(item => item.fieldValue)
             .includes(collection._id)
         );
+        const config = data.config.edges[0].node;
         return (
           <>
             <Wrapper
@@ -171,11 +184,18 @@ const Header = ({ isFloat }) => {
                   data={{
                     categories,
                     collections,
-                    baseThumb: data.baseThumb.edges[0].node.menuBaseThumb,
+                    baseThumb: config.menuBaseThumb,
+                    areDiscountsEnabled: config.areDiscountsEnabled,
                   }}
                 />
               ) : (
-                <NavigationMobile data={{ categories, collections }} />
+                <NavigationMobile
+                  data={{
+                    categories,
+                    collections,
+                    areDiscountsEnabled: config.areDiscountsEnabled,
+                  }}
+                />
               )}
             </SubMenu>
           </>
