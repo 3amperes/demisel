@@ -5,7 +5,6 @@ import { Link } from 'gatsby';
 import { colors } from '@theme';
 import { Heading, Text, Box } from 'rebass/styled-components';
 import { getOtherLinks } from './utils';
-import SubMenu from './SubMenu';
 
 const MenuIcon = ({ isOpen }) => (
   <svg

@@ -11,7 +11,7 @@ const initialState = {
   filters: new Map(),
   visible: 36,
   error: false,
-  isBannerClosed: false,
+  hasBanner: false,
   currentCategory: null,
   lockedScroll: false,
 };
@@ -92,10 +92,10 @@ function reducer(state, action) {
         filters: new Map(),
         items: state.allItems,
       };
-    case 'banner_is_closed':
+    case 'update_banner':
       return {
         ...state,
-        isBannerClosed: true,
+        hasBanner: action.payload,
       };
     case 'update_current_category':
       return {

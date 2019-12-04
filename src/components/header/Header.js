@@ -160,7 +160,7 @@ const Header = ({ isFloat }) => {
               isFloat={isFloat}
               px={['1rem', '2rem']}
               color={isFloat && !isMenuOpen ? 'white' : 'black'}
-              bg={isFloat ? 'transparent' : 'white'}
+              bg={isFloat && !isMenuOpen ? 'transparent' : 'white'}
             >
               {isDesktop ? (
                 <NavigationDesktop toggleMenu={toggleMenu} />

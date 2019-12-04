@@ -11,7 +11,7 @@ const Wrapper = styled(Box)`
   position: relative;
   transition: all 250ms ease-in-out;
   height: ${props => (props.hasBanner ? 'calc(100vh - 80px)' : '100vh')};
-  ${up('tablet')} {
+  ${up('desktop')} {
     height: ${props => (props.hasBanner ? 'calc(100vh - 50px)' : '100vh')};
   }
 `;
@@ -35,9 +35,11 @@ const PaginationButton = styled.button`
 
 export default ({ items }) => {
   const {
-    state: { isBannerClosed },
+    state: { hasBanner },
   } = useContext(GlobalContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  console.log({ hasBanner });
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -52,7 +54,7 @@ export default ({ items }) => {
 
   return (
     items.length > 0 && (
-      <Wrapper hasBanner={!isBannerClosed}>
+      <Wrapper hasBanner={hasBanner}>
         {items.map((item, index) => {
           return (
             <Item

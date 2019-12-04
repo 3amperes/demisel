@@ -7,14 +7,20 @@ import { useDimensions } from '@utils/hooks';
 
 const nav = {
   open: {
-    y: -89,
+    y: 0,
     opacity: 1,
-    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.2,
+    },
   },
   closed: (height = 500) => ({
     y: -height,
     opacity: 0,
-    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1,
+    },
   }),
 };
 
@@ -27,15 +33,17 @@ const Nav = styled(motion.nav)`
   width: 100%;
   height: 100vh;
   left: 0;
-  padding-top: ${props =>
-    props.isFloat ? 'calc(178px + 2rem)' : 'calc(89px + 2rem)'};
-  padding-bottom: 2rem;
+  top: -89px;
+  padding-top: 178px;
+  padding-bottom: 89px;
   background: ${colors.white};
   overflow-y: auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-bottom: solid 1px ${colors.whiteTwo};
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.05);
 
   ${up('desktop')} {
     height: auto;
