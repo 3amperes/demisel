@@ -7,7 +7,7 @@ const Svg = styled.svg`
 `;
 
 export default props => (
-  <Box {...props}>
+  <Box {...props} color="currentColor">
     <Svg viewBox="0 0 169.77 28.29" width="100%" height="100%">
       <title>{'DemiselLogoBlack'}</title>
       <g data-name="Calque 2">

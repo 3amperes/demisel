@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
-import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
-import { Flex, Box, Text } from 'rebass/styled-components';
+import { Text } from 'rebass/styled-components';
 import { colors } from '@theme';
 
 const Wrapper = styled.nav`
@@ -75,7 +74,7 @@ const NavItem = ({ children }) => (
   </Text>
 );
 
-export default props => {
+export const NavigationDesktop = props => {
   return (
     <Wrapper {...props}>
       <NavItem>
@@ -90,3 +89,5 @@ export default props => {
     </Wrapper>
   );
 };
+
+export const CategoriesDesktop = props => <p>categories</p>;

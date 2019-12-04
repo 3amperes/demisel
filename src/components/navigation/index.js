@@ -1,3 +1,3 @@
-export { default as NavigationDesktop } from './Desktop';
-export { default as MenuToggle } from './Mobile';
+export * from './Mobile';
+export * from './Desktop';
 export { default as SubMenu } from './SubMenu';

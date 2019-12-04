@@ -8,7 +8,13 @@ import { useBreakpoint } from '@utils/hooks';
 import Logo from '../logo';
 // import Search from './Search';
 import Basket from './Basket';
-import { NavigationDesktop, MenuToggle, SubMenu } from '../navigation';
+import {
+  NavigationDesktop,
+  CategoriesDesktop,
+  MenuToggle,
+  SubMenu,
+  NavigationMobile,
+} from '../navigation';
 
 const Wrapper = styled(Box)`
   display: grid;
@@ -20,8 +26,6 @@ const Wrapper = styled(Box)`
   top: 0;
   left: 0;
   width: 100%;
-  color: ${props => (props.isFloat ? colors.white : colors.black)};
-  background-color: ${props => (props.isFloat ? 'transparent' : colors.white)};
   border-color: ${props => (props.isFloat ? 'transparent' : colors.whiteTwo)};
   border-style: solid;
   border-width: 0 0 1px 0;
@@ -42,9 +46,10 @@ const Brand = styled(Flex)`
   grid-area: brand;
   align-items: center;
   justify-content: center;
+  color: currentColor;
 
   a {
-    color: inherit;
+    color: currentColor;
   }
 `;
 const Access = styled(Flex)`
@@ -58,7 +63,13 @@ const Header = ({ isFloat }) => {
   const [isMenuOpen, setMenuIsOpen] = useState(false);
   return (
     <>
-      <Wrapper as="header" isFloat={isFloat} px={['1rem', '2rem']}>
+      <Wrapper
+        as="header"
+        isFloat={isFloat}
+        px={['1rem', '2rem']}
+        color={isFloat && !isMenuOpen ? 'white' : 'black'}
+        bg={isFloat ? 'transparent' : 'white'}
+      >
         {isDesktop ? (
           <NavigationDesktop />
         ) : (
@@ -77,7 +88,10 @@ const Header = ({ isFloat }) => {
           <Basket />
         </Access>
       </Wrapper>
-      <SubMenu isOpen={isMenuOpen} />
+
+      <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
+        {isDesktop ? <CategoriesDesktop /> : <NavigationMobile />}
+      </SubMenu>
     </>
   );
 };
