@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { StaticQuery, Link, graphql } from 'gatsby';
+import { Link } from 'gatsby';
 import { colors } from '@theme';
 import { Heading, Text, Box } from 'rebass/styled-components';
 
@@ -97,43 +97,12 @@ const MenuItem = ({ item }) => {
   );
 };
 
-export const NavigationMobile = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        categories: allSanityCategory {
-          nodes {
-            _id
-            id
-            slug {
-              current
-            }
-            title
-          }
-        }
-        productsGroupByCategories: allSanityProduct(limit: 2000) {
-          group(field: category____id) {
-            fieldValue
-            totalCount
-          }
-        }
-      }
-    `}
-    render={data => {
-      const categories = data.categories.nodes.filter(category =>
-        data.productsGroupByCategories.group
-          .map(item => item.fieldValue)
-          .includes(category._id)
-      );
-      return (
-        <ul>
-          {getItems(categories).map(i => (
-            <MenuItem item={i} key={i.id} />
-          ))}
-        </ul>
-      );
-    }}
-  />
+export const NavigationMobile = ({ data: { categories } }) => (
+  <ul>
+    {getItems(categories).map(i => (
+      <MenuItem item={i} key={i.id} />
+    ))}
+  </ul>
 );
 
 const getItems = categories => {

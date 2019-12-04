@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `;
 const Nav = styled(motion.nav)`
   position: absolute;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   left: 0;
   padding-top: ${props =>
@@ -41,14 +41,14 @@ const Nav = styled(motion.nav)`
     height: auto;
   }
 
-  ul {
+  > ul {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
   }
 
-  li {
+  > li {
     list-style: none;
     margin-bottom: 20px;
     display: flex;

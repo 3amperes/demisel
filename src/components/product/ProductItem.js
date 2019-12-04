@@ -12,7 +12,7 @@ const ProductItem = ({ item }) => {
     <article>
       <Link to={`/product/${item.id}`}>
         {item.thumbnail ? (
-          <Figure py={[30, 50]}>
+          <Figure>
             <Image
               style={{
                 width: '80%',

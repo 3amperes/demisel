@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { Link, StaticQuery, graphql } from 'gatsby';
 import { Flex, Box } from 'rebass/styled-components';
 import { colors } from '@theme';
 import { useBreakpoint } from '@utils/hooks';
@@ -64,34 +64,105 @@ const Header = ({ isFloat }) => {
 
   const toggleMenu = () => setMenuIsOpen(!isMenuOpen);
   return (
-    <>
-      <Wrapper
-        as="header"
-        isFloat={isFloat}
-        px={['1rem', '2rem']}
-        color={isFloat && !isMenuOpen ? 'white' : 'black'}
-        bg={isFloat ? 'transparent' : 'white'}
-      >
-        {isDesktop ? (
-          <NavigationDesktop toggleMenu={toggleMenu} />
-        ) : (
-          <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
-        )}
-        <Brand>
-          <Link to="/">
-            <Logo width={[120, 180]} />
-          </Link>
-        </Brand>
-        <Access>
-          {/* <Search /> */}
-          <Basket />
-        </Access>
-      </Wrapper>
+    <StaticQuery
+      query={graphql`
+        query {
+          categories: allSanityCategory {
+            nodes {
+              _id
+              id
+              slug {
+                current
+              }
+              title
+              thumbnail {
+                asset {
+                  fixed(width: 320) {
+                    ...GatsbySanityImageFixed
+                  }
+                }
+                alt
+              }
+            }
+          }
+          productsGroupByCategory: allSanityProduct(limit: 2000) {
+            group(field: category____id) {
+              fieldValue
+              totalCount
+            }
+          }
+          productsGroupByCollection: allSanityProduct(limit: 2000) {
+            group(field: collections____id) {
+              fieldValue
+              totalCount
+            }
+          }
+          collections: allSanityCollection(
+            sort: { fields: title, order: ASC }
+          ) {
+            nodes {
+              _id
+              id
+              title
+              thumbnail {
+                asset {
+                  fixed(width: 320) {
+                    ...GatsbySanityImageFixed
+                  }
+                }
+                alt
+              }
+            }
+          }
+        }
+      `}
+      render={data => {
+        const categories = data.categories.nodes.filter(category =>
+          data.productsGroupByCategory.group
+            .map(item => item.fieldValue)
+            .includes(category._id)
+        );
+        const collections = data.collections.nodes.filter(collection =>
+          data.productsGroupByCollection.group
+            .map(item => item.fieldValue)
+            .includes(collection._id)
+        );
+        return (
+          <>
+            <Wrapper
+              as="header"
+              isFloat={isFloat}
+              px={['1rem', '2rem']}
+              color={isFloat && !isMenuOpen ? 'white' : 'black'}
+              bg={isFloat ? 'transparent' : 'white'}
+            >
+              {isDesktop ? (
+                <NavigationDesktop toggleMenu={toggleMenu} />
+              ) : (
+                <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
+              )}
+              <Brand>
+                <Link to="/">
+                  <Logo width={[120, 180]} />
+                </Link>
+              </Brand>
+              <Access>
+                {/* <Search /> */}
+                <Basket />
+              </Access>
+            </Wrapper>
 
-      <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
-        {isDesktop ? <CategoriesDesktop /> : <NavigationMobile />}
-      </SubMenu>
-    </>
+            <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
+              {isDesktop ? (
+                <CategoriesDesktop data={{ categories, collections }} />
+              ) : (
+                <NavigationMobile data={{ categories, collections }} />
+              )}
+            </SubMenu>
+          </>
+        );
+      }}
+    />
   );
 };
 

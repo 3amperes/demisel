@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
+import { motion } from 'framer-motion';
 import { Link } from 'gatsby';
-import { Text } from 'rebass/styled-components';
+import Image from 'gatsby-image';
+import { Text, Flex, Box } from 'rebass/styled-components';
 import { colors } from '@theme';
+import { container, navLink } from '@utils/mixins';
 
 const Wrapper = styled.nav`
   position: absolute;
@@ -21,7 +24,6 @@ const Wrapper = styled.nav`
 
   ${up('tablet')} {
     position: relative;
-
     width: auto;
     height: 100%;
     flex-direction: row;
@@ -34,33 +36,10 @@ const Wrapper = styled.nav`
 
   a,
   button {
-    display: block;
-    color: currentColor;
-    text-decoration: none;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-    height: 30px;
-    padding: 0;
-    padding-top: 2px;
-    line-height: 28px;
     border: none;
     background: transparent;
-    cursor: pointer;
 
-    &:after {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 2px;
-      background-color: currentColor;
-      transform: translateX(-100%);
-      transition: transform 250ms ease-in-out;
-    }
-
-    &:hover:after {
-      transform: translateX(0);
-    }
+    ${navLink};
   }
 `;
 
@@ -75,33 +54,121 @@ const NavItem = ({ children }) => (
   </Text>
 );
 
+const SubWrapper = styled(Box)`
+  ${container};
+  width: 100%;
+`;
+
 export const NavigationDesktop = ({ toggleMenu, ...rest }) => {
   return (
-    <Wrapper {...rest}>
-      <NavItem>
-        <Link to="/">Accueil</Link>
-      </NavItem>
-      <NavItem>
-        <Link to="/collections">Collections</Link>
-      </NavItem>
-      <NavItem>
-        <button onClick={toggleMenu}>E-shop</button>
-      </NavItem>
+    <Wrapper>
+      <Flex {...rest}>
+        <NavItem>
+          <Link to="/">Accueil</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/collections">Collections</Link>
+        </NavItem>
+        <NavItem>
+          <button onClick={toggleMenu}>E-shop</button>
+        </NavItem>
+      </Flex>
     </Wrapper>
   );
 };
 
-export const CategoriesDesktop = props => (
-  <p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore nobis atque
-    repellat consequatur, a non modi culpa maxime cupiditate delectus harum
-    veritatis iste quidem suscipit placeat autem quis minus cumque. Lorem ipsum
-    dolor sit amet consectetur adipisicing elit. Deserunt atque eos tempore?
-    Molestias necessitatibus eaque, laudantium dolorem totam deserunt cumque nam
-    ullam quo, asperiores odit fuga repudiandae ab quibusdam recusandae. Lorem
-    ipsum, dolor sit amet consectetur adipisicing elit. Commodi sunt laborum,
-    molestiae fugiat odio temporibus accusantium cupiditate? Autem quibusdam
-    natus adipisci, nostrum, eligendi iusto eos reiciendis veritatis quos fugiat
-    aperiam.
-  </p>
-);
+const CategoryItem = styled(motion.li)`
+  a {
+    ${navLink};
+  }
+`;
+
+const thumbnails = {
+  show: { opacity: 1, x: 0 },
+  hide: { opacity: 0, x: 16 },
+};
+
+const Thumbnail = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+export const CategoriesDesktop = ({ data: { categories, collections } }) => {
+  const [currentId, setCurrentId] = useState(null);
+  const handleMouseEnter = id => {
+    setCurrentId(id);
+  };
+  const handleMouseLeave = () => {
+    setCurrentId(null);
+  };
+  const all = [...categories, ...collections];
+  return (
+    <SubWrapper>
+      <Flex width={1}>
+        <Box width={1 / 3} style={{ position: 'relative' }}>
+          {all.map(item => {
+            const isCurrent = item.id === currentId;
+            return (
+              <Thumbnail
+                animate={isCurrent ? 'show' : 'hide'}
+                variants={thumbnails}
+                initial="hide"
+                key={item.id}
+              >
+                {item.thumbnail && <Image fixed={item.thumbnail.asset.fixed} />}
+              </Thumbnail>
+            );
+          })}
+        </Box>
+        <Flex width={2 / 3}>
+          <Box width={1 / 3} px={20} color="black">
+            <Text fontSize={12} fontWeight={600} color="warmGrey" mb="0.5rem">
+              Catégories
+            </Text>
+            <ul>
+              <CategoryItem key="all">
+                <Link to={`/shop`}>
+                  <Text fontSize={14}>Tous les bijoux</Text>
+                </Link>
+              </CategoryItem>
+              {categories.map(category => {
+                return (
+                  <CategoryItem
+                    key={category.id}
+                    onMouseEnter={() => handleMouseEnter(category.id)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Link to={`/shop/category/${category.slug.current}`}>
+                      <Text fontSize={14}>{category.title}</Text>
+                    </Link>
+                  </CategoryItem>
+                );
+              })}
+            </ul>
+          </Box>
+          <Box width={1 / 3} px={20} color="black">
+            <Text fontSize={12} fontWeight={600} color="warmGrey" mb="0.5rem">
+              Collections
+            </Text>
+            <ul>
+              {collections.map(collection => {
+                return (
+                  <CategoryItem
+                    key={collection.id}
+                    onMouseEnter={() => handleMouseEnter(collection.id)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Link to={`/shop/?collections=${collection.id}`}>
+                      <Text fontSize={14}>{collection.title}</Text>
+                    </Link>
+                  </CategoryItem>
+                );
+              })}
+            </ul>
+          </Box>
+        </Flex>
+      </Flex>
+    </SubWrapper>
+  );
+};

@@ -7,4 +7,5 @@ export default styled(Flex)`
   align-items: center;
   justify-content: center;
   background-color: ${colors.whiteTwo};
+  min-height: 360px;
 `;
