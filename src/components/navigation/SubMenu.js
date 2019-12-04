@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 const Nav = styled(motion.nav)`
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: ${props => (props.isFloat ? 'calc(100vh + 89px)' : '100vh')};
   left: 0;
   top: -89px;
   padding-top: 178px;

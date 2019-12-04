@@ -39,8 +39,6 @@ export default ({ items }) => {
   } = useContext(GlobalContext);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  console.log({ hasBanner });
-
   useEffect(() => {
     const t = setTimeout(() => {
       currentIndex < items.length - 1

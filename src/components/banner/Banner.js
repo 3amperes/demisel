@@ -55,7 +55,7 @@ const Banner = ({ title, description, isDisplay }) => {
   };
   useEffect(() => {
     isDisplay && dispatch({ type: 'toggle_banner', payload: true });
-  }, [isDisplay]);
+  }, [isDisplay, dispatch]);
   return (
     <Wrapper bg="lipstick" color="white">
       {title && (
