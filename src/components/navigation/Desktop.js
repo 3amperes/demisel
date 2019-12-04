@@ -94,19 +94,37 @@ const Thumbnail = styled(motion.div)`
   left: 0;
 `;
 
-export const CategoriesDesktop = ({ data: { categories, collections } }) => {
-  const [currentId, setCurrentId] = useState(null);
+const otherLinks = [
+  {
+    id: 'discounts',
+    title: 'Les soldes',
+    link: '/shop?discount=true',
+  },
+];
+
+export const CategoriesDesktop = ({
+  data: { categories, collections, baseThumb },
+}) => {
+  const baseThumbId = 'baseThumb';
+  const [currentId, setCurrentId] = useState(baseThumbId);
   const handleMouseEnter = id => {
     setCurrentId(id);
   };
   const handleMouseLeave = () => {
-    setCurrentId(null);
+    setCurrentId(baseThumbId);
   };
   const all = [...categories, ...collections];
   return (
     <SubWrapper>
       <Flex width={1}>
         <Box width={1 / 3} style={{ position: 'relative' }}>
+          <Thumbnail
+            animate={currentId === baseThumbId ? 'show' : 'hide'}
+            variants={thumbnails}
+            initial="show"
+          >
+            {baseThumb && <Image fixed={baseThumb.asset.fixed} />}
+          </Thumbnail>
           {all.map(item => {
             const isCurrent = item.id === currentId;
             return (
@@ -147,6 +165,7 @@ export const CategoriesDesktop = ({ data: { categories, collections } }) => {
               })}
             </ul>
           </Box>
+
           <Box width={1 / 3} px={20} color="black">
             <Text fontSize={12} fontWeight={600} color="warmGrey" mb="0.5rem">
               Collections
@@ -161,6 +180,19 @@ export const CategoriesDesktop = ({ data: { categories, collections } }) => {
                   >
                     <Link to={`/shop/?collections=${collection.id}`}>
                       <Text fontSize={14}>{collection.title}</Text>
+                    </Link>
+                  </CategoryItem>
+                );
+              })}
+            </ul>
+          </Box>
+          <Box width={1 / 3} px={20} color="black">
+            <ul>
+              {otherLinks.map(item => {
+                return (
+                  <CategoryItem key={item.id}>
+                    <Link to={`/shop/?collections=${item.id}`}>
+                      <Text fontSize={14}>{item.title}</Text>
                     </Link>
                   </CategoryItem>
                 );

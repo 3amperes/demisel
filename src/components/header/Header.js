@@ -67,7 +67,7 @@ const Header = ({ isFloat }) => {
     <StaticQuery
       query={graphql`
         query {
-          categories: allSanityCategory {
+          categories: allSanityCategory(sort: { fields: title, order: ASC }) {
             nodes {
               _id
               id
@@ -114,6 +114,19 @@ const Header = ({ isFloat }) => {
               }
             }
           }
+          baseThumb: allSanityConfig {
+            edges {
+              node {
+                menuBaseThumb {
+                  asset {
+                    fixed(width: 320) {
+                      ...GatsbySanityImageFixed
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       `}
       render={data => {
@@ -154,7 +167,13 @@ const Header = ({ isFloat }) => {
 
             <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
               {isDesktop ? (
-                <CategoriesDesktop data={{ categories, collections }} />
+                <CategoriesDesktop
+                  data={{
+                    categories,
+                    collections,
+                    baseThumb: data.baseThumb.edges[0].node.menuBaseThumb,
+                  }}
+                />
               ) : (
                 <NavigationMobile data={{ categories, collections }} />
               )}
