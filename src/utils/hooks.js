@@ -1,40 +1,39 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { breakpoints } from '../theme';
 
-export function useEventListener(
-  eventName,
-  handler,
-  element = document,
-  params = null
-) {
-  // Create a ref that stores handler
-  const savedHandler = useRef();
-
-  // Update ref.current value if handler changes.
-  // This allows our effect below to always get latest handler ...
-  // ... without us needing to pass it in effect deps array ...
-  // ... and potentially cause effect to re-run every render.
+function useMatchMedia(query) {
+  const [isMatch, setIsMatch] = useState(false);
 
   useEffect(() => {
-    savedHandler.current = handler;
-  }, [handler]);
+    if (!window.matchMedia) return;
+    const mediaQuery = window.matchMedia(query);
+    setIsMatch(mediaQuery.matches);
+    const handleChange = ({ matches }) => setIsMatch(matches);
+    mediaQuery.addListener(handleChange);
+    return () => mediaQuery.removeListener(handleChange);
+  }, [query]);
 
-  useEffect(
-    () => {
-      // Make sure element supports addEventListener
-      const isSupported = element && element.addEventListener;
+  return isMatch;
+}
 
-      if (!isSupported) return;
-
-      // Create event listener that calls handler function stored in ref
-      const eventListener = event => savedHandler.current(event);
-      // Add event listener
-      element.addEventListener(eventName, eventListener, params);
-      // Remove event listener on cleanup
-      return () => {
-        element.removeEventListener(eventName, eventListener);
-      };
-    },
-
-    [eventName, element, params] // Re-run if eventName or element changes
+export function useBreakpoint(breakpoint = 'desktop') {
+  return useMatchMedia(
+    `(min-width: ${parseFloat(breakpoints[breakpoint]) / 16}em)`
   );
 }
+
+// Naive implementation - in reality would want to attach
+// a window or resize listener. Also use state/layoutEffect instead of ref/effect
+// if this is important to know on initial client render.
+// It would be safer to  return null for unmeasured states.
+export const useDimensions = ref => {
+  const dimensions = useRef({ width: 0, height: 0 });
+
+  useEffect(() => {
+    if (ref.current === null) return;
+    dimensions.current.width = ref.current.offsetWidth;
+    dimensions.current.height = ref.current.offsetHeight;
+  }, [ref]);
+
+  return dimensions.current;
+};

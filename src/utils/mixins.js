@@ -19,6 +19,7 @@ export const link = (color = 'currentColor') => css`
   color: ${color};
   font-weight: 700;
   font-size: 14px;
+
   cursor: pointer;
   padding: 0;
   text-decoration: none;
@@ -29,6 +30,35 @@ export const link = (color = 'currentColor') => css`
     height: 2px;
     margin-top: 2px;
     background-color: ${color};
+  }
+`;
+
+export const navLink = () => css`
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 0;
+  color: currentColor;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin-top: 2px;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+
+  &:hover,
+  &:focus,
+  &.active {
+    &:after {
+      opacity: 1;
+    }
   }
 `;
 

@@ -154,7 +154,6 @@ const ToggleButtonStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: 0,
   cursor: 'pointer',
   padding: '12px 16px',
   borderRadius: '6px',
@@ -232,7 +231,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
           <ColumnsWrapper>
             <ColumnsInner>
               {models && models.length > 0 && (
-                <Box width={[1, 1 / 2]} mb={[20, 0]}>
+                <Box width={[1, 8 / 12]} mb={[20, 0]}>
                   <ColumnTitle title="Modèles" />
                   <List
                     columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
@@ -252,7 +251,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
               )}
 
               {colors && colors.length > 0 && (
-                <Box width={[1, 1 / 3]} mb={[20, 0]}>
+                <Box width={[1, 3 / 12]} mb={[20, 0]}>
                   <ColumnTitle title="Couleurs" />
                   <List columns={colors.length > 3 ? 2 : 1}>
                     {colors.map(color => {
@@ -276,7 +275,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
               )}
 
               {collections && collections.length > 0 && (
-                <Box width={[1, 1 / 6]}>
+                <Box width={[1, 1 / 12]}>
                   <ColumnTitle title="Collections" />
                   <ul>
                     {collections.map(collection => (
@@ -365,7 +364,7 @@ const Filters = ({ location, ids, isOpen, toggle }) => {
       document.removeEventListener('mousedown', listener);
       document.removeEventListener('touchstart', listener);
     };
-  }, [wrapperRef, isOpen]); // Empty array ensures that effect is only run on mount and unmount
+  }, [wrapperRef, isOpen, toggle]); // Empty array ensures that effect is only run on mount and unmount
 
   return state.items ? (
     <Wrapper isOpen={isOpen} ref={wrapperRef}>

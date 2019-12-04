@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { Flex, Heading, Text } from 'rebass/styled-components';
@@ -48,14 +48,49 @@ const Wrapper = styled(Flex)`
   }
 `;
 
-export default () => {
-  const {
-    state: { isBannerClosed },
-    dispatch,
-  } = useContext(GlobalContext);
+const Banner = ({ title, description, isDisplay }) => {
+  const { dispatch } = useContext(GlobalContext);
   const closeBanner = () => {
-    dispatch({ type: 'banner_is_closed' });
+    dispatch({ type: 'toggle_banner', payload: false });
   };
+  useEffect(() => {
+    isDisplay && dispatch({ type: 'toggle_banner', payload: true });
+  }, [isDisplay, dispatch]);
+  return (
+    <Wrapper bg="lipstick" color="white">
+      {title && (
+        <Heading
+          fontSize="16px"
+          lineHeight="12px"
+          mr={[0, 16]}
+          mb={['4px', 0]}
+          textAlign={['center', 'left']}
+        >
+          {title}
+        </Heading>
+      )}
+      {description && (
+        <Text
+          fontSize="12px"
+          lineHeight="12px"
+          pt="4px"
+          textAlign={['center', 'left']}
+        >
+          {description}
+        </Text>
+      )}
+      <motion.button
+        onClick={closeBanner}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <CloseIcon />
+      </motion.button>
+    </Wrapper>
+  );
+};
+
+export default () => {
   return (
     <StaticQuery
       query={graphql`
@@ -79,39 +114,13 @@ export default () => {
           title,
           description,
         } = data.config.edges[0].node.banner;
-        const displayBanner = isDisplay && !isBannerClosed;
-        return displayBanner ? (
-          <Wrapper bg="lipstick" color="white">
-            {title && (
-              <Heading
-                fontSize="16px"
-                lineHeight="12px"
-                mr={[0, 16]}
-                mb={['4px', 0]}
-                textAlign={['center', 'left']}
-              >
-                {title}
-              </Heading>
-            )}
-            {description && (
-              <Text
-                fontSize="12px"
-                lineHeight="12px"
-                pt="4px"
-                textAlign={['center', 'left']}
-              >
-                {description}
-              </Text>
-            )}
-            <motion.button
-              onClick={closeBanner}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <CloseIcon />
-            </motion.button>
-          </Wrapper>
-        ) : null;
+        return (
+          <Banner
+            isDisplay={isDisplay}
+            title={title}
+            description={description}
+          />
+        );
       }}
     />
   );
