@@ -61,6 +61,8 @@ const Access = styled(Flex)`
 const Header = ({ isFloat }) => {
   const isDesktop = useBreakpoint('desktop');
   const [isMenuOpen, setMenuIsOpen] = useState(false);
+
+  const toggleMenu = () => setMenuIsOpen(!isMenuOpen);
   return (
     <>
       <Wrapper
@@ -71,12 +73,9 @@ const Header = ({ isFloat }) => {
         bg={isFloat ? 'transparent' : 'white'}
       >
         {isDesktop ? (
-          <NavigationDesktop />
+          <NavigationDesktop toggleMenu={toggleMenu} />
         ) : (
-          <MenuToggle
-            isOpen={isMenuOpen}
-            onClick={() => setMenuIsOpen(!isMenuOpen)}
-          />
+          <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
         )}
         <Brand>
           <Link to="/">

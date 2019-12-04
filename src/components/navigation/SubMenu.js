@@ -7,11 +7,11 @@ import { useDimensions } from '@utils/hooks';
 
 const nav = {
   open: {
-    y: 0,
+    y: -89,
     opacity: 1,
     transition: { staggerChildren: 0.07, delayChildren: 0.2 },
   },
-  closed: (height = 1000) => ({
+  closed: (height = 500) => ({
     y: -height,
     opacity: 0,
     transition: { staggerChildren: 0.05, staggerDirection: -1 },
@@ -27,8 +27,8 @@ const Nav = styled(motion.nav)`
   width: 100vw;
   height: 100vh;
   left: 0;
-  top: -100%;
-  padding-top: ${props => (props.isFloat ? '89px' : '2rem')};
+  padding-top: ${props =>
+    props.isFloat ? 'calc(178px + 2rem)' : 'calc(89px + 2rem)'};
   padding-bottom: 2rem;
   background: ${colors.white};
   display: flex;
@@ -65,14 +65,12 @@ export default ({ isOpen, isFloat, children }) => {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
 
-  console.log(height);
-
   return (
     <Wrapper>
       <Nav
         initial="closed"
         animate={isOpen ? 'open' : 'closed'}
-        custom={height !== 0 ? height : 1000}
+        custom={height !== 0 ? height : 800}
         variants={nav}
         isFloat={isFloat}
         ref={containerRef}

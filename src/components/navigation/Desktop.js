@@ -32,7 +32,8 @@ const Wrapper = styled.nav`
     color: currentColor;
   }
 
-  a {
+  a,
+  button {
     display: block;
     color: currentColor;
     text-decoration: none;
@@ -40,12 +41,12 @@ const Wrapper = styled.nav`
     overflow: hidden;
     position: relative;
     height: 30px;
+    padding: 0;
     padding-top: 2px;
     line-height: 28px;
-
-    ${up('tablet')} {
-      display: inline-block;
-    }
+    border: none;
+    background: transparent;
+    cursor: pointer;
 
     &:after {
       content: '';
@@ -53,7 +54,7 @@ const Wrapper = styled.nav`
       width: 100%;
       height: 2px;
       background-color: currentColor;
-      transform: translateX(-105%);
+      transform: translateX(-100%);
       transition: transform 250ms ease-in-out;
     }
 
@@ -74,9 +75,9 @@ const NavItem = ({ children }) => (
   </Text>
 );
 
-export const NavigationDesktop = props => {
+export const NavigationDesktop = ({ toggleMenu, ...rest }) => {
   return (
-    <Wrapper {...props}>
+    <Wrapper {...rest}>
       <NavItem>
         <Link to="/">Accueil</Link>
       </NavItem>
@@ -84,10 +85,23 @@ export const NavigationDesktop = props => {
         <Link to="/collections">Collections</Link>
       </NavItem>
       <NavItem>
-        <Link to="/shop">E-shop</Link>
+        <button onClick={toggleMenu}>E-shop</button>
       </NavItem>
     </Wrapper>
   );
 };
 
-export const CategoriesDesktop = props => <p>categories</p>;
+export const CategoriesDesktop = props => (
+  <p>
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore nobis atque
+    repellat consequatur, a non modi culpa maxime cupiditate delectus harum
+    veritatis iste quidem suscipit placeat autem quis minus cumque. Lorem ipsum
+    dolor sit amet consectetur adipisicing elit. Deserunt atque eos tempore?
+    Molestias necessitatibus eaque, laudantium dolorem totam deserunt cumque nam
+    ullam quo, asperiores odit fuga repudiandae ab quibusdam recusandae. Lorem
+    ipsum, dolor sit amet consectetur adipisicing elit. Commodi sunt laborum,
+    molestiae fugiat odio temporibus accusantium cupiditate? Autem quibusdam
+    natus adipisci, nostrum, eligendi iusto eos reiciendis veritatis quos fugiat
+    aperiam.
+  </p>
+);
