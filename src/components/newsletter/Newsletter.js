@@ -5,7 +5,7 @@ import { colors } from '@theme';
 import { coloredSection } from '@utils/mixins';
 
 const Wrapper = styled(Flex)`
-  ${coloredSection('450px', 'to right')};
+  ${coloredSection('595px', 'to right')};
 `;
 
 const Form = styled.form`

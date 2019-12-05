@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { colors } from '@theme';
+import { colors, fonts, fontWeigths } from '@theme';
 import { up } from 'styled-breakpoints';
 
 export const container = ({ my = 0, py = 0 }) => css`
@@ -58,6 +58,33 @@ export const navLink = () => css`
   &.active {
     &:after {
       opacity: 1;
+    }
+  }
+`;
+
+export const richText = () => css`
+  a {
+    ${link(colors.lipstick)};
+  }
+
+  h3 {
+    font-size: 28px;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-family: ${fonts['heading']};
+    font-weight: ${fontWeigths['heading']};
+  }
+  h4 {
+    font-size: 24px;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    padding: 0.5rem 1rem;
+    list-style: disc;
+    li {
+      margin-bottom: 0.25rem;
     }
   }
 `;
