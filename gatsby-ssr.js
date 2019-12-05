@@ -3,7 +3,7 @@ export { wrapRootElement } from './gatsby-browser';
 
 let warning = false;
 
-export const onRenderBody = ({ setHeadComponents }) => {
+export const onRenderBody = ({ setPostBodyComponents }) => {
   const options = Object.assign(
     {
       apiKey: process.env.GATSBY_SNIPCART_API_KEY,
