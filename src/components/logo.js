@@ -1,14 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Box } from 'rebass/styled-components';
 
-const Svg = styled.svg`
-  fill: currentColor;
-`;
-
 export default props => (
-  <Box {...props} color="currentColor">
-    <Svg viewBox="0 0 169.77 28.29" width="100%" height="100%">
+  <Box {...props} style={{ lineHeight: 1 }} color="currentColor">
+    <svg viewBox="0 0 169.77 28.29" fill="currentColor" width="100%">
       <title>{'DemiselLogoBlack'}</title>
       <g data-name="Calque 2">
         <g data-name="Calque 1">
@@ -76,6 +71,6 @@ export default props => (
           </g>
         </g>
       </g>
-    </Svg>
+    </svg>
   </Box>
 );

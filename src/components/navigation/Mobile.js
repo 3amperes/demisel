@@ -10,7 +10,7 @@ const MenuIcon = ({ isOpen }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 22 16"
-    width="20"
+    width="24"
     fill={isOpen ? colors.black : 'currentColor'}
   >
     {isOpen ? (
@@ -33,6 +33,8 @@ const MenuToggleWrapper = styled.button`
   cursor: pointer;
   outline: 0;
   color: currentColor;
+  line-height: 1;
+  padding: 0;
 `;
 
 export const MenuToggle = ({ onClick, isOpen }) => (

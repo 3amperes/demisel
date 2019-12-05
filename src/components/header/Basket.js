@@ -9,7 +9,7 @@ const Svg = styled.svg`
 `;
 
 export const BasketIcon = ({ ...rest }) => (
-  <Box {...rest} width={[12, 16]}>
+  <Box {...rest} width={16}>
     <Svg viewBox="0 0 16 16" width="100%">
       <title>{'Basket'}</title>
       <path d="M16 16H0V5h3v1H1v9h14V6h-2V5h3v11z" />
@@ -28,17 +28,12 @@ const Wrapper = styled.div`
     background: ${colors.white};
     color: ${colors.black};
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     outline: none;
     border: none;
     cursor: pointer;
     position: relative;
-
-    ${up('tablet')} {
-      width: 48px;
-      height: 48px;
-    }
   }
 `;
 

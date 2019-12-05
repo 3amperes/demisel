@@ -41,6 +41,9 @@ const Wrapper = styled(Box)`
   .navigation {
     grid-area: navigation;
   }
+  a {
+    color: currentColor;
+  }
 `;
 
 const Brand = styled(Flex)`
@@ -48,10 +51,6 @@ const Brand = styled(Flex)`
   align-items: center;
   justify-content: center;
   color: currentColor;
-
-  a {
-    color: currentColor;
-  }
 `;
 const Access = styled(Flex)`
   grid-area: access;
@@ -91,11 +90,9 @@ const Data = ({ data, toggleMenu, isFloat, isDesktop, isMenuOpen }) => {
         ) : (
           <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
         )}
-        <Brand>
-          <Link to="/">
-            <Logo width={[120, 180]} />
-          </Link>
-        </Brand>
+        <Link to="/">
+          <Logo width={150} />
+        </Link>
         <Access>
           {/* <Search /> */}
           <Basket />
