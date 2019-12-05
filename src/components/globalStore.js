@@ -14,6 +14,7 @@ const initialState = {
   hasBanner: false,
   currentCategory: null,
   lockedScroll: false,
+  discountsAreEnabled: false,
 };
 
 function reducer(state, action) {
@@ -48,6 +49,11 @@ function reducer(state, action) {
       return {
         ...state,
         lockedScroll: action.payload,
+      };
+    case 'discounts_are_enabled':
+      return {
+        ...state,
+        discountsAreEnabled: true,
       };
     case 'init_items':
       return {

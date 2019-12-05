@@ -90,12 +90,19 @@ const Header = ({ item }) => {
 };
 
 const ProductDetail = ({ data }) => {
-  const { title, model, thumbnail, price } = data.product;
+  const {
+    title,
+    model,
+    thumbnail,
+    price,
+    _rawDescription,
+    specification,
+  } = data.product;
   const productTitle = (model && model.title) || title;
   const productPrice = price || model.price;
-  const body = model && model._rawDescription;
-  const images = model && model.images;
-  const specification = model && model.specification;
+  const body = _rawDescription || (model && model._rawDescription);
+  const productImages = model && model.images;
+  const productSpecification = specification || (model && model.specification);
   return (
     <MainLayout>
       <SEO title={productTitle} />
@@ -106,9 +113,9 @@ const ProductDetail = ({ data }) => {
               <Image className="thumbnail" fluid={thumbnail.asset.fluid} />
             </Figure>
           )}
-          {images &&
-            images.length > 0 &&
-            images.map((image, index) => {
+          {productImages &&
+            productImages.length > 0 &&
+            productImages.map((image, index) => {
               return (
                 <Image
                   className="other-images"
@@ -129,14 +136,14 @@ const ProductDetail = ({ data }) => {
             />
             <DefinitionTitle>Description</DefinitionTitle>
             <BlockContent blocks={body} />
-            {specification && (
+            {productSpecification && (
               <Text
                 as="footer"
                 color="warmGrey"
                 fontSize={1}
                 style={{ fontStyle: 'italic' }}
               >
-                {specification}
+                {productSpecification}
               </Text>
             )}
             <ButtonWrapper pt={40} pr={[20, 40]}>
@@ -156,6 +163,8 @@ export const query = graphql`
     product: sanityProduct(id: { eq: $id }) {
       id
       title
+      _rawDescription
+      specification
       model {
         title
         _rawDescription

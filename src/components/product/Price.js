@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Text, Flex } from 'rebass/styled-components';
 import { hasPrice, getPrice } from '@utils';
 import { colors } from '@theme';
+import { GlobalContext } from '@components/globalStore';
 
 const Price = styled(Text)`
   text-decoration: ${props => (props.isDiscount ? 'line-through' : 'none')};
@@ -11,16 +12,18 @@ const Price = styled(Text)`
 `;
 
 export default ({ item }) => {
+  const {
+    state: { discountsAreEnabled },
+  } = useContext(GlobalContext);
+  const discountPrice = discountsAreEnabled && getPrice(item, 'discountPrice');
   return (
     <Flex>
       {hasPrice(item, 'salePrice') && (
-        <Price isDiscount={!!getPrice(item, 'discountPrice')}>
+        <Price isDiscount={discountPrice}>
           {getPrice(item, 'salePrice')} €
         </Price>
       )}
-      {!!getPrice(item, 'discountPrice') && (
-        <Price ml="1rem">{getPrice(item, 'discountPrice')} €</Price>
-      )}
+      {discountPrice && <Price ml="1rem">{discountPrice} €</Price>}
     </Flex>
   );
 };

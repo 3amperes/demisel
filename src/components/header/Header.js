@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, StaticQuery, graphql } from 'gatsby';
@@ -15,6 +15,7 @@ import {
   SubMenu,
   NavigationMobile,
 } from '../navigation';
+import { GlobalContext } from '@components/globalStore';
 
 const Wrapper = styled(Box)`
   display: grid;
@@ -57,6 +58,73 @@ const Access = styled(Flex)`
   align-items: center;
   justify-content: flex-end;
 `;
+
+const Data = ({ data, toggleMenu, isFloat, isDesktop, isMenuOpen }) => {
+  const { dispatch } = useContext(GlobalContext);
+  const areDiscountsEnabled = data.config.edges[0].node.areDiscountsEnabled;
+  const categories = data.categories.nodes.filter(category =>
+    data.productsGroupByCategory.group
+      .map(item => item.fieldValue)
+      .includes(category._id)
+  );
+  const collections = data.collections.nodes.filter(collection =>
+    data.productsGroupByCollection.group
+      .map(item => item.fieldValue)
+      .includes(collection._id)
+  );
+  const config = data.config.edges[0].node;
+  useEffect(() => {
+    if (!areDiscountsEnabled) return;
+    dispatch({ type: 'discounts_are_enabled' });
+  }, [dispatch, areDiscountsEnabled]);
+  return (
+    <>
+      <Wrapper
+        as="header"
+        isFloat={isFloat}
+        px={['1rem', '2rem']}
+        color={isFloat && !isMenuOpen ? 'white' : 'black'}
+        bg={isFloat && !isMenuOpen ? 'transparent' : 'white'}
+      >
+        {isDesktop ? (
+          <NavigationDesktop toggleMenu={toggleMenu} />
+        ) : (
+          <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
+        )}
+        <Brand>
+          <Link to="/">
+            <Logo width={[120, 180]} />
+          </Link>
+        </Brand>
+        <Access>
+          {/* <Search /> */}
+          <Basket />
+        </Access>
+      </Wrapper>
+
+      <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
+        {isDesktop ? (
+          <CategoriesDesktop
+            data={{
+              categories,
+              collections,
+              baseThumb: config.menuBaseThumb,
+              areDiscountsEnabled: config.areDiscountsEnabled,
+            }}
+          />
+        ) : (
+          <NavigationMobile
+            data={{
+              categories,
+              collections,
+              areDiscountsEnabled: config.areDiscountsEnabled,
+            }}
+          />
+        )}
+      </SubMenu>
+    </>
+  );
+};
 
 const Header = ({ isFloat }) => {
   const isDesktop = useBreakpoint('desktop');
@@ -141,66 +209,15 @@ const Header = ({ isFloat }) => {
           }
         }
       `}
-      render={data => {
-        const categories = data.categories.nodes.filter(category =>
-          data.productsGroupByCategory.group
-            .map(item => item.fieldValue)
-            .includes(category._id)
-        );
-        const collections = data.collections.nodes.filter(collection =>
-          data.productsGroupByCollection.group
-            .map(item => item.fieldValue)
-            .includes(collection._id)
-        );
-        const config = data.config.edges[0].node;
-        return (
-          <>
-            <Wrapper
-              as="header"
-              isFloat={isFloat}
-              px={['1rem', '2rem']}
-              color={isFloat && !isMenuOpen ? 'white' : 'black'}
-              bg={isFloat && !isMenuOpen ? 'transparent' : 'white'}
-            >
-              {isDesktop ? (
-                <NavigationDesktop toggleMenu={toggleMenu} />
-              ) : (
-                <MenuToggle isOpen={isMenuOpen} onClick={toggleMenu} />
-              )}
-              <Brand>
-                <Link to="/">
-                  <Logo width={[120, 180]} />
-                </Link>
-              </Brand>
-              <Access>
-                {/* <Search /> */}
-                <Basket />
-              </Access>
-            </Wrapper>
-
-            <SubMenu isOpen={isMenuOpen} isFloat={isFloat}>
-              {isDesktop ? (
-                <CategoriesDesktop
-                  data={{
-                    categories,
-                    collections,
-                    baseThumb: config.menuBaseThumb,
-                    areDiscountsEnabled: config.areDiscountsEnabled,
-                  }}
-                />
-              ) : (
-                <NavigationMobile
-                  data={{
-                    categories,
-                    collections,
-                    areDiscountsEnabled: config.areDiscountsEnabled,
-                  }}
-                />
-              )}
-            </SubMenu>
-          </>
-        );
-      }}
+      render={data => (
+        <Data
+          data={data}
+          isFloat={isFloat}
+          toggleMenu={toggleMenu}
+          isDesktop={isDesktop}
+          isMenuOpen={isMenuOpen}
+        />
+      )}
     />
   );
 };

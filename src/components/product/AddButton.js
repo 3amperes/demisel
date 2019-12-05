@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
@@ -6,6 +6,7 @@ import { hasPrice, getPrice } from '@utils';
 import { colors } from '@theme';
 import { shade } from 'polished';
 import { BasketIcon } from '@components/header';
+import { GlobalContext } from '@components/globalStore';
 
 const Button = styled.button`
   display: flex;
@@ -47,11 +48,15 @@ const Button = styled.button`
 `;
 
 const AddButton = ({ product }) => {
+  const {
+    state: { discountsAreEnabled },
+  } = useContext(GlobalContext);
   const isDisabled = !hasPrice(product);
   const title = product.model ? product.model.title : product.title;
   const description = product.model ? product.title : product.category.title;
   const productPrice =
-    getPrice(product, 'discountPrice') || getPrice(product, 'salePrice');
+    (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
+    getPrice(product, 'salePrice');
   return (
     <motion.div
       animate={{ x: 0 }}
