@@ -293,18 +293,22 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                         </FilterItem>
                       </motion.li>
                     ))}
-                    <motion.li
-                      className="separator"
-                      variants={items}
-                    ></motion.li>
-                    <motion.li variants={items}>
-                      <FilterItem
-                        onClick={() => toggleFilter('discount', true)}
-                        isActive={isFilterActive('discount', true)}
-                      >
-                        Soldes
-                      </FilterItem>
-                    </motion.li>
+                    {state.areDiscountsEnabled && (
+                      <>
+                        <motion.li
+                          className="separator"
+                          variants={items}
+                        ></motion.li>
+                        <motion.li variants={items}>
+                          <FilterItem
+                            onClick={() => toggleFilter('discount', true)}
+                            isActive={isFilterActive('discount', true)}
+                          >
+                            Soldes
+                          </FilterItem>
+                        </motion.li>
+                      </>
+                    )}
                   </ul>
                 </Box>
               )}
