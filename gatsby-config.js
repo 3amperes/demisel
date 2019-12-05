@@ -63,7 +63,6 @@ module.exports = {
       options: {
         name: `Demisel Bijoux`,
         short_name: `demisel`,
-        start_url: `/`,
         background_color: `#fff`,
         theme_color: `#e33450`,
         display: `minimal-ui`,
@@ -74,6 +73,12 @@ module.exports = {
       resolve: `gatsby-source-instagram`,
       options: {
         username: `demiselbijoux`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-html-attributes',
+      options: {
+        lang: 'fr',
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

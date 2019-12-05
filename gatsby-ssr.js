@@ -3,12 +3,12 @@ export { wrapRootElement } from './gatsby-browser';
 
 let warning = false;
 
-export const onRenderBody = ({ setPostBodyComponents }) => {
+export const onRenderBody = ({ setHeadComponents }) => {
   const options = Object.assign(
     {
       apiKey: process.env.GATSBY_SNIPCART_API_KEY,
-      js: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.js',
-      styles: 'https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.css',
+      js: 'https://cdn.snipcart.com/themes/v3.0.4/default/snipcart.js',
+      styles: 'https://cdn.snipcart.com/themes/v3.0.4/default/snipcart.css',
     },
     {}
   );
