@@ -182,7 +182,7 @@ const Header = ({ isFloat }) => {
               title
               thumbnail {
                 asset {
-                  fixed(width: 320) {
+                  fixed(width: 320, height: 255) {
                     ...GatsbySanityImageFixed
                   }
                 }
@@ -196,7 +196,7 @@ const Header = ({ isFloat }) => {
                 areDiscountsEnabled
                 menuBaseThumb {
                   asset {
-                    fixed(width: 320) {
+                    fixed(width: 320, height: 255) {
                       ...GatsbySanityImageFixed
                     }
                   }
