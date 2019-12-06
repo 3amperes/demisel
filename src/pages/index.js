@@ -80,6 +80,7 @@ const IndexPage = () => {
             <SEO title="Accueil" />
             <Carousel items={carousel} />
             <Intro
+              id="intro"
               title={introduction.title}
               subtitle={introduction.subtitle}
               image={introduction.image}

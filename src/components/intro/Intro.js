@@ -46,9 +46,9 @@ const IntroWrapper = styled.section`
   }
 `;
 
-export default ({ title, image, description, subtitle }) => {
+export default ({ title, image, description, subtitle, ...rest }) => {
   return (
-    <IntroWrapper>
+    <IntroWrapper {...rest}>
       {image && <Image fluid={image.asset.fluid} className="intro-image" />}
       <Box
         bg="white"

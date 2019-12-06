@@ -382,13 +382,15 @@ const Filters = ({ location, ids, isOpen, toggle }) => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <FilerIcon mr={flatFiltersSize ? '0.5rem' : 0} />
+                <FilerIcon mr="0.5rem" />
                 <Text
                   fontSize={14}
-                  color={
-                    flatFiltersSize > 0 ? colors.lipstick : colors.warmGrey
-                  }
+                  color="warmGrey"
+                  mr={flatFiltersSize ? '0.5rem' : 0}
                 >
+                  Filtres
+                </Text>
+                <Text fontSize={14} color="lipstick">
                   {flatFiltersSize || ''}
                 </Text>
               </motion.button>

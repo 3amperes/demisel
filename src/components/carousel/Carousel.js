@@ -4,6 +4,7 @@ import { Box, Flex } from 'rebass/styled-components';
 import { up } from 'styled-breakpoints';
 import { colors } from '@theme';
 import { GlobalContext } from '@components/globalStore';
+import Go from '@components/go';
 import Item from './Item';
 
 const Wrapper = styled(Box)`
@@ -44,11 +45,23 @@ export default ({ items }) => {
       currentIndex < items.length - 1
         ? setCurrentIndex(currentIndex + 1)
         : setCurrentIndex(0);
-    }, 8000);
+    }, 4000);
     return () => {
       clearTimeout(t);
     };
   }, [currentIndex, setCurrentIndex, items]);
+
+  const scrollToIntro = () => {
+    if (document === undefined) return;
+    const intro = document.getElementById('intro');
+    if (intro !== undefined) {
+      intro.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
+    }
+  };
 
   return (
     items.length > 0 && (
@@ -75,6 +88,16 @@ export default ({ items }) => {
             );
           })}
         </Pagination>
+        <Go
+          style={{
+            position: 'absolute',
+            right: '2rem',
+            bottom: '2rem',
+            transform: 'rotate(90deg)',
+            cursor: 'pointer',
+          }}
+          onClick={scrollToIntro}
+        />
       </Wrapper>
     )
   );

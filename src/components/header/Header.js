@@ -46,12 +46,6 @@ const Wrapper = styled(Box)`
   }
 `;
 
-const Brand = styled(Flex)`
-  grid-area: brand;
-  align-items: center;
-  justify-content: center;
-  color: currentColor;
-`;
 const Access = styled(Flex)`
   grid-area: access;
   align-items: center;

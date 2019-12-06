@@ -81,6 +81,21 @@ module.exports = {
         lang: 'fr',
       },
     },
+    {
+      resolve: 'gatsby-plugin-mixpanel',
+      options: {
+        apiToken: 'aa68bf08fe5bdce4733e42efb3084e44', // required
+        pageViews: {
+          '/': "Page d'accueil", // an event 'Page blog view' will be send to mixpanel on every visit on the /blog page
+          '/collections': 'Page collections',
+          '/contact': 'Page contact',
+          '/outlets': 'Page points de vente',
+          '/cgu': 'Page cgv',
+          '/legal': 'Page mentions légales',
+          '/404': 'Page 404',
+        },
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // 'gatsby-plugin-offline',

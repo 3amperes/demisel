@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { up } from 'styled-breakpoints';
 import BlockContent from '@sanity/block-content-to-react';
 import Image from 'gatsby-image';
 import { graphql } from 'gatsby';
@@ -39,38 +40,38 @@ const ItemWrapper = styled(Box)`
   }
 `;
 
-const ImagesWrapper = styled(Flex)`
-  div {
-    position: relative;
+const ImagesWrapper = styled(Box)`
+  ${up('desktop')} {
+    display: flex;
+    padding-bottom: ${offset / 3}px;
+    div {
+      position: relative;
 
-    &:first-child {
-      order: 1;
-      top: 0;
-    }
-  }
-
-  li:nth-child(even) & {
-    div:last-child {
-      order: 0;
-      top: -100px;
-    }
-  }
-
-  li:nth-child(odd) & {
-    div:first-child {
-      top: -100px;
+      &:first-child {
+        order: 1;
+        top: 0;
+      }
     }
 
-    div:last-child {
-      order: 2;
-      top: 0;
+    li:nth-child(even) & {
+      > div:last-child {
+        order: 0;
+        top: ${offset / 3}px;
+      }
+    }
+
+    li:nth-child(odd) & {
+      > div:last-child {
+        top: ${offset / 3}px;
+        order: 2;
+      }
     }
   }
 `;
 
 const Item = ({ item }) => {
   const renderImages = () => (
-    <ImagesWrapper py={[20, 100]}>
+    <ImagesWrapper>
       {item.img1 && (
         <Box mx="auto" width={[1, 1 / 2]}>
           <Image fluid={item.img1.asset.fluid} className="image-title" />
@@ -84,18 +85,18 @@ const Item = ({ item }) => {
     </ImagesWrapper>
   );
   return (
-    <ItemWrapper mb={[40, 200]}>
+    <ItemWrapper mb={[80, 200]}>
       {item.link ? (
         <Link href={item.link.url}>{renderImages()}</Link>
       ) : (
         renderImages()
       )}
 
-      <Box textAlign="center">
+      <Box textAlign="center" mt={[20, 40]}>
         <Heading fontSize={[24, 40]} as="h2" mb="1rem">
           {item.title}
         </Heading>
-        <Text>{item.description}</Text>
+        <Text mx="auto">{item.description}</Text>
         {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
       </Box>
     </ItemWrapper>
