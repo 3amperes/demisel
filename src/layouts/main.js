@@ -18,7 +18,7 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
     state: { hasBanner },
   } = useContext(GlobalContext);
 
-  const d = typeof document !== undefined ? document : null;
+  const d = typeof document !== undefined;
 
   useEffect(() => {
     if (d) {
