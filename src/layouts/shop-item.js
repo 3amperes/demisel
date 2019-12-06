@@ -99,7 +99,6 @@ const ProductDetail = ({ data }) => {
     specification,
   } = data.product;
   const productTitle = (model && model.title) || title;
-  const productPrice = price || model.price;
   const body = _rawDescription || (model && model._rawDescription);
   const productImages = model && model.images;
   const productSpecification = specification || (model && model.specification);
@@ -131,7 +130,7 @@ const ProductDetail = ({ data }) => {
               item={{
                 title,
                 price,
-                model: { title: productTitle, price: productPrice },
+                model,
               }}
             />
             <DefinitionTitle>Description</DefinitionTitle>
