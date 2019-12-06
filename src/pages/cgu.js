@@ -40,7 +40,7 @@ export default ({ data }) => {
         </Text>
 
         <Link to="/legal">
-          <Text mt="1.5rem">Lisez nos mentions légales</Text>
+          <Text mt="1.5rem">Ou lisez nos mentions légales</Text>
         </Link>
       </Header>
       <Inner py={[20, 75]}>

@@ -42,7 +42,7 @@ export default ({ data }) => {
           consultez nos mentions légales.
         </Text>
         <Link to="/cgu">
-          <Text mt="1.5rem">Lisez nos conditions générales de vente</Text>
+          <Text mt="1.5rem">Ou lisez nos conditions générales de vente</Text>
         </Link>
       </Header>
       <Inner py={[20, 75]} color="greyishBrown">
