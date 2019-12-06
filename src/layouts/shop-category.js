@@ -11,11 +11,11 @@ const Shop = ({ data }) => {
     state: { currentCategory },
     dispatch,
   } = useContext(GlobalContext);
-  const mixpanel = useMixpanel();
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const { id, title } = data.category;
   const products = data.products.edges;
-  mixpanel.track(`Page eShop | Catégorie ${title}`);
+  // const mixpanel = useMixpanel();
+  // mixpanel.track(`Page eShop | Catégorie ${title}`);
 
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(

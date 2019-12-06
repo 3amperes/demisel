@@ -58,8 +58,8 @@ const AddButton = ({ product }) => {
   const productPrice =
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
-  const mixpanel = useMixpanel();
-  mixpanel.track('Page eShop | Tous les bijoux');
+  // const mixpanel = useMixpanel();
+  // mixpanel.track('Page eShop | Tous les bijoux');
   return (
     <motion.div
       animate={{ x: 0 }}
