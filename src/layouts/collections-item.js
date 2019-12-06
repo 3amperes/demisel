@@ -96,7 +96,9 @@ const Item = ({ item }) => {
         <Heading fontSize={[24, 40]} as="h2" mb="1rem">
           {item.title}
         </Heading>
-        <Text mx="auto">{item.description}</Text>
+        <Text mx="auto" maxWith="300px">
+          {item.description}
+        </Text>
         {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
       </Box>
     </ItemWrapper>
