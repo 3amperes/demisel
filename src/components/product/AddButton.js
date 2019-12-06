@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useMixpanel } from 'gatsby-plugin-mixpanel';
+// import { useMixpanel } from 'gatsby-plugin-mixpanel';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
@@ -76,7 +76,6 @@ const AddButton = ({ product }) => {
         data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
         data-item-image={product.thumbnail.asset.fluid.src}
         data-item-description={description}
-        onClick={() => mixpanel.track(`Ajout produit | ${title}`)}
       >
         <span>Ajouter au panier</span> <BasketIcon ml={[0, '1rem']} />
       </Button>

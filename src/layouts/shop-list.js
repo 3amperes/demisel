@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { graphql } from 'gatsby';
-import { useMixpanel } from 'gatsby-plugin-mixpanel';
+// import { useMixpanel } from 'gatsby-plugin-mixpanel';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
 import MainLayout from './main';

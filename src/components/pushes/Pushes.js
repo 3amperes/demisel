@@ -40,6 +40,21 @@ const PushesWrapper = styled.section`
     margin-bottom: 40px;
     overflow: hidden;
 
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(84, 84, 84, 0) 50%
+      );
+    }
+
     .gatsby-image-wrapper,
     .pushes-title-arrow {
       transition: all 250ms ease-in-out;
