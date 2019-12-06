@@ -5,7 +5,7 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box } from 'rebass/styled-components';
 import { Header } from '../components/header';
@@ -17,6 +17,18 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
   const {
     state: { hasBanner },
   } = useContext(GlobalContext);
+
+  const d = typeof document !== undefined ? document : null;
+
+  useEffect(() => {
+    if (d) {
+      window.Snipcart.api.session.setLanguage('fr', {
+        actions: {
+          continue_shopping: 'Continuer le shopping',
+        },
+      });
+    }
+  }, [d]);
 
   return (
     <>

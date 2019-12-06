@@ -15,13 +15,13 @@ const Header = styled.header`
   ${coloredSection('738px', '-15deg')};
 `;
 
-const Outlet = ({ name, city, url }) => (
-  <Box py=".5rem">
+const Outlet = ({ name, city, url, ...rest }) => (
+  <Box py=".5rem" {...rest}>
     <Heading fontSize="40px" lineHeight="48px" color="lipstick">
-      {name}
+      {city}
     </Heading>
     <Text fontSize="14px" lineHeight="24px">
-      {city}
+      {name}
       {url && <span>&nbsp;-&nbsp;</span>}
       {url && (
         <a
@@ -39,16 +39,16 @@ const Country = ({ children, name, outlets, ...rest }) => (
     <Heading fontSize="16px" lineHeight="24px">
       {name}
     </Heading>
-    {outlets.map(({ ...props }, index) => (
-      <Outlet key={index} {...props} />
+    {outlets.map(({ _key, ...props }) => (
+      <Outlet key={_key} {...props} />
     ))}
   </Box>
 );
 
 const Countries = ({ items }) => (
   <Box maxWidth="700px" mx="auto" my={`${offset}px`} textAlign="center">
-    {items.map(({ node: { name, outlets } }) => (
-      <Country name={name} outlets={outlets} />
+    {items.map(({ node: { name, outlets, id } }) => (
+      <Country key={id} name={name} outlets={outlets} />
     ))}
   </Box>
 );
