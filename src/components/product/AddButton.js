@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-// import { useMixpanel } from 'gatsby-plugin-mixpanel';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
@@ -53,30 +52,37 @@ const AddButton = ({ product }) => {
     state: { discountsAreEnabled },
   } = useContext(GlobalContext);
   const isDisabled = !hasPrice(product);
-  const title = product.model ? product.model.title : product.title;
+  const name = product.model ? product.model.title : product.title;
   const description = product.model ? product.title : product.category.title;
-  const productPrice =
+  const price =
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
-  // const mixpanel = useMixpanel();
-  // mixpanel.track('Page eShop | Tous les bijoux');
+
+  const addItem = async () => {
+    if (typeof window !== undefined && window.Snipcart !== undefined) {
+      try {
+        await window.Snipcart.api.cart.items.add({
+          id: product.id,
+          name,
+          price,
+          url: `${process.env.GATSBY_SITE_DOMAIN_URL}/product/${product.id}`,
+          description,
+          image: product.thumbnail.asset.fluid.src,
+          quantity: 1,
+          hasTaxesIncluded: true,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <motion.div
       animate={{ x: 0 }}
       whileTap={{ scale: 0.94 }}
       whileHover={{ scale: 1.02, x: 10 }}
     >
-      <Button
-        disabled={isDisabled}
-        className="snipcart-add-item"
-        data-item-id={product.id}
-        data-item-name={title}
-        data-item-price={productPrice}
-        data-item-price-dealer={getPrice(product, 'dealerPrice')}
-        data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
-        data-item-image={product.thumbnail.asset.fluid.src}
-        data-item-description={description}
-      >
+      <Button disabled={isDisabled} onClick={addItem}>
         <span>Ajouter au panier</span> <BasketIcon ml={[0, '1rem']} />
       </Button>
     </motion.div>
