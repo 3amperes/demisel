@@ -22,11 +22,7 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
 
   useEffect(() => {
     if (d) {
-      window.Snipcart.api.session.setLanguage('fr', {
-        actions: {
-          continue_shopping: 'Continuer le shopping',
-        },
-      });
+      window.Snipcart.api.session.setLanguage('fr-FR');
     }
   }, [d]);
 
