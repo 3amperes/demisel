@@ -106,3 +106,21 @@ export const coloredSection = (height = '600px', orientation = '111deg') => css`
     height: ${height};
   }
 `;
+
+export const filigrane = () => css`
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(84, 84, 84, 0) 50%
+    );
+  }
+`;

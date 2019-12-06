@@ -6,7 +6,7 @@ import { Box, Heading, Text, Flex } from 'rebass/styled-components';
 import { up } from 'styled-breakpoints';
 import Go from '@components/go';
 import { colors } from '@theme';
-import { container, link } from '@utils/mixins';
+import { container, link, filigrane } from '@utils/mixins';
 
 const PushesWrapper = styled.section`
   ${container};
@@ -39,21 +39,7 @@ const PushesWrapper = styled.section`
     position: relative;
     margin-bottom: 40px;
     overflow: hidden;
-
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.85) 0%,
-        rgba(84, 84, 84, 0) 50%
-      );
-    }
+    ${filigrane};
 
     .gatsby-image-wrapper,
     .pushes-title-arrow {

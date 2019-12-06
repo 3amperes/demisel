@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import { Flex, Box, Heading, Text } from 'rebass/styled-components';
 import { colors } from '@theme';
 import MainLayout from './main';
-
 import SEO from '@components/seo';
 import Go from '@components/go';
-import { container, coloredSection } from '@utils/mixins';
+import { container, coloredSection, filigrane } from '@utils/mixins';
 
 const offset = 200;
 
@@ -22,6 +21,17 @@ const List = styled.ol`
   li {
     position: relative;
     margin-bottom: 2rem;
+  }
+`;
+
+const ImageWrapper = styled.div`
+  background-color: ${colors.whiteTwo};
+  line-height: 1;
+  transition: all 250ms ease;
+  ${filigrane};
+
+  &:hover {
+    transform: scale(1.05);
   }
 `;
 
@@ -57,12 +67,15 @@ const Collections = ({ data }) => {
         {collections.map(({ node: item }) => (
           <li key={item.id}>
             <Link to={`/collections/${item.slug.current}`}>
-              {item.thumbnail && (
-                <Image
-                  style={{ maxWidth: '100%' }}
-                  fixed={item.thumbnail.asset.fixed}
-                />
-              )}
+              <ImageWrapper>
+                {item.thumbnail && (
+                  <Image
+                    style={{ maxWidth: '100%' }}
+                    fixed={item.thumbnail.asset.fixed}
+                  />
+                )}
+              </ImageWrapper>
+
               <ItemTitle>
                 <Heading
                   fontSize={24}

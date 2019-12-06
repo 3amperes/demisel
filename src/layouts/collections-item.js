@@ -30,6 +30,8 @@ const Header = styled(Flex)`
 `;
 
 const ItemWrapper = styled(Box)`
+  position: relative;
+
   > a {
     display: block;
     color: inherit;
