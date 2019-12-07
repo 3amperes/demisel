@@ -178,12 +178,20 @@ const Footer = () => (
               <Title>Suivez-nous</Title>
               <ul>
                 <li>
-                  <a href="https://www.instagram.com/demiselbijoux">
+                  <a
+                    target="_blank"
+                    href="https://www.instagram.com/demiselbijoux"
+                  >
                     Instagram
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com/demiselbijoux/">Facebook</a>
+                  <a
+                    target="_blank"
+                    href="https://www.facebook.com/demiselbijoux/"
+                  >
+                    Facebook
+                  </a>
                 </li>
               </ul>
             </div>

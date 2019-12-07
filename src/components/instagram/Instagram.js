@@ -64,7 +64,11 @@ export default props => (
           </Heading>
           <Grid>
             {instaThumbs.map(({ node }) => (
-              <a href="https://www.instagram.com/demiselbijoux" key={node.id}>
+              <a
+                href="https://www.instagram.com/demiselbijoux"
+                key={node.id}
+                target="_blank"
+              >
                 <Image
                   style={{ width: '320px', height: '320px' }}
                   fixed={node.localFile.childImageSharp.fixed}
