@@ -28,6 +28,7 @@ const Outlet = ({ name, city, url, ...rest }) => (
           href={url}
           style={{ color: colors.lipstick, textDecoration: 'none' }}
           target="_blank"
+          rel="noopener noreferrer"
         >
           Voir le site
         </a>

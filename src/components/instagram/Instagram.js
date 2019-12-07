@@ -68,6 +68,7 @@ export default props => (
                 href="https://www.instagram.com/demiselbijoux"
                 key={node.id}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <Image
                   style={{ width: '320px', height: '320px' }}

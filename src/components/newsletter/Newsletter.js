@@ -67,6 +67,7 @@ export default props => (
         name="mc-embedded-subscribe-form"
         className="validate"
         target="_blank"
+        rel="noopener noreferrer"
         novalidate
       >
         {/* <label htmlFor="mce-EMAIL">Email Address</label> */}
