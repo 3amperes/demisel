@@ -24,7 +24,7 @@ const thumb = {
 };
 const button = {
   on: { opacity: 1, y: 0 },
-  off: { opacity: 0, y: '-100%' },
+  off: { opacity: 0, y: '100%' },
 };
 
 const Thumbnail = styled(motion.div)`
