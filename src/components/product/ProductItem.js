@@ -93,7 +93,11 @@ const ProductItem = ({ item }) => {
             />
           </Background>
         )}
-        <Thumbnail variants={thumb} className="thumb">
+        <Thumbnail
+          variants={thumb}
+          className="thumb"
+          transition={{ type: 'spring', mass: 0.5 }}
+        >
           <Image
             style={{
               width: '80%',
