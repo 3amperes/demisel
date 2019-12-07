@@ -11,23 +11,37 @@ import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { areEmptyFilters } from '@utils/helpers';
 
-export const FilerIcon = ({ size = 16, ...rest }) => {
+export const FilerIcon = ({ size = 16, isOpen, ...rest }) => {
   return (
     <Flex alignItems="center" width={size} {...rest}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 16 16"
-        fill="currentColor"
-        width={size}
-        height={size}
-      >
-        <path d="M15 1v14H1V1h14m1-1H0v16h16V0z"></path>
-        <path d="M5 3H6V4.57H5z"></path>
-        <path d="M5 8.43H6V13H5z"></path>
-        <path d="M10 3H11V7.57H10z"></path>
-        <path d="M10 11.43H11V13H10z"></path>
-        <path d="M5.5 8a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0A1.39 1.39 0 015.5 8zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.46.46 0 00.25.42.44.44 0 00.49 0A.47.47 0 006 6.5a.46.46 0 00-.25-.42A.39.39 0 005.5 6zM10.5 11a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0 1.39 1.39 0 01-.75.21zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.48.48 0 00.25.43.46.46 0 00.49 0A.47.47 0 0011 9.5a.46.46 0 00-.25-.42.39.39 0 00-.25-.08z"></path>
-      </svg>
+      {isOpen ? (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 22 16"
+          width="24"
+          fill="currentColor"
+        >
+          <path
+            d="M0 .707L.707 0 15.96 15.252l-.707.707zM.004 14.739L5.94 9.184l.683.73L.687 15.47zM8.96 6.37L15.247.487l.683.73L9.643 7.1z"
+            transform="translate(3)"
+          ></path>
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          width={size}
+          height={size}
+        >
+          <path d="M15 1v14H1V1h14m1-1H0v16h16V0z"></path>
+          <path d="M5 3H6V4.57H5z"></path>
+          <path d="M5 8.43H6V13H5z"></path>
+          <path d="M10 3H11V7.57H10z"></path>
+          <path d="M10 11.43H11V13H10z"></path>
+          <path d="M5.5 8a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0A1.39 1.39 0 015.5 8zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.46.46 0 00.25.42.44.44 0 00.49 0A.47.47 0 006 6.5a.46.46 0 00-.25-.42A.39.39 0 005.5 6zM10.5 11a1.45 1.45 0 01-.76-.21 1.51 1.51 0 111.51 0 1.39 1.39 0 01-.75.21zm0-2a.4.4 0 00-.24.07.47.47 0 00-.26.43.48.48 0 00.25.43.46.46 0 00.49 0A.47.47 0 0011 9.5a.46.46 0 00-.25-.42.39.39 0 00-.25-.08z"></path>
+        </svg>
+      )}
     </Flex>
   );
 };
@@ -382,13 +396,13 @@ const Filters = ({ location, ids, isOpen, toggle }) => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <FilerIcon mr="0.5rem" />
+                <FilerIcon isOpen={isOpen} mr="0.5rem" />
                 <Text
                   fontSize={14}
                   color="warmGrey"
                   mr={flatFiltersSize ? '0.5rem' : 0}
                 >
-                  Filtres
+                  {isOpen ? 'Fermer' : 'Filtres'}
                 </Text>
                 <Text fontSize={14} color="lipstick">
                   {flatFiltersSize || ''}
