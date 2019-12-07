@@ -2,20 +2,21 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
+import { Flex, Box } from 'rebass/styled-components';
+import { shade } from 'polished';
 import { hasPrice, getPrice } from '@utils';
 import { colors } from '@theme';
-import { shade } from 'polished';
 import { BasketIcon } from '@components/header';
 import { GlobalContext } from '@components/globalStore';
+import { useBreakpoint } from '@utils/hooks';
 
 const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  width: 64px;
+  width: ${props => (props.isRounded ? '64px' : '228px')};
   height: 64px;
-  border-radius: 50%;
+  border-radius: ${props => (props.isRounded ? '50%' : 0)};
   color: ${colors.white};
   background-color: ${colors.lipstick};
   outline: 0;
@@ -24,18 +25,6 @@ const Button = styled.button`
   font-weight: 600;
   font-size: 14px;
   transition: all 250ms ease-in-out;
-
-  span {
-    display: none;
-  }
-
-  ${up('tablet')} {
-    width: 228px;
-    border-radius: 0;
-    span {
-      display: inline;
-    }
-  }
 
   &:hover {
     background-color: ${shade(0.1, colors.lipstick)};
@@ -47,10 +36,11 @@ const Button = styled.button`
   }
 `;
 
-const AddButton = ({ product }) => {
+const AddButton = ({ product, rounded }) => {
   const {
     state: { discountsAreEnabled },
   } = useContext(GlobalContext);
+  const isDesktop = useBreakpoint('desktop');
   const isDisabled = !hasPrice(product);
   const name = product.model ? product.model.title : product.title;
   const description = product.model ? product.title : product.category.title;
@@ -58,24 +48,8 @@ const AddButton = ({ product }) => {
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
 
-  // const addItem = async () => {
-  //   if (typeof window !== undefined && window.Snipcart !== undefined) {
-  //     try {
-  //       await window.Snipcart.api.cart.items.add({
-  //         id: product.id,
-  //         name,
-  //         price,
-  //         url: `${process.env.GATSBY_SITE_DOMAIN_URL}/product/${product.id}`,
-  //         description,
-  //         image: product.thumbnail.asset.fluid.src,
-  //         quantity: 1,
-  //         hasTaxesIncluded: true,
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
+  const isRounded = !isDesktop || rounded;
+
   return (
     <motion.div
       animate={{ x: 0 }}
@@ -92,8 +66,14 @@ const AddButton = ({ product }) => {
         data-item-image={product.thumbnail.asset.fluid.src}
         data-item-name={name}
         data-item-has-taxes-included={true}
+        isRounded={isRounded}
       >
-        <span>Ajouter au panier</span> <BasketIcon ml={[0, '1rem']} />
+        {!isRounded && (
+          <Box as="span" mr="1rem">
+            Ajouter au panier
+          </Box>
+        )}
+        <BasketIcon />
       </Button>
     </motion.div>
   );

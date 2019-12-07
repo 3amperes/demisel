@@ -64,7 +64,7 @@ export const query = graphql`
           title
           thumbnail {
             asset {
-              fluid(maxWidth: 700) {
+              fluid(maxWidth: 500, maxHeight: 500) {
                 ...GatsbySanityImageFluid
               }
             }
@@ -84,6 +84,13 @@ export const query = graphql`
               dealerPrice
               discountPrice
               weight
+            }
+            images {
+              asset {
+                fluid(maxWidth: 500, maxHeight: 500) {
+                  ...GatsbySanityImageFluid
+                }
+              }
             }
           }
           collections {
