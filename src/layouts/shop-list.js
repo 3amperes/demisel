@@ -57,7 +57,7 @@ export const query = graphql`
           title
           thumbnail {
             asset {
-              fluid(maxWidth: 700) {
+              fluid(maxWidth: 500, maxHeight: 500) {
                 ...GatsbySanityImageFluid
               }
             }
@@ -80,8 +80,8 @@ export const query = graphql`
             }
             images {
               asset {
-                fixed(width: 320, height: 360) {
-                  ...GatsbySanityImageFixed
+                fluid(maxWidth: 500, maxHeight: 500) {
+                  ...GatsbySanityImageFluid
                 }
               }
             }
