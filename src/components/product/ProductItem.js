@@ -8,6 +8,7 @@ import { Text } from 'rebass/styled-components';
 import { getProductTitle } from '@utils';
 import { colors } from '@theme';
 import Price from './Price';
+import AddButton from './AddButton';
 
 const bg = {
   on: { opacity: 1, scale: 1 },
@@ -20,6 +21,10 @@ const subtitle = {
 const thumb = {
   on: { opacity: 0, y: '100%' },
   off: { opacity: 1, y: 0 },
+};
+const button = {
+  on: { opacity: 1, y: 0 },
+  off: { opacity: 0, y: '-100%' },
 };
 
 const Thumbnail = styled(motion.div)`
@@ -36,6 +41,11 @@ const Background = styled(motion.div)`
   position: absolute;
   top: 0;
   left: 0;
+`;
+const QuickAdd = styled(motion.div)`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 `;
 
 const Figure = styled.figure`
@@ -97,6 +107,13 @@ const ProductItem = ({ item }) => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         ></Link>
+        <QuickAdd
+          variants={button}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <AddButton product={item} rounded />
+        </QuickAdd>
       </Figure>
       {item.model && (
         <motion.div variants={subtitle}>
