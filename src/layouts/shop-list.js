@@ -78,6 +78,13 @@ export const query = graphql`
               discountPrice
               weight
             }
+            images {
+              asset {
+                fixed(width: 320, height: 360) {
+                  ...GatsbySanityImageFixed
+                }
+              }
+            }
           }
           collections {
             id
