@@ -13,6 +13,10 @@ const bg = {
   on: { opacity: 1, scale: 1 },
   off: { opacity: 0, scale: 1.4 },
 };
+const subtitle = {
+  on: { opacity: 1, x: 0 },
+  off: { opacity: 0, x: -20 },
+};
 const thumb = {
   on: { opacity: 0, y: '100%' },
   off: { opacity: 1, y: 0 },
@@ -94,9 +98,14 @@ const ProductItem = ({ item }) => {
           onMouseLeave={handleMouseLeave}
         ></Link>
       </Figure>
-      <Text mt="1rem" fontFamily="orpheuspro">
-        {getProductTitle(item)}
-      </Text>
+      {item.model && (
+        <motion.div variants={subtitle}>
+          <Text mt=".25rem" color="warmGrey" fontSize="12px">
+            {item.title}
+          </Text>
+        </motion.div>
+      )}
+      <Text fontFamily="orpheuspro">{getProductTitle(item)}</Text>
       <Price item={item} />
     </motion.article>
   );
