@@ -58,31 +58,41 @@ const AddButton = ({ product }) => {
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
 
-  const addItem = async () => {
-    if (typeof window !== undefined && window.Snipcart !== undefined) {
-      try {
-        await window.Snipcart.api.cart.items.add({
-          id: product.id,
-          name,
-          price,
-          url: `${process.env.GATSBY_SITE_DOMAIN_URL}/product/${product.id}`,
-          description,
-          image: product.thumbnail.asset.fluid.src,
-          quantity: 1,
-          hasTaxesIncluded: true,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  // const addItem = async () => {
+  //   if (typeof window !== undefined && window.Snipcart !== undefined) {
+  //     try {
+  //       await window.Snipcart.api.cart.items.add({
+  //         id: product.id,
+  //         name,
+  //         price,
+  //         url: `${process.env.GATSBY_SITE_DOMAIN_URL}/product/${product.id}`,
+  //         description,
+  //         image: product.thumbnail.asset.fluid.src,
+  //         quantity: 1,
+  //         hasTaxesIncluded: true,
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
   return (
     <motion.div
       animate={{ x: 0 }}
       whileTap={{ scale: 0.94 }}
       whileHover={{ scale: 1.02, x: 10 }}
     >
-      <Button disabled={isDisabled} onClick={addItem}>
+      <Button
+        disabled={isDisabled}
+        className="snipcart-add-item"
+        data-item-id={product.id}
+        data-item-price={price}
+        data-item-url={`/product/${product.id}`}
+        data-item-description={description}
+        data-item-image={product.thumbnail.asset.fluid.src}
+        data-item-name={name}
+        data-item-has-taxes-included={true}
+      >
         <span>Ajouter au panier</span> <BasketIcon ml={[0, '1rem']} />
       </Button>
     </motion.div>
