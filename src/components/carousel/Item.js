@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'gatsby-image';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
@@ -15,7 +15,6 @@ const Wrapper = styled(Box)`
   position: ${props => (props.isCurrent ? 'relative' : 'absolute')};
   z-index: ${props => (props.isCurrent ? 1 : 0)};
   transition: all 450ms ease-in-out;
-  background-color: #cbebf2;
 `;
 
 const Filigrane = styled.div`
@@ -81,10 +80,18 @@ const ItemContent = ({ title, description, link }) => (
 
 export default ({ item, isCurrent }) => {
   const { image, ...rest } = item;
+  const [isImageReady, setIsImageReady] = useState(false);
+  const onLoad = () => {
+    setIsImageReady(true);
+  };
   return (
     <Wrapper isCurrent={isCurrent}>
-      <Image style={{ height: '100vh' }} fluid={image.asset.fluid} />
-      <Filigrane />
+      <Image
+        style={{ height: '100vh' }}
+        fluid={image.asset.fluid}
+        onLoad={onLoad}
+      />
+      {isImageReady && <Filigrane />}
       <ItemContent {...rest} />
     </Wrapper>
   );
