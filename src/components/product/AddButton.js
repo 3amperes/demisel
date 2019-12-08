@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
-import { Flex, Box } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 import { shade } from 'polished';
 import { hasPrice, getPrice } from '@utils';
 import { colors } from '@theme';

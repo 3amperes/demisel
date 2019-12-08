@@ -21,6 +21,16 @@ const Inner = styled(Box)`
   ${richText}
 `;
 
+const serializers = {
+  marks: {
+    link: ({ mark, children }) => (
+      <a href={mark.href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    ),
+  },
+};
+
 export default ({ data }) => {
   return (
     <MainLayout>
@@ -46,7 +56,10 @@ export default ({ data }) => {
         </Link>
       </Header>
       <Inner py={[20, 75]} color="greyishBrown">
-        <BlockContent blocks={data.config.edges[0].node._rawLegal} />
+        <BlockContent
+          blocks={data.config.edges[0].node._rawLegal}
+          serializers={serializers}
+        />
       </Inner>
       <Newsletter />
     </MainLayout>

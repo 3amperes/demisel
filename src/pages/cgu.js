@@ -9,6 +9,16 @@ import { coloredSection, link, container, richText } from '@utils/mixins';
 import SEO from '@components/seo';
 import Newsletter from '@components/newsletter';
 
+const serializers = {
+  marks: {
+    link: ({ mark, children }) => (
+      <a href={mark.href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    ),
+  },
+};
+
 const Header = styled.header`
   ${coloredSection('738px', '-15deg')};
   a {
@@ -44,7 +54,10 @@ export default ({ data }) => {
         </Link>
       </Header>
       <Inner py={[20, 75]}>
-        <BlockContent blocks={data.config.edges[0].node._rawCgu} />
+        <BlockContent
+          blocks={data.config.edges[0].node._rawCgu}
+          serializers={serializers}
+        />
       </Inner>
       <Newsletter />
     </MainLayout>
