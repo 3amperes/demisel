@@ -61,7 +61,7 @@ const AddButton = ({ product, rounded }) => {
         className="snipcart-add-item"
         data-item-id={product.id}
         data-item-price={price}
-        data-item-url={`/product/${product.id}`}
+        data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
         data-item-description={description}
         data-item-image={product.thumbnail.asset.fluid.src}
         data-item-name={name}
