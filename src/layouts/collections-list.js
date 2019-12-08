@@ -12,7 +12,9 @@ import { container, coloredSection, filigrane } from '@utils/mixins';
 const offset = 200;
 
 const Header = styled(Flex)`
-  ${coloredSection('600px')}
+  ${coloredSection('600px')};
+  padding-top: 1rem;
+  padding-bottom: ${offset}px;
 `;
 const List = styled.ol`
   ${container};
@@ -52,7 +54,7 @@ const Collections = ({ data }) => {
     <MainLayout>
       <SEO title="Collections" />
       <Header>
-        <Box width="350px" mb={`${offset}px`} textAlign="center">
+        <Box maxWidth="320px" textAlign="center" px="1rem">
           <Heading fontSize={[32, 48]} as="h1" mb="1rem">
             Collections
           </Heading>

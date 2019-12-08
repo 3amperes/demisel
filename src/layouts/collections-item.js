@@ -26,7 +26,9 @@ const Link = styled.a`
 `;
 
 const Header = styled(Flex)`
-  ${coloredSection('600px')}
+  ${coloredSection('600px')};
+  padding-top: 1rem;
+  padding-bottom: ${offset}px;
 `;
 
 const ItemWrapper = styled(Box)`
@@ -115,7 +117,7 @@ const Collection = ({ data }) => {
 
       <Wrapper>
         <Header>
-          <Box width="350px" mb={`${offset}px`} textAlign="center">
+          <Box maxWidth="320px" textAlign="center" px="1rem">
             <Heading fontSize={[32, 48]} as="h1" mb="1rem">
               {title}
             </Heading>
