@@ -21,6 +21,7 @@ const Pagination = styled(Flex)`
   position: absolute;
   left: 2rem;
   bottom: 2rem;
+  z-index: 2;
 `;
 
 const PaginationButton = styled.button`
@@ -95,6 +96,7 @@ export default ({ items }) => {
             bottom: '2rem',
             transform: 'rotate(90deg)',
             cursor: 'pointer',
+            zIndex: 2,
           }}
           onClick={scrollToIntro}
         />

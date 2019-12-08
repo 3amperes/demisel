@@ -13,6 +13,7 @@ const Wrapper = styled(Box)`
   left: 0;
   opacity: ${props => (props.isCurrent ? 1 : 0)};
   position: ${props => (props.isCurrent ? 'relative' : 'absolute')};
+  z-index: ${props => (props.isCurrent ? 1 : 0)};
   transition: all 450ms ease-in-out;
   background-color: #cbebf2;
 `;
