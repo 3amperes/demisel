@@ -124,7 +124,7 @@ export default () => {
                 lineHeight="24px"
                 textAlign="center"
               >
-                Sabrina lemaréchal crée la marque de bijoux et accessoires
+                Sabrina Lemaréchal crée la marque de bijoux et accessoires
                 Demisel en 2009 par passion pour la conception de bijoux et la
                 recherche de matériaux, de formes et de couleurs.
               </Text>
@@ -184,7 +184,7 @@ export default () => {
                     Le développement de <br /> Demisel continue
                   </SectionTitle>
                   <SectionParagraph>
-                    Passionnée et curieuse de rencontrer de nouvelles matières,
+                    Passionnée et curieuse de découvrir de nouvelles matières,
                     elle lance, cette année, une gamme entièrement Vegan,
                     élaborée à partir de chutes de cuir d’ananas. La marque
                     s’inscrit autant que possible dans une démarche écologique,
@@ -211,7 +211,7 @@ export default () => {
                 </SectionParagraph>
                 <SectionParagraph>
                   Tous les bijoux sont imaginés, créés et conçus à l’atelier
-                  Demisel en centre ville de Rennes. Chaque bijou est fabriqué à
+                  Demisel en centre-ville de Rennes. Chaque bijou est fabriqué à
                   la main, il est donc unique.
                 </SectionParagraph>
                 <Link to="shop">Voir les bijoux</Link>

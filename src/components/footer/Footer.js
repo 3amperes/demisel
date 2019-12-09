@@ -166,12 +166,12 @@ const Footer = () => (
                 {/* <li>
                 <Link to="/dealer-acces">Accès revendeur</Link>
               </li> */}
-                <li>
+                {/* <li>
                   <Link to="/press">Presse</Link>
                 </li>
                 <li>
                   <Link to="/lookbook">Lookbook 19/20</Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div>

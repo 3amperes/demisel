@@ -55,7 +55,7 @@ export default props => (
         Restez informés
       </Heading>
       <Text fontSize={14} lineHeight={1.8}>
-        Inscrivez-vous à notre newsletter et restez informés des nouvelles
+        Inscrivez-vous à notre newsletter et soyez au courant des nouvelles
         collections, nouveaux modèles et des offres promotionnelles.
       </Text>
     </Box>

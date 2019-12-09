@@ -111,7 +111,7 @@ export default () => {
           lineHeight="24px"
           textAlign="center"
         >
-          On adore avoir de vos nouvelles ! Alors que ce soir pour une question
+          On adore avoir de vos nouvelles ! Alors que ce soit pour une question
           sur un produit, sur une disponibilité, sur nos collections, pour
           parler up cycling ou zéro déchet ou encore pour devenir revendeur de
           nos bijoux, envoyez nous votre message !
