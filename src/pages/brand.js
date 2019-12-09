@@ -194,7 +194,9 @@ export default () => {
                     papier. L’attitude « green » et éco-consciente est devenu
                     l’ADN de Demisel.
                   </SectionParagraph>
-                  <Link to="contact">Découvrir le cuir végétal</Link>
+                  <Link to="/shop/?collections=07ed857b-9de7-52a3-aa71-b48f9b350998">
+                    Découvrir le cuir végétal
+                  </Link>
                 </Box>
               </Box>
             </Section>
@@ -214,7 +216,7 @@ export default () => {
                   Demisel en centre-ville de Rennes. Chaque bijou est fabriqué à
                   la main, il est donc unique.
                 </SectionParagraph>
-                <Link to="shop">Voir les bijoux</Link>
+                <Link to="/shop">Voir les bijoux</Link>
               </Box>
             </Section>
             <Section py={[20, 80]}>
@@ -223,7 +225,7 @@ export default () => {
                   Une question ? <br />
                   Besoin d’un renseignement ?
                 </SectionTitle>
-                <Link to="contact">Nous contacter</Link>
+                <Link to="/contact">Nous contacter</Link>
               </Box>
             </Section>
             <Newsletter />
