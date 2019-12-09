@@ -67,8 +67,12 @@ const Figure = styled.figure`
 
 const ProductItem = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
+  if (!item.model) {
+    console.log({ item });
+  }
 
   const image =
+    item.model &&
     item.model.images &&
     item.model.images.length > 0 &&
     item.model.images[0].asset;

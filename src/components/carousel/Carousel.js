@@ -52,12 +52,18 @@ export default ({ items }) => {
     if (!browser()) return;
     const windowHeight = browser().innerHeight;
     switch (true) {
-      case hasBanner && isDesktop:
+      case !!windowHeight && hasBanner && isDesktop:
         return `${windowHeight - 50}px`;
-      case hasBanner && !isDesktop:
+      case !!windowHeight && hasBanner && !isDesktop:
         return `${windowHeight - 80}px`;
-      default:
+      case !!windowHeight:
         return `${windowHeight}px`;
+      case hasBanner && isDesktop:
+        return `calc(100vh - 50px)`;
+      case hasBanner && !isDesktop:
+        return `calc(100vh - 80px)`;
+      default:
+        return `100vh`;
     }
   }, [hasBanner, isDesktop]);
 
