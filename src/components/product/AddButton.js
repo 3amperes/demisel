@@ -42,7 +42,9 @@ const AddButton = ({ product, rounded }) => {
   const isDesktop = useBreakpoint('desktop');
   const isDisabled = !hasPrice(product);
   const name = product.model ? product.model.title : product.title;
-  const description = product.model ? product.title : product.category.title;
+  const description = product.model
+    ? product.title
+    : product.category && product.category.title;
   const price =
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
