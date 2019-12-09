@@ -37,3 +37,5 @@ export function scrollToTop() {
     scrollAnimation = setTimeout(scrollToTop, 30);
   } else clearTimeout(scrollAnimation);
 }
+
+export const browser = () => (typeof window !== 'undefined' ? window : null);

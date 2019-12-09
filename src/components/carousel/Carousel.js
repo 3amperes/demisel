@@ -1,27 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import styled from 'styled-components';
+import { down } from 'styled-breakpoints';
 import { Box, Flex } from 'rebass/styled-components';
-import { up } from 'styled-breakpoints';
 import { colors } from '@theme';
 import { GlobalContext } from '@components/globalStore';
 import Go from '@components/go';
 import Item from './Item';
+import { useBreakpoint } from '@utils/hooks';
+import { browser } from '@utils/helpers';
 
 const Wrapper = styled(Box)`
   width: 100%;
   position: relative;
   transition: all 250ms ease-in-out;
-  height: ${props => (props.hasBanner ? 'calc(100vh - 80px)' : '100vh')};
-  ${up('desktop')} {
-    height: ${props => (props.hasBanner ? 'calc(100vh - 50px)' : '100vh')};
-  }
+  height: ${props => props.height};
 `;
 
-const Pagination = styled(Flex)`
+const Footer = styled(Flex)`
   position: absolute;
-  left: 2rem;
-  bottom: 2rem;
+  left: 0;
+  bottom: 0;
+  padding: 1rem;
+  width: 100%;
   z-index: 2;
+  height: calc(46px + 2rem);
+  align-items: center;
+  ${down('tablet')} {
+    padding-bottom: 3rem;
+  }
 `;
 
 const PaginationButton = styled.button`
@@ -30,8 +36,8 @@ const PaginationButton = styled.button`
   background: transparent;
   color: ${colors.white};
   opacity: ${props => (props.isCurrent ? 1 : 0.6)};
-  padding: 0.5rem;
   font-size: 14px;
+  line-height: 1;
   cursor: pointer;
 `;
 
@@ -39,7 +45,21 @@ export default ({ items }) => {
   const {
     state: { hasBanner },
   } = useContext(GlobalContext);
+  const isDesktop = useBreakpoint('desktop');
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const wrapperHeight = useMemo(() => {
+    if (!browser()) return;
+    const windowHeight = browser().innerHeight;
+    switch (true) {
+      case hasBanner && isDesktop:
+        return `${windowHeight - 50}px`;
+      case hasBanner && !isDesktop:
+        return `${windowHeight - 80}px`;
+      default:
+        return `${windowHeight}px`;
+    }
+  }, [hasBanner, isDesktop]);
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -53,7 +73,7 @@ export default ({ items }) => {
   }, [currentIndex, setCurrentIndex, items]);
 
   const scrollToIntro = () => {
-    if (document === undefined) return;
+    if (typeof document === undefined) return;
     const intro = document.getElementById('intro');
     if (intro !== undefined) {
       intro.scrollIntoView({
@@ -66,7 +86,7 @@ export default ({ items }) => {
 
   return (
     items.length > 0 && (
-      <Wrapper hasBanner={hasBanner}>
+      <Wrapper height={wrapperHeight}>
         {items.map((item, index) => {
           return (
             <Item
@@ -76,30 +96,28 @@ export default ({ items }) => {
             />
           );
         })}
-        <Pagination>
-          {items.map((item, index) => {
-            return (
-              <PaginationButton
-                key={item._key}
-                isCurrent={currentIndex === index}
-                onClick={() => setCurrentIndex(index)}
-              >
-                {index + 1}
-              </PaginationButton>
-            );
-          })}
-        </Pagination>
-        <Go
-          style={{
-            position: 'absolute',
-            right: '2rem',
-            bottom: '2rem',
-            transform: 'rotate(90deg)',
-            cursor: 'pointer',
-            zIndex: 2,
-          }}
-          onClick={scrollToIntro}
-        />
+        <Footer>
+          <Box mr="auto">
+            {items.map((item, index) => {
+              return (
+                <PaginationButton
+                  key={item._key}
+                  isCurrent={currentIndex === index}
+                  onClick={() => setCurrentIndex(index)}
+                >
+                  {index + 1}
+                </PaginationButton>
+              );
+            })}
+          </Box>
+          <Go
+            style={{
+              transform: 'rotate(90deg)',
+              cursor: 'pointer',
+            }}
+            onClick={scrollToIntro}
+          />
+        </Footer>
       </Wrapper>
     )
   );
