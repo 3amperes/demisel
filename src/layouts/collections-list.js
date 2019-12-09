@@ -8,6 +8,7 @@ import MainLayout from './main';
 import SEO from '@components/seo';
 import Go from '@components/go';
 import { container, coloredSection, filigrane } from '@utils/mixins';
+import { useBreakpoint } from '@utils/hooks';
 
 const offset = 200;
 
@@ -28,7 +29,7 @@ const List = styled.ol`
 
 const ImageWrapper = styled.div`
   background-color: ${colors.whiteTwo};
-  line-height: 1;
+  line-height: 0;
   transition: all 250ms ease;
   ${filigrane};
 
@@ -48,6 +49,7 @@ const ItemTitle = styled(Flex)`
 `;
 
 const Collections = ({ data }) => {
+  const isDesktop = useBreakpoint('desktop');
   const collections = data && data.collections ? data.collections.edges : [];
 
   return (
@@ -70,12 +72,17 @@ const Collections = ({ data }) => {
           <li key={item.id}>
             <Link to={`/collections/${item.slug.current}`}>
               <ImageWrapper>
-                {item.thumbnail && (
+                {!isDesktop && item.mobileThumbnail ? (
+                  <Image
+                    style={{ width: '100%' }}
+                    fluid={item.mobileThumbnail.asset.fluid}
+                  />
+                ) : item.thumbnail ? (
                   <Image
                     style={{ maxWidth: '100%' }}
                     fixed={item.thumbnail.asset.fixed}
                   />
-                )}
+                ) : null}
               </ImageWrapper>
 
               <ItemTitle>
@@ -114,6 +121,14 @@ export const query = graphql`
             asset {
               fixed(width: 1076, height: 446) {
                 ...GatsbySanityImageFixed
+              }
+            }
+          }
+          mobileThumbnail {
+            alt
+            asset {
+              fluid(maxWidth: 446, maxHeight: 446) {
+                ...GatsbySanityImageFluid
               }
             }
           }
