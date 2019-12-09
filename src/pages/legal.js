@@ -11,8 +11,7 @@ import Newsletter from '@components/newsletter';
 
 const Header = styled.header`
   ${coloredSection('738px', '-15deg')};
-  padding-left: 1rem;
-  padding-right: 1rem;
+
   a {
     ${link(colors.lipstick)};
   }
