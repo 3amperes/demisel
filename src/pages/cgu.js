@@ -21,6 +21,8 @@ const serializers = {
 
 const Header = styled.header`
   ${coloredSection('738px', '-15deg')};
+  padding-left: 1rem;
+  padding-right: 1rem;
   a {
     ${link(colors.lipstick)};
   }
@@ -53,7 +55,7 @@ export default ({ data }) => {
           <Text mt="1.5rem">Ou lisez nos mentions légales</Text>
         </Link>
       </Header>
-      <Inner py={[20, 75]}>
+      <Inner py={[20, 75]} px="1rem">
         <BlockContent
           blocks={data.config.edges[0].node._rawCgu}
           serializers={serializers}
