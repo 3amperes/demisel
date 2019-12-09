@@ -119,7 +119,7 @@ export const filigrane = () => css`
     left: 0;
     background: linear-gradient(
       to top,
-      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.5) 0%,
       rgba(84, 84, 84, 0) 50%
     );
   }
