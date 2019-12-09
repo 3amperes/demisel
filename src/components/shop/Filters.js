@@ -133,7 +133,7 @@ const ColumnsInner = styled(Flex)`
   flex-wrap: wrap;
   padding: 1rem 0;
 
-  ul {
+  > ul {
     padding: 0.5rem 0;
   }
   .separator {
@@ -145,7 +145,7 @@ const ColumnsInner = styled(Flex)`
 `;
 
 const FilterItem = styled(Text)`
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   font-size: 14px;
   line-height: 24px;
   cursor: pointer;
@@ -199,19 +199,25 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
     dispatch({ type: 'update_filters', payload: { key, value } });
   };
 
-  const filterEmptyItems = (array, key) =>
-    array.filter(item => ids[key].includes(item._id));
+  const filterEmptyItems = (array, key) => {
+    return array.filter(item => ids[key].includes(item._id));
+  };
 
   return (
     <StaticQuery
       query={graphql`
         query {
           models: allSanityModel(sort: { fields: title, order: ASC }) {
-            nodes {
-              _id
-              id
-              title
+            group(field: category___title) {
+              nodes {
+                id
+                _id
+                title
+              }
+              fieldValue
+              totalCount
             }
+            totalCount
           }
           collections: allSanityCollection(
             sort: { fields: title, order: ASC }
@@ -235,31 +241,52 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
         }
       `}
       render={data => {
-        const models = filterEmptyItems(data.models.nodes, 'models');
+        const modelsByGroup = data.models.group.map(group => {
+          const items = filterEmptyItems(group.nodes, 'models');
+          return {
+            category: group.fieldValue,
+            count: items.length,
+            items,
+          };
+        });
         const collections = filterEmptyItems(
           data.collections.nodes,
           'collections'
         );
         const colors = filterEmptyItems(data.colors.nodes, 'colors');
+        const totalCount = modelsByGroup.reduce((a, c) => a + c.count, 0);
+        const areMultipleGroups =
+          modelsByGroup.filter(group => group.count > 0).length > 1;
         return (
           <ColumnsWrapper>
             <ColumnsInner>
-              {models && models.length > 0 && (
+              {totalCount > 0 && (
                 <Box width={[1, 8 / 12]} mb={[20, 0]}>
                   <ColumnTitle title="Modèles" />
-                  <List
-                    columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
-                  >
-                    {models.map(model => (
-                      <motion.li key={model.id} variants={items}>
-                        <FilterItem
-                          onClick={e => toggleFilter('model', model.id, e)}
-                          isActive={isFilterActive('model', model.id)}
-                        >
-                          {model.title}
-                        </FilterItem>
-                      </motion.li>
-                    ))}
+                  <List columns={totalCount > 6 ? 3 : totalCount > 3 ? 2 : 1}>
+                    {modelsByGroup.map((group, index) => {
+                      return group.count > 0 ? (
+                        <Box key={index}>
+                          {areMultipleGroups && (
+                            <ColumnTitle title={group.category} />
+                          )}
+                          <Box as="ul" mb="1rem">
+                            {group.items.map(model => (
+                              <motion.li key={model.id} variants={items}>
+                                <FilterItem
+                                  onClick={e =>
+                                    toggleFilter('model', model.id, e)
+                                  }
+                                  isActive={isFilterActive('model', model.id)}
+                                >
+                                  {model.title}
+                                </FilterItem>
+                              </motion.li>
+                            ))}
+                          </Box>
+                        </Box>
+                      ) : null;
+                    })}
                   </List>
                 </Box>
               )}
