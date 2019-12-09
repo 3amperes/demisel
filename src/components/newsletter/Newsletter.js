@@ -50,7 +50,7 @@ const Form = styled.form`
 
 export default props => (
   <Wrapper {...props}>
-    <Box width="330px" px="0.5rem" mb="70px" textAlign="center">
+    <Box maxWidth="330px" px="0.5rem" mb="70px" textAlign="center">
       <Heading fontSize={[32, 48]} as="h2" mb="1rem">
         Restez informés
       </Heading>

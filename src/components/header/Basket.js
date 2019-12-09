@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Flex, Box } from 'rebass/styled-components';
+import { Box } from 'rebass/styled-components';
 import { colors } from '@theme';
 
 export const BasketIcon = ({ ...rest }) => (
@@ -33,19 +33,19 @@ const Wrapper = styled.div`
   }
 `;
 
-const Count = styled(Flex)`
-  justify-content: center;
-  align-items: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  color: currentColor;
-  font-size: 10px;
-  line-height: 1;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-`;
+// const Count = styled(Flex)`
+//   justify-content: center;
+//   align-items: center;
+//   width: 14px;
+//   height: 14px;
+//   border-radius: 50%;
+//   color: currentColor;
+//   font-size: 10px;
+//   line-height: 1;
+//   position: absolute;
+//   top: 8px;
+//   right: 8px;
+// `;
 
 export default props => (
   <Wrapper width={[32, 48]}>

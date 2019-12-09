@@ -24,6 +24,13 @@ const query = graphql`
                 }
               }
             }
+            mobileImage {
+              asset {
+                fluid(maxWidth: 740) {
+                  ...GatsbySanityImageFluid
+                }
+              }
+            }
             title
             description
             link {

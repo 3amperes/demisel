@@ -5,6 +5,7 @@ import { up } from 'styled-breakpoints';
 import { Box, Flex, Heading, Text } from 'rebass/styled-components';
 import { colors } from '@theme';
 import { container, link } from '@utils/mixins';
+import { useBreakpoint } from '@utils/hooks';
 
 const Wrapper = styled(Box)`
   width: 100%;
@@ -79,18 +80,27 @@ const ItemContent = ({ title, description, link }) => (
 );
 
 export default ({ item, isCurrent }) => {
-  const { image, ...rest } = item;
+  const { image, mobileImage, ...rest } = item;
   const [isImageReady, setIsImageReady] = useState(false);
+  const isDesktop = useBreakpoint('desktop');
   const onLoad = () => {
     setIsImageReady(true);
   };
   return (
     <Wrapper isCurrent={isCurrent}>
-      <Image
-        style={{ height: '100vh' }}
-        fluid={image.asset.fluid}
-        onLoad={onLoad}
-      />
+      {!isDesktop && mobileImage ? (
+        <Image
+          style={{ height: '100vh' }}
+          fluid={mobileImage.asset.fluid}
+          onLoad={onLoad}
+        />
+      ) : (
+        <Image
+          style={{ height: '100vh' }}
+          fluid={image.asset.fluid}
+          onLoad={onLoad}
+        />
+      )}
       {isImageReady && <Filigrane />}
       <ItemContent {...rest} />
     </Wrapper>
