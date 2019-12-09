@@ -29,6 +29,7 @@ const Header = styled(Flex)`
   ${coloredSection('600px')};
   padding-top: 1rem;
   padding-bottom: ${offset}px;
+  font-size: 14px;
 `;
 
 const ItemWrapper = styled(Box)`
@@ -100,7 +101,7 @@ const Item = ({ item }) => {
         <Heading fontSize={[24, 40]} as="h2" mb="1rem">
           {item.title}
         </Heading>
-        <Text mx="auto" maxWith="300px">
+        <Text mx="auto" maxWidth="300px">
           {item.description}
         </Text>
         {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
