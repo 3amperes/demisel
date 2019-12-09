@@ -63,7 +63,7 @@ export default props => (
       className="snipcart-checkout"
     >
       <BasketIcon />
-      <Count className="snipcart-items-count" />
+      {/* <Count className="snipcart-items-count" /> */}
     </motion.button>
   </Wrapper>
 );
