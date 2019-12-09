@@ -96,6 +96,10 @@ const List = styled.ul`
   ${up('tablet')} {
     columns: ${props => props.columns};
   }
+
+  ul {
+    margin-bottom: 1rem;
+  }
 `;
 
 const Dot = ({ isActive, bg }) => (
@@ -133,7 +137,7 @@ const ColumnsInner = styled(Flex)`
   flex-wrap: wrap;
   padding: 1rem 0;
 
-  ul {
+  > ul {
     padding: 0.5rem 0;
   }
   .separator {
@@ -145,7 +149,7 @@ const ColumnsInner = styled(Flex)`
 `;
 
 const FilterItem = styled(Text)`
-  padding: 0.5rem 0;
+  padding: 0.35rem 0;
   font-size: 14px;
   line-height: 24px;
   cursor: pointer;
@@ -154,7 +158,13 @@ const FilterItem = styled(Text)`
 `;
 
 const ColumnTitle = ({ title }) => (
-  <Text fontSize={12} fontWeight="600" color="warmGrey">
+  <Text
+    fontSize={12}
+    fontWeight="600"
+    lineHeight="20px"
+    color="warmGrey"
+    className="column-title"
+  >
     {title}
   </Text>
 );
@@ -190,6 +200,12 @@ const ClearButton = styled.button`
   }
 `;
 
+const Models = styled(Box)`
+  > ul > li:first-child {
+    margin-top: -20px;
+  }
+`;
+
 const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
   const { state, dispatch } = useContext(GlobalContext);
   const isFilterActive = (key, value) =>
@@ -199,18 +215,22 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
     dispatch({ type: 'update_filters', payload: { key, value } });
   };
 
-  const filterEmptyItems = (array, key) =>
-    array.filter(item => ids[key].includes(item._id));
+  const filterEmptyItems = (array, key) => {
+    return array.filter(item => ids[key].includes(item._id));
+  };
 
   return (
     <StaticQuery
       query={graphql`
         query {
           models: allSanityModel(sort: { fields: title, order: ASC }) {
-            nodes {
-              _id
-              id
-              title
+            group(field: category___title) {
+              nodes {
+                id
+                _id
+                title
+              }
+              fieldValue
             }
           }
           collections: allSanityCollection(
@@ -235,33 +255,55 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
         }
       `}
       render={data => {
-        const models = filterEmptyItems(data.models.nodes, 'models');
+        const modelsByGroup = data.models.group.map(group => {
+          const items = filterEmptyItems(group.nodes, 'models');
+          return {
+            category: group.fieldValue,
+            count: items.length,
+            items,
+          };
+        });
         const collections = filterEmptyItems(
           data.collections.nodes,
           'collections'
         );
         const colors = filterEmptyItems(data.colors.nodes, 'colors');
+        const totalCount = modelsByGroup.reduce((a, c) => a + c.count, 0);
+        const areMultipleGroups =
+          modelsByGroup.filter(group => group.count > 0).length > 1;
         return (
           <ColumnsWrapper>
             <ColumnsInner>
-              {models && models.length > 0 && (
-                <Box width={[1, 8 / 12]} mb={[20, 0]}>
-                  <ColumnTitle title="Modèles" />
-                  <List
-                    columns={models.length > 6 ? 3 : models.length > 3 ? 2 : 1}
-                  >
-                    {models.map(model => (
-                      <motion.li key={model.id} variants={items}>
-                        <FilterItem
-                          onClick={e => toggleFilter('model', model.id, e)}
-                          isActive={isFilterActive('model', model.id)}
-                        >
-                          {model.title}
-                        </FilterItem>
-                      </motion.li>
-                    ))}
+              {totalCount > 0 && (
+                <Models width={[1, 8 / 12]} mb={[20, 0]} pt="20px">
+                  <List columns={totalCount > 6 ? 3 : totalCount > 3 ? 2 : 1}>
+                    {modelsByGroup.map((group, index) => {
+                      return group.count > 0 ? (
+                        <Box as="li" key={index}>
+                          {areMultipleGroups ? (
+                            <ColumnTitle title={group.category} />
+                          ) : (
+                            <ColumnTitle title="Modèles" />
+                          )}
+                          <Box as="ul" mb="1rem">
+                            {group.items.map(model => (
+                              <motion.li key={model.id} variants={items}>
+                                <FilterItem
+                                  onClick={e =>
+                                    toggleFilter('model', model.id, e)
+                                  }
+                                  isActive={isFilterActive('model', model.id)}
+                                >
+                                  {model.title}
+                                </FilterItem>
+                              </motion.li>
+                            ))}
+                          </Box>
+                        </Box>
+                      ) : null;
+                    })}
                   </List>
-                </Box>
+                </Models>
               )}
 
               {colors && colors.length > 0 && (
