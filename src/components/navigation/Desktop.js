@@ -127,7 +127,11 @@ export const CategoriesDesktop = ({
                 initial="hide"
                 key={item.id}
               >
-                {item.thumbnail && <Image fixed={item.thumbnail.asset.fixed} />}
+                {item.mobileThumbnail ? (
+                  <Image fixed={item.mobileThumbnail.asset.fixed} />
+                ) : item.thumbnail ? (
+                  <Image fixed={item.thumbnail.asset.fixed} />
+                ) : null}
               </Thumbnail>
             );
           })}

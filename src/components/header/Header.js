@@ -182,6 +182,14 @@ const Header = ({ isFloat }) => {
                 }
                 alt
               }
+              mobileThumbnail {
+                asset {
+                  fixed(width: 320, height: 255) {
+                    ...GatsbySanityImageFixed
+                  }
+                }
+                alt
+              }
             }
           }
           config: allSanityConfig {

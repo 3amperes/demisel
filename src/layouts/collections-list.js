@@ -67,39 +67,41 @@ const Collections = ({ data }) => {
           </Text>
         </Box>
       </Header>
-      <List>
-        {collections.map(({ node: item }) => (
-          <li key={item.id}>
-            <Link to={`/collections/${item.slug.current}`}>
-              <ImageWrapper>
-                {!isDesktop && item.mobileThumbnail ? (
-                  <Image
-                    style={{ width: '100%' }}
-                    fluid={item.mobileThumbnail.asset.fluid}
-                  />
-                ) : item.thumbnail ? (
-                  <Image
-                    style={{ maxWidth: '100%' }}
-                    fixed={item.thumbnail.asset.fixed}
-                  />
-                ) : null}
-              </ImageWrapper>
+      {collections && collections.length > 0 && (
+        <List>
+          {collections.map(({ node: item }) => (
+            <li key={item.id}>
+              <Link to={`/collections/${item.slug.current}`}>
+                <ImageWrapper>
+                  {!isDesktop && item.mobileThumbnail ? (
+                    <Image
+                      style={{ width: '100%' }}
+                      fluid={item.mobileThumbnail.asset.fluid}
+                    />
+                  ) : item.thumbnail ? (
+                    <Image
+                      style={{ maxWidth: '100%' }}
+                      fixed={item.thumbnail.asset.fixed}
+                    />
+                  ) : null}
+                </ImageWrapper>
 
-              <ItemTitle>
-                <Heading
-                  fontSize={24}
-                  as="h2"
-                  style={{ textTransform: 'capitalize' }}
-                  mr="auto"
-                >
-                  {item.title}
-                </Heading>
-                <Go />
-              </ItemTitle>
-            </Link>
-          </li>
-        ))}
-      </List>
+                <ItemTitle>
+                  <Heading
+                    fontSize={24}
+                    as="h2"
+                    style={{ textTransform: 'capitalize' }}
+                    mr="auto"
+                  >
+                    {item.title}
+                  </Heading>
+                  <Go />
+                </ItemTitle>
+              </Link>
+            </li>
+          ))}
+        </List>
+      )}
     </MainLayout>
   );
 };
@@ -108,7 +110,10 @@ export default Collections;
 
 export const query = graphql`
   query {
-    collections: allSanityCollection(sort: { fields: order, order: ASC }) {
+    collections: allSanityCollection(
+      filter: { editorial: { eq: true } }
+      sort: { fields: order, order: ASC }
+    ) {
       edges {
         node {
           id
