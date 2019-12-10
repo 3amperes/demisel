@@ -8,6 +8,7 @@ import Image from 'gatsby-image';
 import MainLayout from './main';
 import SEO from '@components/seo';
 import { AddButton, Figure, Price } from '@components/product';
+import { getProductTitle } from '@utils/helpers';
 
 const Wrapper = styled.article`
   display: grid;
@@ -77,7 +78,7 @@ const Header = ({ item }) => {
   if (!title) return;
   return (
     <header>
-      <Title>{model && model.title ? model.title : title}</Title>
+      <Title>{getProductTitle(item)}</Title>
       <Price item={{ model, price }} />
       {model && model.title && (
         <>
@@ -97,6 +98,7 @@ const ProductDetail = ({ data }) => {
     price,
     _rawDescription,
     specification,
+    category,
   } = data.product;
   const productTitle = (model && model.title) || title;
   const body = _rawDescription || (model && model._rawDescription);
@@ -131,6 +133,7 @@ const ProductDetail = ({ data }) => {
                 title,
                 price,
                 model,
+                category,
               }}
             />
             <DefinitionTitle>Description</DefinitionTitle>
