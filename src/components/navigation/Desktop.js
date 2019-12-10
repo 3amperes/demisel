@@ -40,7 +40,7 @@ const Wrapper = styled.nav`
     border: none;
     background: transparent;
 
-    ${navLink};
+    ${navLink()};
   }
 `;
 
@@ -80,7 +80,7 @@ export const NavigationDesktop = ({ toggleMenu, ...rest }) => {
 
 const CategoryItem = styled(motion.li)`
   a {
-    ${navLink};
+    ${navLink()};
   }
 `;
 

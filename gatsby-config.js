@@ -82,10 +82,14 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-mixpanel',
+      resolve: `gatsby-plugin-gdpr-cookies`,
       options: {
-        apiToken: 'aa68bf08fe5bdce4733e42efb3084e44', // required
-        pageViews: 'all',
+        googleAnalytics: {
+          trackingId: 'UA-154390932-1',
+          // Setting this parameter is optional
+          anonymize: true,
+        },
+        environments: ['production'],
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

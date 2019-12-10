@@ -5,26 +5,46 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box } from 'rebass/styled-components';
+import { useCookies } from 'react-cookie';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 import Banner from '../components/banner';
+import CookieMessage from '../components/cookies';
 import { GlobalContext } from '@components/globalStore';
+
+const gaCookieKey = 'gatsby-gdpr-google-analytics';
 
 const MainLayout = ({ children, headerFloat, ...rest }) => {
   const {
     state: { hasBanner },
   } = useContext(GlobalContext);
+  const [cookies, setCookie] = useCookies([gaCookieKey]);
+  const gaCookie = cookies[gaCookieKey];
+  const [displayCookieMessage, setDisplayCookieMessage] = useState(
+    gaCookie === undefined
+  );
 
   const d = typeof document !== undefined;
+
+  console.log(gaCookie);
 
   useEffect(() => {
     if (d) {
       window.Snipcart.api.session.setLanguage('fr-FR');
     }
   }, [d]);
+
+  const closeCookieMessage = () => {
+    setDisplayCookieMessage(false);
+  };
+
+  const toggleCookies = value => {
+    setCookie(gaCookieKey, value);
+    closeCookieMessage();
+  };
 
   return (
     <>
@@ -36,6 +56,12 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
         </main>
         <Footer />
       </Box>
+      {displayCookieMessage && (
+        <CookieMessage
+          toggleCookie={toggleCookies}
+          onClose={closeCookieMessage}
+        />
+      )}
     </>
   );
 };

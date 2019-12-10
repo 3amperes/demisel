@@ -45,7 +45,7 @@ const Wrapper = styled.article`
 
 const Inner = styled(Box)`
   position: relative;
-  ${up('tablet')} {
+  ${up('desktop')} {
     max-width: 400px;
     position: sticky;
     top: 0;
