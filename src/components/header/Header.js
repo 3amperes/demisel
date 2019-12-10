@@ -30,7 +30,7 @@ const Wrapper = styled(Box)`
   border-color: ${props => (props.isFloat ? 'transparent' : colors.whiteTwo)};
   border-style: solid;
   border-width: 0 0 1px 0;
-  z-index: 2;
+  z-index: 5;
 
   *,
   *:before,
