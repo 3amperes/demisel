@@ -175,7 +175,9 @@ export const CategoriesDesktop = ({
                     onMouseEnter={() => handleMouseEnter(collection.id)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <Link to={`/shop/?collections=${collection.id}`}>
+                    <Link
+                      to={`/shop/?collections=${collection.id}&refresh=true`}
+                    >
                       <Text fontSize={14}>{collection.title}</Text>
                     </Link>
                   </CategoryItem>

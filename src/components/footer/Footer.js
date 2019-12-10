@@ -94,7 +94,9 @@ const Collections = ({ items }) =>
         {items.map(node => {
           return (
             <li key={node.id}>
-              <Link to={`/shop/?collections=${node.id}`}>{node.title}</Link>
+              <Link to={`/shop/?collections=${node.id}&refresh=true`}>
+                {node.title}
+              </Link>
             </li>
           );
         })}
