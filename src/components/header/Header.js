@@ -168,7 +168,7 @@ const Header = ({ isFloat }) => {
             }
           }
           collections: allSanityCollection(
-            sort: { fields: title, order: ASC }
+            sort: { fields: order, order: ASC }
           ) {
             nodes {
               _id

@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import styled, { css } from 'styled-components';
-import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { StaticQuery, graphql, navigate } from 'gatsby';
 import queryString from 'query-string';
@@ -10,6 +9,7 @@ import withLocation from '@utils/withLocation';
 import { GlobalContext } from '@components/globalStore';
 import { colors } from '@theme';
 import { areEmptyFilters } from '@utils/helpers';
+import { useBreakpoint } from '@utils/hooks';
 
 export const FilerIcon = ({ size = 16, isOpen, ...rest }) => {
   return (
@@ -99,11 +99,7 @@ const Header = styled(Flex)`
 `;
 
 const List = styled.ul`
-  columns: 2;
-  ${up('tablet')} {
-    columns: ${props => props.columns};
-  }
-
+  columns: ${props => props.columns};
   > li {
     ul:after {
       content: '';
@@ -249,6 +245,7 @@ const Models = styled(Box)`
 
 const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
   const { state, dispatch } = useContext(GlobalContext);
+  const isDesktop = useBreakpoint('desktop');
   const isFilterActive = (key, value) =>
     state.filters.has(key) && state.filters.get(key).has(value);
 
@@ -275,12 +272,14 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
             }
           }
           collections: allSanityCollection(
-            sort: { fields: title, order: ASC }
+            sort: { fields: order, order: ASC }
           ) {
-            nodes {
-              _id
-              id
-              title
+            group(field: editorial) {
+              nodes {
+                title
+                id
+                _id
+              }
             }
           }
           colors: allSanityProductColor(sort: { fields: title, order: ASC }) {
@@ -304,20 +303,29 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
             items,
           };
         });
-        const collections = filterEmptyItems(
-          data.collections.nodes,
-          'collections'
+        const collections = data.collections.group.map(group =>
+          filterEmptyItems(group.nodes, 'collections')
         );
         const colors = filterEmptyItems(data.colors.nodes, 'colors');
         const totalCount = modelsByGroup.reduce((a, c) => a + c.count, 0);
         const areMultipleGroups =
           modelsByGroup.filter(group => group.count > 0).length > 1;
+        const getModelsColumns = () => {
+          //totalCount > 6 ? (isDesktop ? 3 : 2) : totalCount > 3 ? (isDesktop ? 2) : 1}
+          if (totalCount > 6) {
+            return isDesktop ? 3 : 2;
+          }
+          if (totalCount > 3) {
+            return isDesktop ? 2 : 1;
+          }
+          return 1;
+        };
         return (
           <ColumnsWrapper>
             <ColumnsInner>
               {totalCount > 0 && (
                 <Models width={[1, 1 / 2]} mb={[20, 0]} pt="20px">
-                  <List columns={totalCount > 6 ? 3 : totalCount > 3 ? 2 : 1}>
+                  <List columns={getModelsColumns()}>
                     {modelsByGroup.map((group, index) => {
                       return group.count > 0 ? (
                         <Box as="li" key={index}>
@@ -349,7 +357,6 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                   </List>
                 </Models>
               )}
-
               {colors && colors.length > 0 && (
                 <Box width={[1, 2 / 6]} mb={[20, 0]}>
                   <ColumnTitle title="Couleurs" />
@@ -374,31 +381,42 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                 </Box>
               )}
 
-              {collections && collections.length > 0 && (
+              {collections.some(group => {
+                return group.length > 0;
+              }) && (
                 <Box width={[1, 1 / 6]}>
                   <ColumnTitle title="Collections" />
-                  <ul>
-                    {collections.map(collection => (
-                      <motion.li key={collection.id} variants={items}>
-                        <FilterItem
-                          onClick={() =>
-                            toggleFilter('collections', collection.id)
-                          }
-                          isActive={isFilterActive(
-                            'collections',
-                            collection.id
-                          )}
-                        >
-                          <Check
-                            isActive={isFilterActive(
-                              'collections',
-                              collection.id
-                            )}
-                          />
-                          {collection.title}
-                        </FilterItem>
-                      </motion.li>
-                    ))}
+                  <List columns={isDesktop ? 1 : 2}>
+                    {collections.map(
+                      (group, index) =>
+                        group.length > 0 && (
+                          <li key={index}>
+                            <ul>
+                              {group.map(collection => (
+                                <motion.li key={collection.id} variants={items}>
+                                  <FilterItem
+                                    onClick={() =>
+                                      toggleFilter('collections', collection.id)
+                                    }
+                                    isActive={isFilterActive(
+                                      'collections',
+                                      collection.id
+                                    )}
+                                  >
+                                    <Check
+                                      isActive={isFilterActive(
+                                        'collections',
+                                        collection.id
+                                      )}
+                                    />
+                                    {collection.title}
+                                  </FilterItem>
+                                </motion.li>
+                              ))}
+                            </ul>
+                          </li>
+                        )
+                    )}
                     {state.areDiscountsEnabled && (
                       <>
                         <motion.li
@@ -415,7 +433,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                         </motion.li>
                       </>
                     )}
-                  </ul>
+                  </List>
                 </Box>
               )}
             </ColumnsInner>
