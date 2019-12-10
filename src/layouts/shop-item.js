@@ -9,6 +9,7 @@ import MainLayout from './main';
 import SEO from '@components/seo';
 import { AddButton, Figure, Price } from '@components/product';
 import { getProductTitle } from '@utils/helpers';
+import { useBreakpoint } from '@utils/hooks';
 
 const Wrapper = styled.article`
   display: grid;
@@ -100,10 +101,20 @@ const ProductDetail = ({ data }) => {
     specification,
     category,
   } = data.product;
+  const isDesktop = useBreakpoint('desktop');
   const productTitle = (model && model.title) || title;
   const body = _rawDescription || (model && model._rawDescription);
-  const productImages = model && model.images;
   const productSpecification = specification || (model && model.specification);
+  const renderImages = () => {
+    const productImages = model && model.images;
+    return (
+      productImages &&
+      productImages.length > 0 &&
+      productImages.map((image, index) => {
+        return <Image key={index} fluid={image.asset.fluid} />;
+      })
+    );
+  };
   return (
     <MainLayout>
       <SEO title={productTitle} />
@@ -114,17 +125,7 @@ const ProductDetail = ({ data }) => {
               <Image className="thumbnail" fluid={thumbnail.asset.fluid} />
             </Figure>
           )}
-          {productImages &&
-            productImages.length > 0 &&
-            productImages.map((image, index) => {
-              return (
-                <Image
-                  className="other-images"
-                  key={index}
-                  fluid={image.asset.fluid}
-                />
-              );
-            })}
+          {isDesktop && renderImages()}
         </aside>
         <main className="main">
           <Inner px={[24, 40]} py={40}>
@@ -152,6 +153,7 @@ const ProductDetail = ({ data }) => {
               <AddButton product={data.product} />
             </ButtonWrapper>
           </Inner>
+          {!isDesktop && renderImages()}
         </main>
       </Wrapper>
     </MainLayout>
