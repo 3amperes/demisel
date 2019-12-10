@@ -196,6 +196,10 @@ export const query = graphql`
           }
         }
       }
+      category {
+        title
+        shortName
+      }
     }
   }
 `;

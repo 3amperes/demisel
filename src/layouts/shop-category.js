@@ -99,6 +99,10 @@ export const query = graphql`
           colors {
             id
           }
+          category {
+            shortName
+            title
+          }
         }
       }
     }

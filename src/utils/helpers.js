@@ -1,6 +1,7 @@
 export const getProductTitle = product => {
-  const { title, model } = product;
-  return (model && model.title) || title;
+  const { title, model, category } = product;
+  const productTitle = (model && model.title) || title;
+  return `${category.shortName} ${productTitle}`;
 };
 export const getPrice = (item, key) => {
   const { price, model } = item;

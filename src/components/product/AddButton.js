@@ -41,10 +41,8 @@ const AddButton = ({ product, rounded }) => {
   } = useContext(GlobalContext);
   const isDesktop = useBreakpoint('desktop');
   const isDisabled = !hasPrice(product);
-  const name = product.model ? product.model.title : product.title;
-  const description = product.model
-    ? product.title
-    : product.category && product.category.title;
+  const productName = `${product.category.shortName} ${product.model &&
+    product.model.title} ${product.title}`;
   const price =
     (discountsAreEnabled && getPrice(product, 'discountPrice')) ||
     getPrice(product, 'salePrice');
@@ -63,9 +61,9 @@ const AddButton = ({ product, rounded }) => {
         data-item-id={product.id}
         data-item-price={price}
         data-item-url={`https://demiselbijoux.netlify.com/product/${product.id}`}
-        data-item-description={description}
+        data-item-description={product.category.title}
         data-item-image={product.thumbnail.asset.fluid.src}
-        data-item-name={name}
+        data-item-name={productName}
         data-item-has-taxes-included={true}
         isRounded={isRounded}
       >
