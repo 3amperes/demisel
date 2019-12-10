@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { graphql } from 'gatsby';
-// import { useMixpanel } from 'gatsby-plugin-mixpanel';
 import { GlobalContext } from '@components/globalStore';
 import { ShopList, Filters } from '@components/shop';
 import MainLayout from './main';
@@ -14,8 +13,6 @@ const Shop = ({ data }) => {
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const { id, title } = data.category;
   const products = data.products.edges;
-  // const mixpanel = useMixpanel();
-  // mixpanel.track(`Page eShop | Catégorie ${title}`);
 
   const models = data.groupByModels.group.map(model => model.fieldValue);
   const collections = data.groupByCollections.group.map(
