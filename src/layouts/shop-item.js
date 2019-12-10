@@ -86,7 +86,6 @@ const ProductDetail = ({ data }) => {
     category,
   } = data.product;
   const isDesktop = useBreakpoint('desktop');
-  const productTitle = (model && model.title) || title;
   const body = _rawDescription || (model && model._rawDescription);
   const productSpecification = specification || (model && model.specification);
   const renderImages = () => {
@@ -99,9 +98,16 @@ const ProductDetail = ({ data }) => {
       })
     );
   };
+
   return (
     <MainLayout>
-      <SEO title={productTitle} />
+      <SEO
+        title={`${getProductTitle({
+          title,
+          model,
+          category,
+        })} • ${title}`}
+      />
       <Wrapper>
         <aside className="aside">
           {thumbnail && (
