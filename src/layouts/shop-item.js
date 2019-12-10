@@ -12,18 +12,8 @@ import { getProductTitle } from '@utils/helpers';
 import { useBreakpoint } from '@utils/hooks';
 
 const Wrapper = styled.article`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 50% auto;
-
-  .thumbnail {
-    width: 315px;
-  }
-  .other-images {
-    display: none;
-  }
-
   ${up('tablet')} {
+    display: grid;
     grid-template-columns: 3fr 2fr;
     grid-template-areas: 'aside main';
     grid-template-rows: auto;
@@ -33,12 +23,6 @@ const Wrapper = styled.article`
     }
     .main {
       grid-area: main;
-    }
-    .thumbnail {
-      width: 515px;
-    }
-    .other-images {
-      display: block;
     }
   }
 `;
@@ -122,7 +106,11 @@ const ProductDetail = ({ data }) => {
         <aside className="aside">
           {thumbnail && (
             <Figure mb={0} py={[20, 80]}>
-              <Image className="thumbnail" fluid={thumbnail.asset.fluid} />
+              <Image
+                style={{ width: '80%' }}
+                className="thumbnail"
+                fluid={thumbnail.asset.fluid}
+              />
             </Figure>
           )}
           {isDesktop && renderImages()}
@@ -153,8 +141,8 @@ const ProductDetail = ({ data }) => {
               <AddButton product={data.product} />
             </ButtonWrapper>
           </Inner>
-          {!isDesktop && renderImages()}
         </main>
+        {!isDesktop && <aside>{renderImages()}</aside>}
       </Wrapper>
     </MainLayout>
   );
