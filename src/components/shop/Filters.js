@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { up } from 'styled-breakpoints';
 import { motion } from 'framer-motion';
 import { StaticQuery, graphql, navigate } from 'gatsby';
@@ -45,6 +45,13 @@ export const FilerIcon = ({ size = 16, isOpen, ...rest }) => {
     </Flex>
   );
 };
+
+const separator = css`
+  width: 24px;
+  height: 1px;
+  margin: 1rem 0;
+  background-color: ${colors.whiteTwo};
+`;
 
 const wrapper = {
   open: {
@@ -97,8 +104,17 @@ const List = styled.ul`
     columns: ${props => props.columns};
   }
 
-  ul {
-    margin-bottom: 1rem;
+  > li {
+    ul:after {
+      content: '';
+      display: block;
+      ${separator}
+    }
+    &:last-child {
+      ul:after {
+        display: none;
+      }
+    }
   }
 `;
 
@@ -141,20 +157,45 @@ const ColumnsInner = styled(Flex)`
     padding: 0.5rem 0;
   }
   .separator {
-    width: 24px;
-    height: 1px;
-    margin: 1rem 0;
-    background-color: ${colors.whiteTwo};
+    ${separator};
   }
 `;
 
-const FilterItem = styled(Text)`
+const Check = ({ isActive, ...rest }) => {
+  return isActive ? (
+    <Box width={12} mr=".5rem">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="100%"
+        height="100%"
+        viewBox="0 0 100 100"
+      >
+        <rect
+          width="94"
+          height="94"
+          x="3"
+          y="3"
+          fill="#fff"
+          stroke="#404040"
+          strokeOpacity="0.1"
+          strokeWidth="6"
+          rx="8"
+        ></rect>
+        {isActive && <path fill="#e33450" d="M15 15h70v70H15z"></path>}
+      </svg>
+    </Box>
+  ) : null;
+};
+
+const FilterItem = styled(Flex)`
   padding: 0.35rem 0;
   font-size: 14px;
   line-height: 24px;
   cursor: pointer;
   color: ${props => (props.isActive ? colors.lipstick : colors.black)};
-  transition: color 250ms ease;
+  transition: all 250ms ease;
+  position: relative;
+  z-index: 1;
 `;
 
 const ColumnTitle = ({ title }) => (
@@ -275,7 +316,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
           <ColumnsWrapper>
             <ColumnsInner>
               {totalCount > 0 && (
-                <Models width={[1, 8 / 12]} mb={[20, 0]} pt="20px">
+                <Models width={[1, 1 / 2]} mb={[20, 0]} pt="20px">
                   <List columns={totalCount > 6 ? 3 : totalCount > 3 ? 2 : 1}>
                     {modelsByGroup.map((group, index) => {
                       return group.count > 0 ? (
@@ -294,6 +335,9 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                                   }
                                   isActive={isFilterActive('model', model.id)}
                                 >
+                                  <Check
+                                    isActive={isFilterActive('model', model.id)}
+                                  />
                                   {model.title}
                                 </FilterItem>
                               </motion.li>
@@ -307,7 +351,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
               )}
 
               {colors && colors.length > 0 && (
-                <Box width={[1, 3 / 12]} mb={[20, 0]}>
+                <Box width={[1, 2 / 6]} mb={[20, 0]}>
                   <ColumnTitle title="Couleurs" />
                   <List columns={colors.length > 3 ? 2 : 1}>
                     {colors.map(color => {
@@ -331,7 +375,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
               )}
 
               {collections && collections.length > 0 && (
-                <Box width={[1, 1 / 12]}>
+                <Box width={[1, 1 / 6]}>
                   <ColumnTitle title="Collections" />
                   <ul>
                     {collections.map(collection => (
@@ -345,6 +389,12 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                             collection.id
                           )}
                         >
+                          <Check
+                            isActive={isFilterActive(
+                              'collections',
+                              collection.id
+                            )}
+                          />
                           {collection.title}
                         </FilterItem>
                       </motion.li>
