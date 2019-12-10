@@ -157,23 +157,7 @@ const Footer = () => (
                 </li>
               </ul>
             </div>
-            <div>
-              <Title>Partenaires</Title>
-              <ul>
-                <li>
-                  <Link to="/outlets">Nos points de vente</Link>
-                </li>
-                {/* <li>
-                <Link to="/dealer-acces">Accès revendeur</Link>
-              </li> */}
-                {/* <li>
-                  <Link to="/press">Presse</Link>
-                </li>
-                <li>
-                  <Link to="/lookbook">Lookbook 19/20</Link>
-                </li> */}
-              </ul>
-            </div>
+
             <div>
               <Title>Suivez-nous</Title>
               <ul>
@@ -195,6 +179,23 @@ const Footer = () => (
                     Facebook
                   </a>
                 </li>
+              </ul>
+            </div>
+            <div>
+              <Title>Partenaires</Title>
+              <ul>
+                <li>
+                  <Link to="/outlets">Nos points de vente</Link>
+                </li>
+                {/* <li>
+                <Link to="/dealer-acces">Accès revendeur</Link>
+              </li> */}
+                {/* <li>
+                  <Link to="/press">Presse</Link>
+                </li>
+                <li>
+                  <Link to="/lookbook">Lookbook 19/20</Link>
+                </li> */}
               </ul>
             </div>
           </Wrapper>
