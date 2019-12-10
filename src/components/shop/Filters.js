@@ -58,7 +58,7 @@ const wrapper = {
     opacity: 1,
     y: 0,
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.02,
     },
   },
   closed: {

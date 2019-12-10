@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import throttle from 'lodash.throttle';
 import styled from 'styled-components';
 import { up } from 'styled-breakpoints';
@@ -96,11 +90,11 @@ const ShopList = ({ search, onOpenFilters }) => {
   const initialSearch = useRef(search);
 
   useEffect(() => {
+    const { refresh, ...params } = search;
     if (search.refresh) {
-      const { refresh, ...params } = search;
       initialSearch.current = params;
     }
-  }, [search.refresh]);
+  }, [search.refresh, search]);
 
   // overwrite filters from query params
   useEffect(() => {
