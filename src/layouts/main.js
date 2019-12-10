@@ -14,6 +14,7 @@ import { Footer } from '../components/footer';
 import Banner from '../components/banner';
 import CookieMessage from '../components/cookies';
 import { GlobalContext } from '@components/globalStore';
+import { browser } from '@utils/helpers';
 
 const gaCookieKey = 'gatsby-gdpr-google-analytics';
 
@@ -23,19 +24,18 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
   } = useContext(GlobalContext);
   const [cookies, setCookie] = useCookies([gaCookieKey]);
   const gaCookie = cookies[gaCookieKey];
-  const [displayCookieMessage, setDisplayCookieMessage] = useState(
-    gaCookie === undefined
-  );
-
-  const d = typeof document !== undefined;
-
-  console.log(gaCookie);
+  const [displayCookieMessage, setDisplayCookieMessage] = useState(false);
 
   useEffect(() => {
-    if (d) {
-      window.Snipcart.api.session.setLanguage('fr-FR');
+    if (!browser()) return;
+    browser().Snipcart.api.session.setLanguage('fr-FR');
+  }, []);
+
+  useEffect(() => {
+    if (gaCookie === undefined) {
+      setDisplayCookieMessage(true);
     }
-  }, [d]);
+  }, [gaCookie]);
 
   const closeCookieMessage = () => {
     setDisplayCookieMessage(false);
