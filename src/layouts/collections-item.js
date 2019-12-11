@@ -111,10 +111,10 @@ const Item = ({ item }) => {
 };
 
 const Collection = ({ data }) => {
-  const { title, _rawDescription, sections } = data.sanityCollection;
+  const { title, _rawDescription, sections, slug } = data.sanityCollection;
   return (
     <MainLayout>
-      <SEO title={title} />
+      <SEO title={title} url={`/collections/${slug.current}`} />
 
       <Wrapper>
         <Header>
@@ -146,6 +146,9 @@ export const query = graphql`
     sanityCollection(id: { eq: $id }) {
       id
       title
+      slug {
+        current
+      }
       _rawDescription
       sections {
         img1 {

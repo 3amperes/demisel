@@ -25,7 +25,7 @@ const Shop = ({ data }) => {
 
   return (
     <MainLayout>
-      <SEO title="Shop" />
+      <SEO title="Shop" description="Tous les bijoux" />
       <Filters
         ids={{
           models,

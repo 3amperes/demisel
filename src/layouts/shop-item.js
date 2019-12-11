@@ -78,6 +78,7 @@ const Header = ({ item }) => {
 const ProductDetail = ({ data }) => {
   const {
     title,
+    id,
     model,
     thumbnail,
     price,
@@ -107,6 +108,8 @@ const ProductDetail = ({ data }) => {
           model,
           category,
         })} • ${title}`}
+        image={thumbnail.asset.fluid.src}
+        pathname={`/product/${id}`}
       />
       <Wrapper>
         <aside className="aside">

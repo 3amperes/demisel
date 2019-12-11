@@ -4,9 +4,12 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title: `Demisel Bijoux`,
-    description: `desc`,
-    author: `@wabdsgn`,
+    title: 'Demisel Bijoux',
+    titleTemplate: '%s · Demisel Bijoux',
+    description:
+      'Sabrina Lemaréchal crée la marque de bijoux et accessoires Demisel en 2009 par passion pour la conception de bijoux et la recherche de matériaux, de formes et de couleurs.',
+    url: 'https://demiselbijoux.com', // No trailing slash allowed!
+    image: '/images/slider.jpg', // Path to your image you placed in the 'static' folder
   },
   plugins: [
     { resolve: `gatsby-plugin-react-helmet` },

@@ -111,7 +111,11 @@ export default () => {
       render={data => {
         return (
           <MainLayout>
-            <SEO title="La marque" />
+            <SEO
+              title="La marque"
+              image={data.introImage.childImageSharp.fluid.src}
+              url="/brand"
+            />
             <Header>
               <Heading as="h1" fontSize={[32, 56]} lineHeight="1.2" mb="0.5em">
                 La marque

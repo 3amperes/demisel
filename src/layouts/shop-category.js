@@ -28,7 +28,10 @@ const Shop = ({ data }) => {
 
   return (
     <MainLayout>
-      <SEO title={`Shop | ${title}`} />
+      <SEO
+        title={`Shop | ${title}`}
+        image={data.category.thumbnail.asset.fluid.src}
+      />
       <Filters
         ids={{ models, collections, colors }}
         isOpen={areFiltersOpen}
@@ -49,6 +52,13 @@ export const query = graphql`
     category: sanityCategory(slug: { current: { eq: $slug } }) {
       id
       title
+      thumbnail {
+        asset {
+          fluid(maxWidth: 500, maxHeight: 500) {
+            ...GatsbySanityImageFluid
+          }
+        }
+      }
     }
     products: allSanityProduct(
       sort: { order: DESC, fields: _updatedAt }
