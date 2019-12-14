@@ -9,7 +9,7 @@ const initialState = {
   items: null,
   allItems: [],
   filters: new Map(),
-  visible: 36,
+  visible: 18,
   error: false,
   hasBanner: false,
   currentCategory: null,
