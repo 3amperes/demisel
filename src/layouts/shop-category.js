@@ -92,7 +92,7 @@ export const query = graphql`
               discountPrice
               weight
             }
-            images {
+            thumbnail {
               asset {
                 fluid(maxWidth: 500, maxHeight: 500) {
                   ...GatsbySanityImageFluid

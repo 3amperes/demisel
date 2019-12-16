@@ -67,15 +67,6 @@ const Figure = styled.figure`
 
 const ProductItem = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
-  if (!item.model) {
-    console.log({ item });
-  }
-
-  const image =
-    item.model &&
-    item.model.images &&
-    item.model.images.length > 0 &&
-    item.model.images[0].asset;
 
   const handleMouseEnter = () => {
     setIsHover(true);
@@ -86,10 +77,14 @@ const ProductItem = ({ item }) => {
   return (
     <motion.article animate={isHover ? 'on' : 'off'} initial="off">
       <Figure>
-        {image && (
-          <Background variants={bg} className="bg">
+        {item.model && item.model.thumbnail && (
+          <Background
+            variants={bg}
+            className="bg"
+            transition={{ type: 'spring', mass: 0.2 }}
+          >
             <Image
-              fluid={image.fluid}
+              fluid={item.model.thumbnail.asset.fluid}
               style={{
                 width: '100%',
                 height: '100%',
