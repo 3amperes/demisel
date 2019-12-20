@@ -33,7 +33,9 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
 
   useEffect(() => {
     if (gaCookie === undefined) {
-      setDisplayCookieMessage(true);
+      setTimeout(() => {
+        setDisplayCookieMessage(true);
+      }, 3000);
     }
   }, [gaCookie]);
 
