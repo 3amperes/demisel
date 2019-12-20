@@ -19,7 +19,7 @@ const query = graphql`
             _key
             image {
               asset {
-                fluid(maxWidth: 1800) {
+                fluid(maxWidth: 1400) {
                   ...GatsbySanityImageFluid
                 }
               }
@@ -44,7 +44,7 @@ const query = graphql`
             subtitle
             image {
               asset {
-                fluid(maxWidth: 1200) {
+                fluid(maxWidth: 800) {
                   ...GatsbySanityImageFluid
                 }
               }

@@ -80,28 +80,28 @@ export default () => {
         query {
           introImage: file(relativePath: { eq: "brand-intro.jpg" }) {
             childImageSharp {
-              fluid(maxWidth: 1200) {
+              fluid(maxWidth: 800) {
                 ...GatsbyImageSharpFluid
               }
             }
           }
           image1: file(relativePath: { eq: "brand-1.jpg" }) {
             childImageSharp {
-              fluid(maxWidth: 1200) {
+              fluid(maxWidth: 800) {
                 ...GatsbyImageSharpFluid
               }
             }
           }
           image2: file(relativePath: { eq: "brand-2.jpg" }) {
             childImageSharp {
-              fluid(maxWidth: 1200) {
+              fluid(maxWidth: 800) {
                 ...GatsbyImageSharpFluid
               }
             }
           }
           image3: file(relativePath: { eq: "brand-3.jpg" }) {
             childImageSharp {
-              fluid(maxWidth: 1200) {
+              fluid(maxWidth: 800) {
                 ...GatsbyImageSharpFluid
               }
             }
