@@ -417,12 +417,8 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                           </li>
                         )
                     )}
-                    {state.areDiscountsEnabled && (
+                    {state.discountsAreEnabled && (
                       <>
-                        <motion.li
-                          className="separator"
-                          variants={items}
-                        ></motion.li>
                         <motion.li variants={items}>
                           <FilterItem
                             onClick={() => toggleFilter('discount', true)}
