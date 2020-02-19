@@ -11,7 +11,8 @@ const initialState = {
   filters: new Map(),
   visible: 12,
   error: false,
-  hasBanner: false,
+  hasBanner: true,
+  displayCookieMessage: false,
   currentCategory: null,
   lockedScroll: false,
   discountsAreEnabled: false,
@@ -98,10 +99,15 @@ function reducer(state, action) {
         filters: new Map(),
         items: state.allItems,
       };
-    case 'update_banner':
+    case 'toggle_banner':
       return {
         ...state,
         hasBanner: action.payload,
+      };
+    case 'toggle_cookies':
+      return {
+        ...state,
+        displayCookieMessage: action.payload,
       };
     case 'update_current_category':
       return {

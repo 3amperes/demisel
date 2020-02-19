@@ -70,12 +70,7 @@ const Banner = ({ title, description, isDisplay }) => {
         </Heading>
       )}
       {description && (
-        <Text
-          fontSize="12px"
-          lineHeight="12px"
-          pt="4px"
-          textAlign={['center', 'left']}
-        >
+        <Text fontSize="12px" lineHeight="12px" textAlign={['center', 'left']}>
           {description}
         </Text>
       )}

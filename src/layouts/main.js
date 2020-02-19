@@ -5,9 +5,10 @@
  * See: https://www.gatsbyjs.org/docs/static-query/
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box } from 'rebass/styled-components';
+import { StaticQuery, graphql } from 'gatsby';
 import { useCookies } from 'react-cookie';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
@@ -20,11 +21,11 @@ const gaCookieKey = 'gatsby-gdpr-google-analytics';
 
 const MainLayout = ({ children, headerFloat, ...rest }) => {
   const {
-    state: { hasBanner },
+    state: { hasBanner, displayCookieMessage },
+    dispatch,
   } = useContext(GlobalContext);
   const [cookies, setCookie] = useCookies([gaCookieKey]);
   const gaCookie = cookies[gaCookieKey];
-  const [displayCookieMessage, setDisplayCookieMessage] = useState(false);
 
   useEffect(() => {
     if (!browser()) return;
@@ -34,13 +35,13 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
   useEffect(() => {
     if (gaCookie === undefined) {
       setTimeout(() => {
-        setDisplayCookieMessage(true);
+        dispatch({ type: 'toggle_cookies', payload: true });
       }, 3000);
     }
-  }, [gaCookie]);
+  }, [gaCookie, dispatch]);
 
   const closeCookieMessage = () => {
-    setDisplayCookieMessage(false);
+    dispatch({ type: 'toggle_cookies', payload: false });
   };
 
   const toggleCookies = value => {
@@ -49,22 +50,43 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
   };
 
   return (
-    <>
-      {hasBanner && <Banner />}
-      <Box {...rest} style={{ position: 'relative' }}>
-        <Header isFloat={headerFloat} />
-        <main style={{ minHeight: '400px', position: 'relative', zIndex: 0 }}>
-          {children}
-        </main>
-        <Footer />
-      </Box>
-      {displayCookieMessage && (
-        <CookieMessage
-          toggleCookie={toggleCookies}
-          onClose={closeCookieMessage}
-        />
+    <StaticQuery
+      query={graphql`
+        query {
+          config: allSanityConfig {
+            edges {
+              node {
+                banner {
+                  isDisplay
+                }
+              }
+            }
+          }
+        }
+      `}
+      render={data => (
+        <>
+          {hasBanner && data.config.edges[0].node.banner.isDisplay && (
+            <Banner />
+          )}
+          <Box {...rest} style={{ position: 'relative' }}>
+            <Header isFloat={headerFloat} />
+            <main
+              style={{ minHeight: '400px', position: 'relative', zIndex: 0 }}
+            >
+              {children}
+            </main>
+            <Footer />
+          </Box>
+          {displayCookieMessage && (
+            <CookieMessage
+              toggleCookie={toggleCookies}
+              onClose={closeCookieMessage}
+            />
+          )}
+        </>
       )}
-    </>
+    />
   );
 };
 

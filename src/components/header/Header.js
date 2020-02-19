@@ -55,6 +55,7 @@ const Access = styled(Flex)`
 const Data = ({ data, toggleMenu, isFloat, isDesktop, isMenuOpen }) => {
   const { dispatch } = useContext(GlobalContext);
   const areDiscountsEnabled = data.config.edges[0].node.areDiscountsEnabled;
+
   const categories = data.categories.nodes.filter(category =>
     data.productsGroupByCategory.group
       .map(item => item.fieldValue)
@@ -66,10 +67,12 @@ const Data = ({ data, toggleMenu, isFloat, isDesktop, isMenuOpen }) => {
       .includes(collection._id)
   );
   const config = data.config.edges[0].node;
+
   useEffect(() => {
     if (!areDiscountsEnabled) return;
     dispatch({ type: 'discounts_are_enabled' });
   }, [dispatch, areDiscountsEnabled]);
+
   return (
     <>
       <Wrapper
