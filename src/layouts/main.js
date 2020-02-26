@@ -18,14 +18,16 @@ import { GlobalContext } from '@components/globalStore';
 import { browser } from '@utils/helpers';
 
 const gaCookieKey = 'gatsby-gdpr-google-analytics';
+const fbpCookieKey = 'gatsby-gdpr-facebook-pixel';
 
 const MainLayout = ({ children, headerFloat, ...rest }) => {
   const {
     state: { hasBanner, displayCookieMessage },
     dispatch,
   } = useContext(GlobalContext);
-  const [cookies, setCookie] = useCookies([gaCookieKey]);
+  const [cookies, setCookie] = useCookies([gaCookieKey, fbpCookieKey]);
   const gaCookie = cookies[gaCookieKey];
+  const fbpCookie = cookies[fbpCookieKey];
 
   useEffect(() => {
     if (!browser()) return;
@@ -33,12 +35,12 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
   }, []);
 
   useEffect(() => {
-    if (gaCookie === undefined) {
+    if (gaCookie === undefined || fbpCookie === undefined) {
       setTimeout(() => {
         dispatch({ type: 'toggle_cookies', payload: true });
       }, 3000);
     }
-  }, [gaCookie, dispatch]);
+  }, [gaCookie, fbpCookie, dispatch]);
 
   const closeCookieMessage = () => {
     dispatch({ type: 'toggle_cookies', payload: false });
@@ -46,6 +48,7 @@ const MainLayout = ({ children, headerFloat, ...rest }) => {
 
   const toggleCookies = value => {
     setCookie(gaCookieKey, value);
+    setCookie(fbpCookieKey, value);
     closeCookieMessage();
   };
 

@@ -92,6 +92,11 @@ module.exports = {
           // Setting this parameter is optional
           anonymize: true,
         },
+        facebookPixel: {
+          pixelId: '2646994042245737',
+          // Setting this parameter is optional
+          // cookieName: 'YOUR_CUSTOM_COOKIE_NAME' // default is gatsby-gdpr-facebook-pixel
+        },
         environments: ['production'],
       },
     },
