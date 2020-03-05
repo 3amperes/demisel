@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { MainLayout } from '../layouts';
 import SEO from '../components/seo';
@@ -8,6 +8,7 @@ import Commitments from '../components/commitments';
 import Carousel from '../components/carousel';
 import Intro from '../components/intro';
 import Pushes from '../components/pushes';
+import { GlobalContext } from '@components/globalStore';
 
 const query = graphql`
   query {
@@ -65,6 +66,9 @@ const query = graphql`
               }
             }
           }
+          banner {
+            isDisplay
+          }
         }
       }
     }
@@ -72,6 +76,9 @@ const query = graphql`
 `;
 
 const IndexPage = () => {
+  const {
+    state: { hasBanner },
+  } = useContext(GlobalContext);
   return (
     <StaticQuery
       query={query}
@@ -81,11 +88,15 @@ const IndexPage = () => {
           introduction,
           _rawIntroduction,
           pushes,
+          banner,
         } = data.allSanityConfig.edges[0].node;
         return (
           <MainLayout headerFloat={true}>
             <SEO title="Accueil" />
-            <Carousel items={carousel} />
+            <Carousel
+              items={carousel}
+              hasBanner={hasBanner && banner.isDisplay}
+            />
             <Intro
               id="intro"
               title={introduction.title}

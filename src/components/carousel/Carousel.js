@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { down } from 'styled-breakpoints';
 import { Box, Flex } from 'rebass/styled-components';
 import { colors } from '@theme';
-import { GlobalContext } from '@components/globalStore';
+
 import Go from '@components/go';
 import Item from './Item';
 import { useBreakpoint } from '@utils/hooks';
@@ -41,10 +41,7 @@ const PaginationButton = styled.button`
   cursor: pointer;
 `;
 
-export default ({ items }) => {
-  const {
-    state: { hasBanner },
-  } = useContext(GlobalContext);
+export default ({ items, hasBanner }) => {
   const isDesktop = useBreakpoint('desktop');
   const [currentIndex, setCurrentIndex] = useState(0);
 
