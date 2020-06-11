@@ -106,7 +106,7 @@ const IndexPage = () => {
             />
             <Pushes pushes={pushes} />
             <Commitments />
-            <Instagram />
+            {/* <Instagram /> */}
             <Newsletter />
           </MainLayout>
         );
