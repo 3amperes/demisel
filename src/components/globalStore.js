@@ -19,7 +19,7 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  // console.log(`*** dispatched ${action.type} ***`, action.payload);
+  // console.log(`*** dispatched ${action.type} ***`, action.payload, state);
   const getFilteredItems = filters => {
     if (filters.size === 0) return [];
     const arrayFilter = Array.from(filters);
@@ -38,7 +38,7 @@ function reducer(state, action) {
           case 'discount':
             return (
               (item.price && item.price.discountPrice) ||
-              (item.model && item.model.price && item.model.discountPrice)
+              (item.model && item.model.price && item.model.price.discountPrice)
             );
         }
       });
