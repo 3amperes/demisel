@@ -370,7 +370,7 @@ const Columns = ({ ids = { models: [], collections: [], colors: [] } }) => {
                           >
                             <Color
                               title={color.title}
-                              hex={color.ref.hex}
+                              hex={color?.ref?.hex}
                               isActive={isFilterActive('colors', color.id)}
                             />
                           </FilterItem>
