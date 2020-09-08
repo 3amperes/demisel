@@ -38,8 +38,7 @@ const Button = styled.button`
 const AddButton = ({ product, rounded }) => {
   const isDesktop = useBreakpoint('desktop');
   const isDisabled = !hasPrice(product);
-  const productName = `${product.category.shortName} ${product.model &&
-    product.model.title} ${product.title}`;
+  const productName = `${product?.category?.shortName} ${product?.model?.title} ${product?.title}`;
 
   const isRounded = !isDesktop || rounded;
 
@@ -74,8 +73,8 @@ const AddButton = ({ product, rounded }) => {
               data-item-id={product.id}
               data-item-price={price}
               data-item-url={`https://demiselbijoux.com/product/${product.id}`}
-              data-item-description={product.category.title}
-              data-item-image={product.thumbnail.asset.fluid.src}
+              data-item-description={product?.category?.title}
+              data-item-image={product?.thumbnail?.asset?.fluid.src}
               data-item-name={productName}
               data-item-has-taxes-included={true}
               isRounded={isRounded}
