@@ -87,15 +87,15 @@ const ProductDetail = ({ data }) => {
     category,
   } = data.product;
   const isDesktop = useBreakpoint('desktop');
-  const body = _rawDescription || (model && model._rawDescription);
-  const productSpecification = specification || (model && model.specification);
+  const body = _rawDescription || (model?._rawDescription);
+  const productSpecification = specification || (model?.specification);
   const renderImages = () => {
-    const productImages = model && model.images;
+    const productImages = model?.images;
     return (
       productImages &&
       productImages.length > 0 &&
       productImages.map((image, index) => {
-        return <Image key={index} fluid={image.asset.fluid} />;
+        return <Image key={index} fluid={image?.asset?.fluid} />;
       })
     );
   };
@@ -108,7 +108,7 @@ const ProductDetail = ({ data }) => {
           model,
           category,
         })} • ${title}`}
-        image={thumbnail.asset.fluid.src}
+        image={thumbnail?.asset?.fluid.src}
         pathname={`/product/${id}`}
       />
       <Wrapper>
@@ -118,7 +118,7 @@ const ProductDetail = ({ data }) => {
               <Image
                 style={{ width: '80%' }}
                 className="thumbnail"
-                fluid={thumbnail.asset.fluid}
+                fluid={thumbnail?.asset?.fluid}
               />
             </Figure>
           )}
@@ -147,7 +147,7 @@ const ProductDetail = ({ data }) => {
               </Text>
             )}
             <ButtonWrapper pt={40} pr={[20, 40]}>
-              <AddButton product={data.product} />
+              <AddButton product={data?.product} />
             </ButtonWrapper>
           </Inner>
         </main>
