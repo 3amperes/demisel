@@ -3,7 +3,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import { MainLayout } from '../layouts';
 import SEO from '../components/seo';
 import Newsletter from '../components/newsletter';
-import Instagram from '../components/instagram';
+// import Instagram from '../components/instagram';
 import Commitments from '../components/commitments';
 import Carousel from '../components/carousel';
 import Intro from '../components/intro';
@@ -106,7 +106,7 @@ const IndexPage = () => {
             />
             <Pushes pushes={pushes} />
             <Commitments />
-            <Instagram />
+            {/* <Instagram /> */}
             <Newsletter />
           </MainLayout>
         );

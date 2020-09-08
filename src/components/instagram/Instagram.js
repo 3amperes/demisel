@@ -30,55 +30,55 @@ const Grid = styled(Box)`
   }
 `;
 
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query {
-        images: allInstaNode(sort: { order: DESC, fields: timestamp }) {
-          edges {
-            node {
-              id
-              localFile {
-                childImageSharp {
-                  fixed(width: 640, height: 640) {
-                    ...GatsbyImageSharpFixed
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `}
-    render={data => {
-      const instaThumbs = data.images.edges.slice(0, 3);
-      return (
-        <Wrapper {...props}>
-          <Heading
-            fontSize={[32, 48]}
-            as="h2"
-            mb={[40, 100]}
-            textAlign="center"
-          >
-            Suivez-nous sur Instagram
-          </Heading>
-          <Grid>
-            {instaThumbs.map(({ node }) => (
-              <a
-                href="https://www.instagram.com/demiselbijoux"
-                key={node.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  style={{ width: '320px', height: '320px' }}
-                  fixed={node.localFile.childImageSharp.fixed}
-                />
-              </a>
-            ))}
-          </Grid>
-        </Wrapper>
-      );
-    }}
-  />
-);
+// export default props => (
+//   <StaticQuery
+//     query={graphql`
+//       query {
+//         images: allInstaNode(sort: { order: DESC, fields: timestamp }) {
+//           edges {
+//             node {
+//               id
+//               localFile {
+//                 childImageSharp {
+//                   fixed(width: 640, height: 640) {
+//                     ...GatsbyImageSharpFixed
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     `}
+//     render={data => {
+//       const instaThumbs = data.images.edges.slice(0, 3);
+//       return (
+//         <Wrapper {...props}>
+//           <Heading
+//             fontSize={[32, 48]}
+//             as="h2"
+//             mb={[40, 100]}
+//             textAlign="center"
+//           >
+//             Suivez-nous sur Instagram
+//           </Heading>
+//           <Grid>
+//             {instaThumbs.map(({ node }) => (
+//               <a
+//                 href="https://www.instagram.com/demiselbijoux"
+//                 key={node.id}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//               >
+//                 <Image
+//                   style={{ width: '320px', height: '320px' }}
+//                   fixed={node.localFile.childImageSharp.fixed}
+//                 />
+//               </a>
+//             ))}
+//           </Grid>
+//         </Wrapper>
+//       );
+//     }}
+//   />
+// );
