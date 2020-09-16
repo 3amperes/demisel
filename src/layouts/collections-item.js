@@ -79,12 +79,12 @@ const Item = ({ item }) => {
     <ImagesWrapper>
       {item.img1 && (
         <Box mx="auto" width={[1, 1 / 2]}>
-          <Image fluid={item.img1.asset.fluid} className="image-title" />
+          <Image fluid={item.img1?.asset?.fluid} className="image-title" />
         </Box>
       )}
       {item.img2 && (
         <Box mx="auto" width={[1, 1 / 2]}>
-          <Image fluid={item.img2.asset.fluid} className="image-porte" />
+          <Image fluid={item.img2?.asset?.fluid} className="image-porte" />
         </Box>
       )}
     </ImagesWrapper>
@@ -104,7 +104,7 @@ const Item = ({ item }) => {
         <Text mx="auto" maxWidth="300px">
           {item.description}
         </Text>
-        {item.link && <Link href={item.link.url}>{item.link.label}</Link>}
+        {item.link && <Link href={item.link?.url}>{item.link?.label}</Link>}
       </Box>
     </ItemWrapper>
   );
