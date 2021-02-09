@@ -73,7 +73,7 @@ const SectionParagraph = ({ children, ...rest }) => (
   </Text>
 );
 
-export default () => {
+const Brand = () => {
   return (
     <StaticQuery
       query={graphql`
@@ -108,7 +108,7 @@ export default () => {
           }
         }
       `}
-      render={data => {
+      render={(data) => {
         return (
           <MainLayout>
             <SEO
@@ -239,3 +239,5 @@ export default () => {
     />
   );
 };
+
+export default Brand;

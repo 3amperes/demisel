@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { getPrice } from '@utils';
 import { Box } from 'rebass/styled-components';
 
-export default () => (
+const Fetch = () => (
   <StaticQuery
     query={graphql`
       query {
@@ -45,7 +45,7 @@ export default () => (
         }
       }
     `}
-    render={data => {
+    render={(data) => {
       const products = data.products.edges;
 
       return (
@@ -57,9 +57,7 @@ export default () => (
           <ul>
             {products &&
               products.map(({ node: product }) => {
-                const productName = `${
-                  product?.category?.shortName
-                } ${product?.model?.title} ${product?.title}`;
+                const productName = `${product?.category?.shortName} ${product?.model?.title} ${product?.title}`;
                 const price = getPrice(product, 'salePrice');
                 return (
                   <Box as="li" key={product.id} mb="1rem">
@@ -83,3 +81,5 @@ export default () => (
     }}
   />
 );
+
+export default Fetch;

@@ -32,7 +32,7 @@ const serializers = {
   },
 };
 
-export default ({ data }) => {
+const Legal = ({ data }) => {
   return (
     <MainLayout>
       <SEO title="Mentions légales" />
@@ -66,6 +66,8 @@ export default ({ data }) => {
     </MainLayout>
   );
 };
+
+export default Legal;
 
 export const query = graphql`
   query legal {

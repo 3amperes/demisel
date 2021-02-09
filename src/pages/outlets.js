@@ -55,7 +55,7 @@ const Countries = ({ items }) => (
   </Box>
 );
 
-export default () => (
+const Outlets = () => (
   <StaticQuery
     query={graphql`
       query {
@@ -82,7 +82,7 @@ export default () => (
         }
       }
     `}
-    render={data => {
+    render={(data) => {
       return (
         <MainLayout>
           <SEO title="Nos points de vente" />
@@ -113,3 +113,5 @@ export default () => (
     }}
   />
 );
+
+export default Outlets;

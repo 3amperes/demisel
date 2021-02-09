@@ -12,7 +12,7 @@ const offset = 160;
 
 function encode(data) {
   return Object.keys(data)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&');
 }
 
@@ -74,14 +74,14 @@ const Field = ({ label, id = '', children }) => (
   </Box>
 );
 
-export default () => {
+const Contact = () => {
   const [state, setState] = useState({});
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     fetch('/', {
@@ -93,7 +93,7 @@ export default () => {
       }),
     })
       .then(() => navigate(form.getAttribute('action')))
-      .catch(error => alert(error));
+      .catch((error) => alert(error));
   };
 
   return (
@@ -187,3 +187,5 @@ export default () => {
     </MainLayout>
   );
 };
+
+export default Contact;

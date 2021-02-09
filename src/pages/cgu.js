@@ -32,7 +32,7 @@ const Inner = styled(Box)`
   ${richText}
 `;
 
-export default ({ data }) => {
+const Cgu = ({ data }) => {
   return (
     <MainLayout>
       <SEO title="Conditions Générales de vente" />
@@ -64,6 +64,8 @@ export default ({ data }) => {
     </MainLayout>
   );
 };
+
+export default Cgu;
 
 export const query = graphql`
   query cgu {
