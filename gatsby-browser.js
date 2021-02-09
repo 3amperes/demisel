@@ -11,27 +11,27 @@ export const onClientEntry = () => {
     document.addEventListener('snipcart.ready', function () {
       console.info('snipcart is ready');
       //Subscribing to different events
-      Snipcart.subscribe('item.added', function (item) {
+      Snipcart.events.on('item.added', function (item) {
         itemAdded(item);
       });
 
-      Snipcart.subscribe('item.removed', function (item) {
+      Snipcart.events.on('item.removed', function (item) {
         itemRemoved(item);
       });
 
-      Snipcart.subscribe('order.completed', function (order) {
+      Snipcart.events.on('order.completed', function (order) {
         orderCompleted(order);
       });
 
-      Snipcart.subscribe('cart.opened', function () {
+      Snipcart.events.on('cart.opened', function () {
         cartOpened();
       });
 
-      Snipcart.subscribe('cart.closed', function () {
+      Snipcart.events.on('cart.closed', function () {
         cartClosed();
       });
 
-      Snipcart.subscribe('page.change', function (page) {
+      Snipcart.events.on('page.change', function (page) {
         pageChanged(page);
       });
     });
