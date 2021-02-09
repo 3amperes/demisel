@@ -100,12 +100,12 @@ module.exports = {
         icon: `src/images/favicon.png`, // This path is relative to the root of the site.
       },
     },
-    {
-      resolve: `gatsby-source-instagram`,
-      options: {
-        username: `demiselbijoux`,
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-instagram`,
+    //   options: {
+    //     username: `demiselbijoux`,
+    //   },
+    // },
     {
       resolve: 'gatsby-plugin-html-attributes',
       options: {
@@ -120,11 +120,11 @@ module.exports = {
           // Setting this parameter is optional
           anonymize: true,
         },
-        facebookPixel: {
-          pixelId: '2646994042245737',
-          // Setting this parameter is optional
-          // cookieName: 'YOUR_CUSTOM_COOKIE_NAME' // default is gatsby-gdpr-facebook-pixel
-        },
+        // facebookPixel: {
+        //   pixelId: '2646994042245737',
+        //   // Setting this parameter is optional
+        //   // cookieName: 'YOUR_CUSTOM_COOKIE_NAME' // default is gatsby-gdpr-facebook-pixel
+        // },
         environments: ['production'],
       },
     },
