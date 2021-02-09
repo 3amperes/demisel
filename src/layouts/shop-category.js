@@ -14,11 +14,11 @@ const Shop = ({ data }) => {
   const { id, title } = data.category;
   const products = data.products.edges;
 
-  const models = data.groupByModels.group.map(model => model.fieldValue);
+  const models = data.groupByModels.group.map((model) => model.fieldValue);
   const collections = data.groupByCollections.group.map(
-    model => model.fieldValue
+    (model) => model.fieldValue
   );
-  const colors = data.groupByColors.group.map(model => model.fieldValue);
+  const colors = data.groupByColors.group.map((model) => model.fieldValue);
 
   if (id !== currentCategory) {
     dispatch({ type: 'update_current_category', payload: id });
