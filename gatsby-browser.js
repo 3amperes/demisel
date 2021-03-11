@@ -12,27 +12,38 @@ export const onClientEntry = () => {
       console.info('snipcart is ready');
       //Subscribing to different events
       Snipcart.events.on('item.added', function (item) {
+        console.log('item.added', item);
         itemAdded(item);
       });
 
       Snipcart.events.on('item.removed', function (item) {
+        // console.log('item.removed', item);
         itemRemoved(item);
       });
 
-      Snipcart.events.on('order.completed', function (order) {
-        orderCompleted(order);
+      Snipcart.events.on('item.updated', (item) => {
+        // console.log('item.updated', item);
+        // itemUpdated(item);
       });
 
-      Snipcart.events.on('cart.opened', function () {
-        cartOpened();
+      Snipcart.events.on('cart.confirmed', function (cart) {
+        // console.log('cart.confirmed', cart);
+        orderCompleted(cart);
       });
 
-      Snipcart.events.on('cart.closed', function () {
-        cartClosed();
+      Snipcart.events.on('cart.created', function (cart) {
+        // console.log('cart.created', cart);
+        cartOpened(cart);
       });
 
-      Snipcart.events.on('page.change', function (page) {
-        pageChanged(page);
+      Snipcart.events.on('cart.reset', function (cart) {
+        // console.log('cart.reset', cart);
+        cartReset(cart);
+      });
+
+      Snipcart.events.on('theme.routechanged', function (routesChange) {
+        // console.log('theme.routechanged', routesChange);
+        pageChanged(routesChange);
       });
     });
   };
@@ -58,7 +69,6 @@ function itemAdded(item) {
     eventLabel: item.name,
     eventValue: item.price,
     ecommerce: {
-      currencyCode: 'CAD',
       add: {
         products: createProductsFromItems([item]),
       },
@@ -82,64 +92,59 @@ function itemRemoved(item) {
   });
 }
 
-function orderCompleted(order) {
+function orderCompleted(cart) {
   window.dataLayer.push({
     event: 'snipcartEvent',
     eventCategory: 'Order Update',
     eventAction: 'New Order Completed',
     ecommerce: {
-      currencyCode: order.currency,
+      currencyCode: cart.currency,
       purchase: {
         actionField: {
-          id: order.token,
+          id: cart.token,
           affiliation: 'Website',
-          revenue: order.total,
-          tax: order.taxesTotal,
-          shipping: order.shippingInformation.fees,
-          invoiceNumber: order.invoiceNumber,
+          revenue: cart.total,
+          tax: cart.taxesTotal,
+          shipping: cart.shippingInformation.fees,
+          invoiceNumber: cart.invoiceNumber,
         },
-        products: createProductsFromItems(order.items),
-        userId: order.user.id,
+        products: createProductsFromItems(cart.items),
+        userId: cart.user.id,
       },
     },
   });
 }
 
-function cartOpened() {
+function cartOpened(cart) {
   window.dataLayer.push({
     event: 'snipcartEvent',
     eventCategory: 'Cart Action',
     eventAction: 'Cart Opened',
     ecommerce: {
       cartclose: {
-        products: createProductsFromItems(Snipcart.api.items.all()),
+        products: createProductsFromItems(cart.items),
       },
     },
   });
 }
 
-function cartClosed() {
+function cartReset(cart) {
   window.dataLayer.push({
     event: 'snipcartEvent',
     eventCategory: 'Cart Action',
-    eventAction: 'Cart Closed',
+    eventAction: 'Cart Reset',
     ecommerce: {
       cartopen: {
-        products: createProductsFromItems(Snipcart.api.items.all()),
+        products: createProductsFromItems(cart.items),
       },
     },
   });
 }
 
-function pageChanged(page) {
+function pageChanged(routesChange) {
   window.dataLayer.push({
     event: 'snipcartEvent',
     eventCategory: 'Page Change',
-    eventAction: page,
-    ecommerce: {
-      checkout: {
-        products: createProductsFromItems(Snipcart.api.items.all()),
-      },
-    },
+    eventAction: routesChange,
   });
 }
