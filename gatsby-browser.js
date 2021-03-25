@@ -12,7 +12,6 @@ export const onClientEntry = () => {
       console.info('snipcart is ready');
       //Subscribing to different events
       Snipcart.events.on('item.added', function (item) {
-        console.log('item.added', item);
         itemAdded(item);
       });
 
