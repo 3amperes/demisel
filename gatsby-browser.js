@@ -12,6 +12,7 @@ export const onClientEntry = () => {
       console.info('snipcart is ready');
       //Subscribing to different events
       Snipcart.events.on('item.added', function (item) {
+        // console.log('item.added', item);
         itemAdded(item);
       });
 
@@ -49,6 +50,7 @@ export const onClientEntry = () => {
 };
 
 function createProductsFromItems(items) {
+  if (!items || !Array.isArray(items)) return;
   return items.map(function (item) {
     return {
       name: item.name,
